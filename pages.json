@@ -1,0 +1,189 @@
+{
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+		}, {
+			"path": "pages/mall/mall",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+
+		}, {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/register/register",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/forget/forget",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
+
+		}, {
+			"path": "pages/auction/auction",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+
+		},
+
+		{
+			"path": "pages/auction-detail/auction-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+
+		}
+	    ,{
+            "path" : "pages/pledge/pledge",
+            "style": {
+            	"navigationBarTitleText": "",
+            	"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+            	"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+            	"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+            	"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+            	"navigationStyle": "custom",
+            	"app-plus": {
+            		"titleView": false,
+            		"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+            	},
+            	"mp-alipay": {
+            		"allowsBounceVertical": "NO"
+            	} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+            },
+            "globalStyle": {
+            	"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+            }
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#4b5a71",
+		"selectedColor": "#3c78fa",
+		"backgroundColor": "#150e2d",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/index.png",
+				"selectedIconPath": "static/tabbar/index-select.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/pledge/pledge",
+				"iconPath": "static/tabbar/zhiya.png",
+				"selectedIconPath": "static/tabbar/zhiya-select.png",
+				"text": "质押"
+			},
+			{
+				"pagePath": "pages/mall/mall",
+				"iconPath": "static/tabbar/kuang.png",
+				"selectedIconPath": "static/tabbar/kuang-select.png",
+				"text": "商城"
+			},
+			{
+				"pagePath": "pages/announce/announce",
+				"iconPath": "static/tabbar/jiaoyi.png",
+				"selectedIconPath": "static/tabbar/jiaoyi-select.png",
+				"text": "公告"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/tabbar/my.png",
+				"selectedIconPath": "static/tabbar/my-select.png",
+				"text": "我的"
+			}
+		]
+	}
+}
