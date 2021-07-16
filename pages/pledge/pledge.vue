@@ -16,78 +16,55 @@
 					<text>0</text>
 				</view>
 				<view class="daily-output">
-					<text>每日产出 +0.000</text>
-					<text>每日产出 +0</text>
+					<text>每日产出 +{{ dailyIncome }}</text>
+					<text>每日产出 +{{ dailyIncome }}</text>
 				</view>
 				<view class="cumulative-output">
-					<text>累计产出 +0.000</text>
-					<text>累计产出 +0</text>
+					<text>累计产出 +{{ totalIncome }}</text>
+					<text>累计产出 +{{ totalIncome }}</text>
 				</view>
 				<view class="footer">
-					<text>总共已质押：0.000DMD</text>
-					<view class="button">我的质押</view>
+					<text>总共已质押：{{ totalPledge }}DMD</text>
+					<view class="button" @click="goToMyPledge">我的质押</view>
 				</view>
 			</view>
 		</view>
 		<view class="pledge-box">
 			<view class="pledge-title">
-				<text class="left">热门DMD产品</text>
-				<text class="right">质押周期均为30天</text>
+				<text class="left">热门质押产品</text>
+				<!-- <text class="right">质押周期均为30天</text> -->
 			</view>
 			<view class="pledge-list">
-				<view class="pledge-item">
+				<view class="pledge-item" v-for="item in pledgeList">
 					<view class="item-head">
-						<view class="left">3.000</view>
-						<view class="right">质押</view>
+						<view class="left">{{ item.pledgeNumber }}</view>
+						<view class="right" @click="buyPledge(item.id)">质押</view>
 					</view>
-					<view class="item-center">质押数量(DMD)</view>
+					<view class="item-center">
+						<text class="left">质押数量(DMD)</text>
+						<text class="right">质押周期{{ item.rate }}天</text>
+					</view>
 					<view class="item-footer">
 						<view class="footer-i">
-							<view class="footer-top">0.001</view>
+							<view class="footer-top">{{ item.output }}</view>
 							<view class="footer-bottom">每日DMD产出</view>
 						</view>
 						<view class="footer-i">
-							<view class="footer-top">1.001</view>
-							<view class="footer-bottom">DMD总产量</view>
-						</view>
-					</view>
-				</view>
-				<view class="pledge-item">
-					<view class="item-head">
-						<view class="left">3.000</view>
-						<view class="right">质押</view>
-					</view>
-					<view class="item-center">质押数量(DMD)</view>
-					<view class="item-footer">
-						<view class="footer-i">
-							<view class="footer-top">0.001</view>
-							<view class="footer-bottom">每日DMD产出</view>
-						</view>
-						<view class="footer-i">
-							<view class="footer-top">1.001</view>
-							<view class="footer-bottom">DMD总产量</view>
-						</view>
-					</view>
-				</view>
-				<view class="pledge-item">
-					<view class="item-head">
-						<view class="left">3.000</view>
-						<view class="right">质押</view>
-					</view>
-					<view class="item-center">质押数量(DMD)</view>
-					<view class="item-footer">
-						<view class="footer-i">
-							<view class="footer-top">0.001</view>
-							<view class="footer-bottom">每日DMD产出</view>
-						</view>
-						<view class="footer-i">
-							<view class="footer-top">1.001</view>
+							<view class="footer-top">{{ item.totalOutput }}</view>
 							<view class="footer-bottom">DMD总产量</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
+		<u-toast ref="uToast" />
+		<u-modal
+			v-model="showModal"
+			:show-cancel-button="true"
+			content="确定质押本产品"
+			@cancel="showModal = false"
+			@confirm="showBuy"
+		></u-modal>
 	</view>
 </template>
 
@@ -95,7 +72,13 @@
 export default {
 	data() {
 		return {
-			statusBarHeight: 0
+			statusBarHeight: 0,
+			pledgeList: [],
+			showModal: false,
+			currentId: '',
+			totalIncome: 0,
+			dailyIncome: 0,
+			totalPledge: 0
 		};
 	},
 	created() {
@@ -104,8 +87,67 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
+		this.getPledgeList();
+		this.pledgeDetailList();
+		this.userPledge();
 	},
-	methods: {}
+	methods: {
+		// 质押列表
+		getPledgeList() {
+			this.$api.getPledgeList().then(res => {
+				let { data, code } = res.data;
+				if (code === 200) {
+					this.pledgeList = data;
+				}
+			});
+		},
+		pledgeDetailList() {
+			this.$api.pledgeDetail().then(res => {
+				let { data, code } = res.data;
+				if (code === 200) {
+					// this.pledgeList = data;
+				}
+			});
+		},
+		// 用户质押详情
+		userPledge() {
+			this.$api.userPledge().then(res => {
+				console.log(123, res);
+				let { data, code } = res.data;
+				if (code === 200) {
+					this.totalIncome = data.produceOutput;
+					this.dailyIncome = data.totalOutput;
+					this.totalPledge = data.totalPledgeNumber;
+				}
+			});
+		},
+		buyPledge(id) {
+			this.currentId = id;
+			this.showModal = true;
+		},
+		showBuy() {
+			this.$api.buyPledge({ pledgeId: this.currentId }).then(res => {
+				console.log(res);
+				let { data, code, msg } = res.data;
+				if (code === 200) {
+					this.$refs.uToast.show({
+						title: '质押成功',
+						type: 'success'
+					});
+				} else {
+					this.$refs.uToast.show({
+						title: msg,
+						type: 'error'
+					});
+				}
+			});
+		},
+		goToMyPledge() {
+			uni.navigateTo({
+				url:'/pages/pledge/pledge-my'
+			})
+		}
+	}
 };
 </script>
 
@@ -240,6 +282,11 @@ body {
 					font-weight: 400;
 					color: #5f5874;
 					line-height: 34rpx;
+					display: flex;
+					justify-content: space-between;
+					.right {
+						color: #f75d60;
+					}
 				}
 				.item-footer {
 					margin-top: 18rpx;

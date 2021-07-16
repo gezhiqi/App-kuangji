@@ -1,35 +1,33 @@
 import $http from '../request/http.js'
-//获取商品列表场次
-export const getSession = () => {
+//获取质押列表
+export const getPledgeList = () => {
 	return $http({
-		url:'/app/play/list',
-		method:'GET'
+		url:'/app/pledge/shop',
+		method:'POST'
 	})
 }
-
-//获取商品列表
-export const getShopList = (data) => {
+//获取用户质押详情
+export const pledgeDetail = (data) => {
 	return $http({
-		url:'/app/shop/list',
+		url:'/app/pledge/list',
+		data,
+		method:'POST'
+	})
+}
+//获取用户质押总数
+export const userPledge = () => {
+	return $http({
+		url:'/app/pledge/total',
+		method:'POST'
+	})
+}
+//获取用户质押总数
+export const buyPledge = (data) => {
+	return $http({
+		url:'/app/pledge/buy',
 		data,
 		method:'POST'
 	})
 }
 
-// 查询商品详情
-export const getShopDetail = (data) => {
-	return $http({
-		url:'/app/shop/select',
-		data,
-		method:'POST'
-	})
-}
 
-// 商品购买
-export const createdOrder = (data) => {
-	return $http({
-		url:'/app/order/buy',
-		data,
-		method:'POST'
-	})
-}

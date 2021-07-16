@@ -106,10 +106,10 @@ export default {
 	mounted() {
 		this.refreshCode();
 	},
-onBackPress(options) {
-        console.log('from:' + options.from)
-		return true
-    },
+	// onBackPress(options) {
+	//         console.log('from:' + options.from)
+	// 		return true
+	//     },
 	// onReady() {
 	// 	console.log('onload123');
 	// 	this.$refs.uForm.setRules(this.rules);
@@ -145,19 +145,19 @@ onBackPress(options) {
 				})
 				.then(res => {
 					if (res.data.code == 200) {
-						uni.setStorageSync('token', res.data.accessToken);
+						uni.setStorageSync('token', res.data.token);
 						this.$refs.uToast.show({
 							title: '登录成功',
 							type: 'success'
 						});
-						
+
 						setTimeout(() => {
 							uni.hideLoading();
 							uni.switchTab({
 								url: '/pages/index/index'
 							});
 						}, 1000);
-						
+
 						uni.setStorageSync('telephone', this.form.telephone);
 					} else {
 						uni.hideLoading();

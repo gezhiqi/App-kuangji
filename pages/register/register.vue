@@ -223,7 +223,7 @@ export default {
 						type: 'success',
 					});
 					setTimeout(() => {
-						this.$Router.push({ name: 'index' });
+						this.$Router.push({ name: 'login' });
 					}, 1000);
 					
 				})

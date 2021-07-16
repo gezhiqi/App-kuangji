@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://47.95.202.255:8088'
+export const BASE_URL = 'http://101.34.40.13:8088'
 export default function $http(options) {
 	return new Promise((resolve, reject) => {
 		uni.request({
@@ -6,7 +6,7 @@ export default function $http(options) {
 			method: options.method || 'GET',
 			data: options.data || {},
 			header: {
-				accessToken: uni.getStorageSync('token')
+				token: uni.getStorageSync('token')
 			},
 			success: (res) => {
 				if (res == '') {
@@ -14,6 +14,9 @@ export default function $http(options) {
 						icon: 'loading',
 						title: '获取数据失败'
 					})
+				}
+				if (res.data.code == 401) {
+					uni.redirectTo({url:'/pages/login/login'})
 				}
 				resolve(res)
 			},

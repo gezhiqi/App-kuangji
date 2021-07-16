@@ -2,7 +2,7 @@ import $http from '../request/http.js'
 // 登录
 export const login = (data) => {
 	return $http({
-		url:'/app/login/login',
+		url:'/app/main/login',
 		data,
 		method:'POST'
 	})

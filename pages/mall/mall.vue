@@ -1,106 +1,74 @@
 <template>
-	<view class="mall-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<common-title>商城</common-title>
-		<view class="no-data">敬请期待</view>
-		<!-- <view class="banner">
-			<u-image width="100%" height="270rpx" src="../../static/3.jpg"></u-image>
-			<view class="liner"></view>
+	<view class="pledge-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
+		<common-title>
+			<template v-slot:default>
+				矿机
+			</template>
+			<template v-slot:right>
+				矿机说明
+			</template>
+		</common-title>
+<view class="my-balance">
+			<view class="balance-box">
+				<view class="balance-title"><text>我的矿机</text></view>
+				<view class="balance-num">
+					<text>{{ miningNum }}</text>
+				</view>
+				<view class="daily-output">
+					<text>每日产出 +{{ dailyIncome }}</text>
+					<text>每日产出 +{{ dailyIncome }}</text>
+				</view>
+				<view class="cumulative-output">
+					<text>累计产出 +{{ totalIncome }}</text>
+					<text>累计产出 +{{ totalIncome }}</text>
+				</view>
+				<view class="footer">
+					<text>总共已质押：{{ totalPledge }}DMD</text>
+					<view class="button" @click="goToMyPledge">我的矿机</view>
+				</view>
+			</view>
 		</view>
-
-		<view class="content">
-			<view class="title">
-				<view class="left">
-					<u-image
-						class="image"
-						width="48rpx"
-						height="48rpx"
-						src="../../static/icon.png"
-					></u-image>
-					<text>0</text>
-				</view>
-				<view class="right">质押总数量</view>
+		<view class="pledge-box">
+			<view class="pledge-title">
+				<text class="left">热门矿机产品</text>
+				<text class="right">矿机周期均为30天</text>
 			</view>
-			<view class="liner"></view>
-			<view class="title">
-				<view class="left">
-					<u-image
-						class="image"
-						width="48rpx"
-						height="48rpx"
-						src="../../static/wa.png"
-					></u-image>
-					<text>1Gh/s</text>
-				</view>
-				<view class="right">个人总算力</view>
-			</view>
-			<view class="liner"></view>
-			<view class="form">
-				<view class="form-item">
-					<u-input
-						class
-						disabled
-						border
-						placeholder-style="color:#252525;font-size:24rpx"
-						placeholder="质押数量"
-						height="76"
-					/>
-				</view>
-				<view class="form-item">
-					<u-input
-						class="form-item-input"
-						v-model="num"
-						type="text"
-						placeholder="请输入质押数量"
-						placeholder-style="font-size:24rpx"
-						border
-						height="76"
-					/>
-				</view>
-				<view class="form-item">
-					<u-input
-						v-model="value"
-						type="select"
-						border
-						height="76"
-						@click="show = true"
-						placeholder-style="font-size:24rpx"
-					/>
-					<u-action-sheet
-						:list="actionSheetList"
-						v-model="show"
-						@click="actionSheetCallback"
-					></u-action-sheet>
-				</view>
-				<view class="form-item"><view class="sure-btn">确定存入</view></view>
-			</view>
-			<view class="desc">
-				温馨提示：质押池内最多不能超过3笔质押，请注意合理安排质押次数。
-			</view>
-			<view class="liner"></view>
-		</view>
-		<view class="pledge">
-			<view class="pledge-title">质押列表</view>
 			<view class="pledge-list">
-				<view class="list-item">
-					<view>0</view>
-					<view class="color-9">数量</view>
+				<view class="pledge-item" v-for="item in miningList">
+					<view class="left"><image :src="item.imageUrl" mode="aspectFit"></image></view>
+					<view class="right">
+						<view class="right-title">矿机名称：{{ item.title }}</view>
+						<view class="right-top">
+							<view class="right-top-i">
+								<view class="right-top-top">{{ item.price }}</view>
+								<view class="right-top-bottom">框架价格</view>
+							</view>
+							<view class="right-top-i">
+								<view class="right-top-top">{{ item.rate }}</view>
+								<view class="right-top-bottom">收益率</view>
+							</view>
+							<view class="right-top-i">
+								<view class="right-topr-top">{{ item.output }}</view>
+								<view class="right-top-bottom">每日产出</view>
+							</view>
+							<view class="right-top-i">
+								<view class="right-top-top">{{ item.totalOutput }}</view>
+								<view class="right-top-bottom">总产出</view>
+							</view>
+						</view>
+						<view class="right-button" @click="buyMining(item)">购买</view>
+					</view>
 				</view>
-				<view class="list-item">
-					<view>1.00</view>
-					<view class="color-9">算力</view>
-				</view>
-				<view class="list-item">
-					<view>2.1344</view>
-					<view class="color-9">收益</view>
-				</view>
-				<view class="list-item list-item-big">
-					<view><text class="color-9">开始</text>05-15 20:20:08</view>
-					<view><text class="color-9">结束</text>05-15 20:20:08</view>
-				</view>
-				<view class="list-item list-item-last"><view>退出</view></view>
 			</view>
-		</view> -->
-		
+		</view>
+		<u-toast ref="uToast" />
+		<u-modal
+			v-model="showModal"
+			:show-cancel-button="true"
+			content="确定购买矿机"
+			@cancel="showModal = false"
+			@confirm="showBuy"
+		></u-modal>
 	</view>
 </template>
 
@@ -108,157 +76,241 @@
 export default {
 	data() {
 		return {
-			// num: '',
-			// value: 'WMO',
-			// show: false,
-			// actionSheetList: [
-			// 	{
-			// 		text: 'WMO'
-			// 	},
-			// 	{
-			// 		text: 'BTC'
-			// 	},
-			// 	{
-			// 		text: 'USTD'
-			// 	}
-			// ],
 			statusBarHeight: 0,
+			miningList: [],
+			showModal: false,
+			currentItem:{},
+			miningNum:0,
+			dailyIncome:0,
+			totalIncome:0
+			
 		};
 	},
 	created() {
 		uni.getSystemInfo({
 			success: res => {
-				that.statusBarHeight = res.statusBarHeight;
+				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
+		this.getMiningList();
+		this.getUserMining()
 	},
 	methods: {
-		// actionSheetCallback(index) {
-		// 	this.value = this.actionSheetList[index].text;
-		// }
+		getMiningList() {
+			this.$api.miningList().then(res => {
+				console.log(res)
+				let { data, code } = res.data;
+				if (code === 200) {
+					this.miningList = data;
+				}
+			});
+		},
+		getUserMining() {
+			this.$api.userMining().then(res => {
+				console.log(res)
+				let { data, code } = res.data;
+				if (code === 200) {
+					this.miningNum = data.length
+				}
+			});
+		},
+		buyMining(item) {
+			this.showModal = true
+			this.currentItem = item
+		},
+		showBuy() {
+			this.$api.buyMining({
+				id:this.currentItem.id,
+				status:this.currentItem.status,
+			}).then(res => {
+				console.log(res)
+				let { data, code } = res.data;
+				if (code === 200) {
+					this.$refs.uToast.show({
+						title: '购买成功',
+						type: 'success'
+					});
+				}
+			});
+		}
 	}
 };
 </script>
 
 <style lang="scss">
-// .mall {
-// 	padding: 0 30rpx;
-// 	.liner {
-// 		height: 20rpx;
-// 		background: #fbfbfb;
-// 		margin-top: 40rpx;
-// 		margin-left: -30rpx;
-// 		margin-right: -30rpx;
-// 	}
-// 	.title {
-// 		padding-top: 40rpx;
-// 		display: flex;
-// 		justify-content: space-between;
-// 		align-items: center;
-// 		.left {
-// 			display: flex;
-// 			align-items: center;
-// 			.image {
-// 				margin-right: 20rpx;
-// 			}
-// 		}
-// 		.right {
-// 			font-size: 24rpx;
-// 		}
-// 	}
-// 	.form {
-// 		display: flex;
-// 		align-items: center;
-// 		font-size: 26rpx;
-// 		::v-deep .u-input__right-icon {
-// 			display: flex;
-// 			align-items: center;
-// 		}
-// 		.form-item {
-// 			::v-deep input {
-// 				font-size: 24rpx;
-// 			}
-// 		}
-// 		.form-item-input {
-// 			width: 200rpx;
-// 		}
-// 		.sure-btn {
-// 			background-color: #009688;
-// 			height: 78rpx;
-// 			line-height: 78rpx;
-// 			text-align: center;
-// 			width: 152rpx;
-// 			color: #fff;
-// 			white-space: nowrap;
-// 			font-size: 28rpx;
-// 		}
-// 	}
-// 	.desc {
-// 		color: #999;
-// 		margin-top: 20rpx;
-// 		font-size: 24rpx;
-// 	}
-// 	.pledge {
-// 		.pledge-title {
-// 			font-size: 36rpx;
-// 			font-weight: 700;
-// 			line-height: 100rpx;
-// 			height: 100rpx;
-// 			width: 160rpx;
-// 			&::after {
-// 				content: '';
-// 				display: block;
-// 				height: 12rpx;
-// 				background: linear-gradient(
-// 					270deg,
-// 					rgba(1, 197, 127, 0.2) 0%,
-// 					rgba(12, 199, 133, 0.7) 100%
-// 				);
-// 				margin-top: -40rpx;
-// 			}
-// 		}
-// 		.pledge-list {
-// 			display: flex;
-// 			.color-9 {
-// 				color: #999999;
-// 			}
-// 			.list-item {
-// 				font-size: 24rpx;
-// 				flex: 2;
-// 			}
-// 			.list-item-big {
-// 				flex: 5;
-// 			}
-// 			.list-item-last {
-// 				display: flex;
-// 				justify-content: center;
-// 				align-items: center;
-// 				view {
-// 					padding: 0 20rpx;
-// 					height: 64rpx;
-// 					line-height: 62rpx;
-// 					background-color: #00c57f;
-// 					color: #ffffff;
-// 				}
-// 			}
-// 		}
-// 	}
-// }
 uni-page-body,
-body{
+body {
 	height: 100%;
-	
 }
-.mall-root {
-	padding: 60rpx 30rpx 100rpx;
+.pledge-root {
+	padding: 60rpx 32rpx 100rpx;
 	background-color: #150e2d;
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
-	.no-data {
-		margin-top: 100rpx;
-		text-align: center;
-		font-size: 40rpx;
+	.my-balance {
+		.balance-box {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			color: #ffffff;
+			padding-top: 30rpx;
+			box-sizing: border-box;
+			height: 342rpx;
+			width: 100%;
+			background: url(../../static/pledge/header-bg.png) no-repeat center center;
+			background-size: 100% 100%;
+			font-size: 30rpx;
+			.balance-title {
+				padding: 0 20rpx;
+				font-size: 26rpx;
+			}
+			.balance-num {
+				padding: 20rpx 20rpx 0;
+				display: flex;
+				justify-content: space-between;
+				font-size: 52rpx;
+			}
+			.daily-output {
+				padding: 20rpx 20rpx 0;
+				display: flex;
+				justify-content: space-between;
+				font-size: 24rpx;
+			}
+			.cumulative-output {
+				padding: 0 20rpx;
+				display: flex;
+				justify-content: space-between;
+				font-size: 24rpx;
+			}
+			.footer {
+				margin-top: 20rpx;
+				padding: 0 20rpx;
+				height: 68rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				background-color: rgba(0, 0, 0, 0.19);
+				font-size: 24rpx;
+				font-weight: 400;
+				color: #fe9e2c;
+				.button {
+					width: 128rpx;
+					height: 40rpx;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					background-color: #fe9e2c;
+					color: #ffffff;
+					border-radius: 20rpx;
+				}
+			}
+		}
+	}
+	.pledge-box {
+		padding-top: 20rpx;
+		.pledge-title {
+			padding-left: 24rpx;
+			font-size: 28rpx;
+			position: relative;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			&::after {
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				content: '';
+				width: 10rpx;
+				height: 30rpx;
+				background: -webkit-linear-gradient(225deg, #fe9e2c, #fb402d);
+				background: linear-gradient(225deg, #fe9e2c, #fb402d);
+				border-radius: 6rpx;
+			}
+			.right {
+				color: rgb(247, 93, 96);
+				font-size: 20rpx;
+			}
+		}
+		.pledge-list {
+			.pledge-item {
+				margin-top: 30rpx;
+				background: #1e1c41;
+				border-radius: 12rpx;
+				padding: 22rpx;
+				height: 290rpx;
+				display: flex;
+				align-items: center;
+				.left {
+					image {
+						width: 240rpx;
+						height: 240rpx;
+					}
+				}
+				.right {
+					height: 100%;
+					flex: 1;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					.right-title {
+						position: relative;
+						padding-left: 24rpx;
+						font-size: 28rpx;
+						&::after {
+							position: absolute;
+							left: 0;
+							top: 50%;
+							transform: translateY(-50%);
+							content: '';
+							width: 10rpx;
+							height: 30rpx;
+							background: -webkit-linear-gradient(225deg, #fe9e2c, #fb402d);
+							background: linear-gradient(225deg, #fe9e2c, #fb402d);
+							border-radius: 6rpx;
+						}
+					}
+					.right-top {
+						height: 100%;
+						height: 112rpx;
+						background: #1b1039;
+						border-radius: 12rpx;
+						display: -webkit-box;
+						display: -webkit-flex;
+						display: flex;
+						justify-content: space-around;
+						align-items: center;
+						.right-top-i {
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							.right-top-top {
+								font-size: 26rpx;
+								font-family: PingFangSC-Regular, PingFang SC;
+								font-weight: 400;
+								color: #ced3e1;
+							}
+							.right-top-bottom {
+								font-size: 20rpx;
+								font-family: PingFangSC-Regular, PingFang SC;
+								font-weight: 400;
+								color: #5f5874;
+							}
+						}
+					}
+					.right-button {
+						height: 60rpx;
+						text-align: center;
+						line-height: 60rpx;
+						color: #ffffff;
+						background: linear-gradient(225deg, #fe9e2c, #fb402d);
+						border-radius: 30rpx;
+					}
+				}
+			}
+		}
 	}
 }
 </style>

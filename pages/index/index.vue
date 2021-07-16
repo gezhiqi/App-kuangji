@@ -12,13 +12,13 @@
 				:vertical="vertical"
 				:circular="true"
 			>
-				<swiper-item class="swiper-item">
+				<swiper-item class="swiper-item" v-for="item in noticeList">
 					<u-image
 						width="32rpx"
 						height="26rpx"
 						src="../../static/index/notice.png"
 					></u-image>
-					<view class="swiper-desc">关于封号问题简述</view>
+					<view class="swiper-desc">{{ item.title }}</view>
 				</swiper-item>
 				<swiper-item class="swiper-item">
 					<u-image
@@ -28,19 +28,16 @@
 					></u-image>
 					<view class="swiper-desc">重启交易项目</view>
 				</swiper-item>
-				<swiper-item class="swiper-item">
-					<u-image
-						width="32rpx"
-						height="26rpx"
-						src="../../static/index/notice.png"
-					></u-image>
-					<view class="swiper-desc">789</view>
-				</swiper-item>
 			</swiper>
 		</view>
 		<view class="module-box">
 			<div class="module-row">
-				<view class="module" v-for="(item, index) in moduleList1" :key="index">
+				<view
+					class="module"
+					v-for="(item, index) in moduleList1"
+					:key="index"
+					@click="handleClick(item.title)"
+				>
 					<u-image width="84rpx" height="84rpx" :src="item.url"></u-image>
 					<view class="module-desc">{{ item.title }}</view>
 				</view>
@@ -93,8 +90,8 @@
 					<view class="assets">资产(元)</view>
 				</view>
 				<view class="list">
-					<view class="list-row" v-for="(item,index) in 10" :key="index">
-						<view class="item-rank">{{index+1}}</view>
+					<view class="list-row" v-for="(item, index) in 10" :key="index">
+						<view class="item-rank">{{ index + 1 }}</view>
 						<view class="item-head">
 							<u-image
 								height="48rpx"
@@ -126,6 +123,7 @@ export default {
 			interval: 5000,
 			duration: 500,
 			swiperList: [],
+			noticeList: [],
 			moduleList1: [
 				{
 					title: '签到',
@@ -173,9 +171,9 @@ export default {
 			}
 		});
 		this.getTabbarList();
+		this.getNoticeList();
 	},
 
-	
 	// onLoad() {
 	// 	var loginRes = this.checkLogin();
 	// 	if (!loginRes) {
@@ -189,6 +187,37 @@ export default {
 				if (code === 200) {
 					this.swiperList = data.map(item => {
 						return item.imageUrl;
+					});
+				}
+			});
+		},
+		getNoticeList() {
+			this.$api.getNoticeList().then(res => {
+				let { data, code } = res.data;
+				if (code === 200) {
+					this.noticeList = data.records;
+				}
+			});
+		},
+		handleClick(title) {
+			if (title === '签到') {
+				this.activeSign();
+			}
+		},
+		activeSign() {
+			this.$api.activeSign().then(res => {
+				console.log('签到', res);
+				let { data, code, msg } = res.data;
+				if (code === 200) {
+					this.$refs.uToast.show({
+						title: msg,
+						type: 'success'
+					});
+				}
+				else {
+					this.$refs.uToast.show({
+						title: msg,
+						type: 'warning'
 					});
 				}
 			});
