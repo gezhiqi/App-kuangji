@@ -15,10 +15,26 @@ export const buyMining = (data) => {
 		method:'POST'
 	})
 }
-//购买矿机
+//我的矿机
 export const userMining = (data) => {
 	return $http({
 		url:'/app/machine/user/list',
+		data,
+		method:'POST'
+	})
+}
+//开启矿机|一键开启
+export const openMining = (data) => {
+	return $http({
+		url:'/app/machine/open',
+		data,
+		method:'POST'
+	})
+}
+//矿机收益|一键收益
+export const receiveIncome = (data) => {
+	return $http({
+		url:'/app/machine/profit',
 		data,
 		method:'POST'
 	})

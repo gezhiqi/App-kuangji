@@ -27,16 +27,24 @@
 							</view>
 							<view class="item-center">
 								<text class="left">质押数量(DMD)</text>
-								<text class="right">质押周期{{ v.rate }}天</text>
+								<text class="right">剩余周期{{ v.surplusDays }}天</text>
 							</view>
 							<view class="item-footer">
 								<view class="footer-i">
 									<view class="footer-top">{{ v.output }}</view>
-									<view class="footer-bottom">每日DMD产出</view>
+									<view class="footer-bottom">日产</view>
+								</view>
+								<view class="footer-i">
+									<view class="footer-top">{{ v.pledgeDays }}</view>
+									<view class="footer-bottom">质押日</view>
+								</view>
+								<view class="footer-i">
+									<view class="footer-top">{{ v.pledgeProfit }}</view>
+									<view class="footer-bottom">已产出</view>
 								</view>
 								<view class="footer-i">
 									<view class="footer-top">{{ v.totalOutput }}</view>
-									<view class="footer-bottom">DMD总产量</view>
+									<view class="footer-bottom">预计总产出</view>
 								</view>
 							</view>
 						</view>

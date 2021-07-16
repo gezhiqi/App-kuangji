@@ -1,5 +1,5 @@
 <template>
-	<view class="pledge-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
+	<view class="mining-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
 		<common-title>
 			<template v-slot:default>
 				矿机
@@ -23,32 +23,32 @@
 					<text>累计产出 +{{ totalIncome }}</text>
 				</view>
 				<view class="footer">
-					<text>总共已质押：{{ totalPledge }}DMD</text>
-					<view class="button" @click="goToMyPledge">我的矿机</view>
+					<!-- <text>总共已质押：{{ totalPledge }}DMD</text> -->
+					<view class="button" @click="goToMyMining">我的矿机</view>
 				</view>
 			</view>
 		</view>
-		<view class="pledge-box">
-			<view class="pledge-title">
+		<view class="mining-box">
+			<view class="mining-title">
 				<text class="left">热门矿机产品</text>
 				<text class="right">矿机周期均为30天</text>
 			</view>
-			<view class="pledge-list">
-				<view class="pledge-item" v-for="item in miningList">
+			<view class="mining-list">
+				<view class="mining-item" v-for="item in miningList">
 					<view class="left"><image :src="item.imageUrl" mode="aspectFit"></image></view>
 					<view class="right">
 						<view class="right-title">矿机名称：{{ item.title }}</view>
 						<view class="right-top">
 							<view class="right-top-i">
 								<view class="right-top-top">{{ item.price }}</view>
-								<view class="right-top-bottom">框架价格</view>
+								<view class="right-top-bottom">价格</view>
 							</view>
 							<view class="right-top-i">
 								<view class="right-top-top">{{ item.rate }}</view>
 								<view class="right-top-bottom">收益率</view>
 							</view>
 							<view class="right-top-i">
-								<view class="right-topr-top">{{ item.output }}</view>
+								<view class="right-top-top">{{ item.output }}</view>
 								<view class="right-top-bottom">每日产出</view>
 							</view>
 							<view class="right-top-i">
@@ -132,6 +132,11 @@ export default {
 					});
 				}
 			});
+		},
+		goToMyMining() {
+			uni.navigateTo({
+				url:'/pages/mining/mining-my'
+			})
 		}
 	}
 };
@@ -142,7 +147,7 @@ uni-page-body,
 body {
 	height: 100%;
 }
-.pledge-root {
+.mining-root {
 	padding: 60rpx 32rpx 100rpx;
 	background-color: #150e2d;
 	min-height: 100%;
@@ -188,6 +193,7 @@ body {
 				padding: 0 20rpx;
 				height: 68rpx;
 				display: flex;
+				flex-direction: row-reverse;
 				justify-content: space-between;
 				align-items: center;
 				background-color: rgba(0, 0, 0, 0.19);
@@ -207,9 +213,9 @@ body {
 			}
 		}
 	}
-	.pledge-box {
+	.mining-box {
 		padding-top: 20rpx;
-		.pledge-title {
+		.mining-title {
 			padding-left: 24rpx;
 			font-size: 28rpx;
 			position: relative;
@@ -233,8 +239,8 @@ body {
 				font-size: 20rpx;
 			}
 		}
-		.pledge-list {
-			.pledge-item {
+		.mining-list {
+			.mining-item {
 				margin-top: 30rpx;
 				background: #1e1c41;
 				border-radius: 12rpx;
@@ -307,6 +313,7 @@ body {
 						color: #ffffff;
 						background: linear-gradient(225deg, #fe9e2c, #fb402d);
 						border-radius: 30rpx;
+						font-size: 32rpx;
 					}
 				}
 			}

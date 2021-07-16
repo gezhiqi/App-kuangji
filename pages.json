@@ -14,7 +14,7 @@
 				}
 			}
 		}, {
-			"path": "pages/mall/mall",
+			"path": "pages/mining/mining",
 			"style": {
 				"navigationBarTitleText": "",
 				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
@@ -34,7 +34,29 @@
 				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
-		}, {
+		},
+		{
+			"path": "pages/mining/mining-my",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+		
+		},{
 			"path": "pages/my/my",
 			"style": {
 				"navigationBarTitleText": "",
@@ -75,50 +97,6 @@
 				"app-plus": {
 					"titleView": false
 				}
-			}
-
-		}, {
-			"path": "pages/auction/auction",
-			"style": {
-				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
-				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleView": false,
-					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
-				},
-				"mp-alipay": {
-					"allowsBounceVertical": "NO"
-				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
-			},
-			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
-			}
-
-		},
-
-		{
-			"path": "pages/auction-detail/auction-detail",
-			"style": {
-				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
-				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleView": false,
-					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
-				},
-				"mp-alipay": {
-					"allowsBounceVertical": "NO"
-				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
-			},
-			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
@@ -187,7 +165,7 @@
 				"text": "质押"
 			},
 			{
-				"pagePath": "pages/mall/mall",
+				"pagePath": "pages/mining/mining",
 				"iconPath": "static/tabbar/kuang.png",
 				"selectedIconPath": "static/tabbar/kuang-select.png",
 				"text": "矿机"

@@ -3,7 +3,7 @@
 		<view class="header">
 			<view class="left" @click="goBack"></view>
 			<view class="center">注册</view>
-			<view class="right">登录</view>
+			<view class="right" @click="goBack">登录</view>
 		</view>
 		<view class="container">
 			<view class="container-form">
@@ -233,7 +233,9 @@ export default {
 				});
 		},
 		getSmsCode() {
-			if (this.form.telephone)
+			if (!this.validate().telephone()) {
+				return false;
+			}
 			this.getCode();
 			this.$api
 				.sendRegister({

@@ -15,26 +15,14 @@ const tabbar = [{
 			title: '质押',
 		},
 	},
+
 	{
-		path: '/pages/auction-detail/auction-detail',
-		name: 'auction-detail',
-		meta: {
-			title: '详情',
-		},
-	},
-	{
-		path: '/pages/mall/mall',
+		path: '/pages/mining/mining',
 		name: 'mall',
 		meta: {
-			title: '商城',
+			title: '矿机',
 		},
-	}, {
-		path: '/pages/announce/announce',
-		name: 'announce',
-		meta: {
-			title: '公告',
-		},
-	},
+	}, 
 	{
 		path: '/pages/my/my',
 		name: 'my',
