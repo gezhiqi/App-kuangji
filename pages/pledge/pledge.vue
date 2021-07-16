@@ -134,6 +134,7 @@ export default {
 						title: '质押成功',
 						type: 'success'
 					});
+					this.userPledge()
 				} else {
 					this.$refs.uToast.show({
 						title: msg,

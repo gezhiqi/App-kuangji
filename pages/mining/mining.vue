@@ -130,6 +130,7 @@ export default {
 						title: '购买成功',
 						type: 'success'
 					});
+					this.getUserMining()
 				}
 			});
 		},
