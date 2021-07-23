@@ -8,7 +8,7 @@
 				矿机说明
 			</template>
 		</common-title>
-<view class="my-balance">
+		<view class="my-balance">
 			<view class="balance-box">
 				<view class="balance-title"><text>我的矿机</text></view>
 				<view class="balance-num">
@@ -79,11 +79,10 @@ export default {
 			statusBarHeight: 0,
 			miningList: [],
 			showModal: false,
-			currentItem:{},
-			miningNum:0,
-			dailyIncome:0,
-			totalIncome:0
-			
+			currentItem: {},
+			miningNum: 0,
+			dailyIncome: 0,
+			totalIncome: 0
 		};
 	},
 	created() {
@@ -93,12 +92,12 @@ export default {
 			}
 		});
 		this.getMiningList();
-		this.getUserMining()
+		this.getUserMining();
 	},
 	methods: {
 		getMiningList() {
 			this.$api.miningList().then(res => {
-				console.log(res)
+				console.log(res);
 				let { data, code } = res.data;
 				if (code === 200) {
 					this.miningList = data;
@@ -107,37 +106,39 @@ export default {
 		},
 		getUserMining() {
 			this.$api.userMining().then(res => {
-				console.log(res)
+				console.log(res);
 				let { data, code } = res.data;
 				if (code === 200) {
-					this.miningNum = data.length
+					this.miningNum = data.length;
 				}
 			});
 		},
 		buyMining(item) {
-			this.showModal = true
-			this.currentItem = item
+			this.showModal = true;
+			this.currentItem = item;
 		},
 		showBuy() {
-			this.$api.buyMining({
-				id:this.currentItem.id,
-				status:this.currentItem.status,
-			}).then(res => {
-				console.log(res)
-				let { data, code } = res.data;
-				if (code === 200) {
-					this.$refs.uToast.show({
-						title: '购买成功',
-						type: 'success'
-					});
-					this.getUserMining()
-				}
-			});
+			this.$api
+				.buyMining({
+					id: this.currentItem.id,
+					status: this.currentItem.status
+				})
+				.then(res => {
+					console.log(res);
+					let { data, code } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '购买成功',
+							type: 'success'
+						});
+						this.getUserMining();
+					}
+				});
 		},
 		goToMyMining() {
 			uni.navigateTo({
-				url:'/pages/mining/mining-my'
-			})
+				url: '/pages/mining/mining-my'
+			});
 		}
 	}
 };

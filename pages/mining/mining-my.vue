@@ -199,10 +199,10 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		this.miningList();
+		this.userMining();
 	},
 	methods: {
-		miningList() {
+		userMining() {
 			if (this.swiperList[this.current].length > 0 || this.list[this.current].noData) {
 				return false;
 			}
@@ -242,7 +242,7 @@ export default {
 		// tabs通知swiper切换
 		tabsChange(index) {
 			this.current = index;
-			this.miningList();
+			this.userMining();
 		},
 		// 矿机开启
 		changeSwitch(val, v) {
@@ -257,7 +257,7 @@ export default {
 							title: '启动成功',
 							type: 'success'
 						});
-						this.miningList()
+						this.userMining()
 					} else {
 						this.$refs.uToast.show({
 							title: msg,
@@ -276,7 +276,7 @@ export default {
 						title: '领取成功',
 						type: 'success'
 					});
-					this.miningList()
+					this.userMining()
 				} else {
 					this.$refs.uToast.show({
 						title: msg,
@@ -286,15 +286,22 @@ export default {
 			});
 		},
 		// 一键开启
-		oneKeyOpen(id) {
+		oneKeyOpen() {
 			this.$api.openMining().then(res => {
-				let { data, code } = res.data;
+				let { data, code,msg } = res.data;
 				if (code === 200) {
 					this.$refs.uToast.show({
 						title: '开启成功',
 						type: 'success'
 					});
-					this.miningList()
+					// debugger
+					this.clear()
+					this.userMining()
+				}else {
+					this.$refs.uToast.show({
+						title: msg,
+						type: 'info'
+					});
 				}
 			});
 		},
@@ -307,7 +314,8 @@ export default {
 						title: '收取成功',
 						type: 'success'
 					});
-					this.miningList()
+					this.clear()
+					this.userMining()
 				} else {
 					this.$refs.uToast.show({
 						title: msg,
@@ -315,6 +323,10 @@ export default {
 					});
 				}
 			});
+		},
+		clear() {
+			this.swiperList[this.current] = []
+			this.list[this.current].noData = false
 		}
 	}
 };

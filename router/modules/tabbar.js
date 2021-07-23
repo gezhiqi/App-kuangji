@@ -15,12 +15,18 @@ const tabbar = [{
 			title: '质押',
 		},
 	},
-
 	{
 		path: '/pages/mining/mining',
 		name: 'mall',
 		meta: {
 			title: '矿机',
+		},
+	}, 
+	{
+		path: '/pages/transacte/transacte',
+		name: 'mall',
+		meta: {
+			title: '交易',
 		},
 	}, 
 	{

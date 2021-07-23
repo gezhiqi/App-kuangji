@@ -5,7 +5,6 @@ import { RouterMount } from 'uni-simple-router'
 import uView from "uview-ui";
 import api from './common/api/index.js'
 import CommonTitle from "./components/common-title/common-title.vue"
-// import Vconsole from 'vconsole';
 
 Vue.component('common-title', CommonTitle)
 
@@ -18,11 +17,8 @@ Vue.prototype.checkLogin = function(){
 	}
 }
 
-
 Vue.prototype.$api = api
 Vue.use(uView);
-// new Vconsole();
-
 Vue.config.productionTip = false
 
 App.mpType = 'app'
