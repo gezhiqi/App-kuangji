@@ -20,26 +20,41 @@
 			</view>
 			<view class="create-order">
 				<view class="create-order-title">购买意向</view>
-				<view class="create-order-list">
-					<view
-						class="item"
-						:class="{ active: activeCurrent === index }"
-						v-for="(item, index) in priceList"
-						:key="index"
-						@click="activeCurrent = index"
-					>
-						{{ item }}
+				<view class="create-order-list-box">
+					<view class="create-order-list">
+						<view
+							class="item"
+							:class="{ active: activeCurrent === index }"
+							v-for="(item, index) in priceList"
+							:key="index"
+							@click="activeCurrent = index"
+						>
+							{{ item }}
+						</view>
 					</view>
+					<view class="create-order-btn" @click="createOrder">确认购买</view>
 				</view>
-				<view class="create-order-btn">确认购买</view>
 			</view>
 			<mescroll-body ref="mescrollRef" @down="downCallback" @up="upCallback" :up="upOption">
 				<view class="list">
-					<view class="list-item" v-for="item in orderList" :key="item.id">
-						<view class="tips">{{ item.num }}</view>
-						<view class="price">￥{{ item.price }}</view>
+					<view class="list-title">订单列表</view>
+					<view class="list-box">
+						<view class="list-item" v-for="item in orderList" :key="item.id">
+							<view class="item-top"><view class="item-title">买方信息：{{item.telephone}}</view></view>
+							<view class="item-bottom">
+								<view class="left">
+									<view class="tips">数量：{{ item.num }}</view>
+									<view class="price">价格￥{{ item.price }}</view>
+								</view>
+								<view class="right">
+									<view class="r-top">单价</view>
+									<view class="r-bot">{{ item.unitPrice }}</view>
+								</view>
+							</view>
+							<view class="item-footer"></view>
+						</view>
 					</view>
-				</view>
+				</view>r
 			</mescroll-body>
 		</view>
 
@@ -172,6 +187,21 @@ export default {
 					}
 				})
 				.catch(err => {});
+		},
+		// 创建订单
+		createOrder() {
+			this.$api
+				.createOrder({
+					num: this.priceList[this.activeCurrent]
+				})
+				.then(res => {
+					if (res.data.code === 200) {
+						this.$refs.uToast.show({
+							title: '创建成功',
+							type: 'success'
+						});
+					}
+				});
 		}
 	}
 };
@@ -192,11 +222,10 @@ body {
 		height: 500rpx;
 	}
 	.create-order {
-		padding: 30rpx 10rpx;
-		background-color: #1e1c41;
+		border-radius: 16rpx;
 		.create-order-title {
 			padding-left: 24rpx;
-			font-size: 28rpx;
+			font-size: 32rpx;
 			position: relative;
 			&::after {
 				position: absolute;
@@ -211,8 +240,13 @@ body {
 				border-radius: 6rpx;
 			}
 		}
+		.create-order-list-box {
+			margin-top: 20rpx;
+			padding: 40rpx 10rpx;
+			background-color: #1e1c41;
+			border-radius: 16rpx;
+		}
 		.create-order-list {
-			margin-top: 40rpx;
 			display: flex;
 			justify-content: space-around;
 			.item {
@@ -224,13 +258,13 @@ body {
 				font-size: 20rpx;
 				text-align: center;
 				line-height: 63rpx;
-				    border: .3rpxsolid #e8e8e8;
+				border: 0.3rpxsolid #e8e8e8;
 				// #fb402d
 				&.active {
 					height: 60rpx;
 					line-height: 60rpx;
-					border: 3rpx solid #8d57fc;
 					position: relative;
+					background: #c067f6;
 					&::before {
 						content: '';
 						width: 30rpx;
@@ -251,7 +285,7 @@ body {
 			line-height: 80rpx;
 			border-radius: 40rpx;
 			text-align: center;
-			color: #FFFFFF;
+			color: #ffffff;
 			font-size: 32rpx;
 			background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);
 		}
@@ -260,6 +294,64 @@ body {
 		padding-top: 0.3rem;
 		height: 500rpx;
 		width: 100%;
+	}
+	.list {
+		margin-top: 40rpx;
+
+		.list-title {
+			padding-left: 24rpx;
+			margin-bottom: 30rpx;
+			font-size: 32rpx;
+			position: relative;
+			&::after {
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				content: '';
+				width: 10rpx;
+				height: 30rpx;
+				background: -webkit-linear-gradient(225deg, #fe9e2c, #fb402d);
+				background: linear-gradient(225deg, #fe9e2c, #fb402d);
+				border-radius: 6rpx;
+			}
+		}
+		.list-box {
+			background-color: #1e1c41;
+			padding: 20rpx 10rpx;
+			border-radius: 16rpx;
+			.list-item {
+				padding: 10rpx;
+				.item-title {
+					font-size: 28rpx;
+					line-height: 58rpx;
+					color: #8d57fc;
+				}
+				.item-bottom {
+					display: flex;
+					justify-content: space-between;
+					.left {
+						font-size: 24rpx;
+						line-height: 46rpx;
+						.price {
+							line-height: 60rpx;
+						}
+					}
+					.right {
+						font-size: 24rpx;
+						line-height: 46rpx;
+						color: #c067f6;
+						.r-bot {
+							font-size: 42rpx;
+							line-height: 60rpx;
+						}
+					}
+				}
+				.item-footer {
+					
+				}
+			}
+		}
 	}
 }
 </style>
