@@ -18,8 +18,14 @@
 		<view class="my-order">
 			<view class="order-title">我的订单</view>
 			<view class="order-cont">
-				<view class="left" @click="showToast">我的竞拍</view>
-				<view class="right" @click="showToast">我的委拍</view>
+				<view class="left" @click="goMyBuy">
+					<image class="img" src="../../static/my/buy.png" mode=""></image>
+					<text class="desc">购买订单</text>
+				</view>
+				<view class="right" @click="goMySell">
+					<image class="img" src="../../static/my/sell.png" mode=""></image>
+					<text class="desc">出售订单</text>
+				</view>
 			</view>
 		</view>
 		<view class="more">
@@ -70,6 +76,16 @@ export default {
 			this.$refs.uToast.show({
 				title: '暂未开放'
 			});
+		},
+		goMyBuy() {
+			uni.navigateTo({
+				url:'/pages/my/my-buy'
+			})
+		},
+		goMySell() {
+			uni.navigateTo({
+				url:'/pages/my/my-sell'
+			})
 		}
 	}
 };
@@ -77,7 +93,7 @@ export default {
 
 <style lang="scss">
 uni-page-body,
-body{
+body {
 	height: 100%;
 }
 .my-root {
@@ -160,6 +176,17 @@ body{
 			justify-content: space-around;
 			align-items: center;
 			font-size: 30rpx;
+			.left,.right{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				.img{
+					width: 55rpx;
+					height: 55rpx;
+				}.desc {
+					padding-top: 12rpx;
+				}
+			}
 		}
 	}
 	.more {

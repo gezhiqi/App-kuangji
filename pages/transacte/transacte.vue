@@ -40,7 +40,9 @@
 					<view class="list-title">订单列表</view>
 					<view class="list-box">
 						<view class="list-item" v-for="item in orderList" :key="item.id">
-							<view class="item-top"><view class="item-title">买方信息：{{item.telephone}}</view></view>
+							<view class="item-top">
+								<view class="item-title">买方信息：{{ item.telephone }}</view>
+							</view>
 							<view class="item-bottom">
 								<view class="left">
 									<view class="tips">数量：{{ item.num }}</view>
@@ -51,13 +53,28 @@
 									<view class="r-bot">{{ item.unitPrice }}</view>
 								</view>
 							</view>
-							<view class="item-footer"></view>
+							<view class="item-footer">
+								<view @click="showSellPop(item.id)">出售</view>
+							</view>
 						</view>
 					</view>
-				</view>r
+				</view>
 			</mescroll-body>
 		</view>
-
+		<u-modal
+			v-model="showModal"
+			:show-cancel-button="true"
+			content="确认发布购买订单"
+			@cancel="showModal = false"
+			@confirm="showBuy"
+		></u-modal>
+		<u-modal
+			v-model="showSell"
+			:show-cancel-button="true"
+			content="确认发布购买订单"
+			@cancel="showSell = false"
+			@confirm="showSellFunc"
+		></u-modal>
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -119,7 +136,10 @@ export default {
 			opts: opts,
 			orderList: [],
 			priceList: [10, 20, 50, 100, 200],
-			activeCurrent: ''
+			activeCurrent: '',
+			showModal: false,
+			showSell:false,
+			currentSellId:''
 		};
 	},
 	created() {
@@ -188,8 +208,12 @@ export default {
 				})
 				.catch(err => {});
 		},
-		// 创建订单
+		// 打开订单弹窗
 		createOrder() {
+			this.showModal = true;
+		},
+		// 创建订单
+		showBuy() {
 			this.$api
 				.createOrder({
 					num: this.priceList[this.activeCurrent]
@@ -199,6 +223,37 @@ export default {
 						this.$refs.uToast.show({
 							title: '创建成功',
 							type: 'success'
+						});
+						this.downCallback()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
+				});
+		},
+		showSellPop(id) {
+			this.showSell = true
+			this.currentSellId = id
+		},
+		showSellFunc() {
+			this.sellMoney()
+		},
+		sellMoney() {
+			this.$api
+				.sellCancel(this.currentSellId)
+				.then(res => {
+					if (res.data.code === 200) {
+						this.$refs.uToast.show({
+							title: '匹配成功，请及时付款',
+							type: 'success'
+						});
+						this.downCallback()
+					}else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
 						});
 					}
 				});
@@ -322,6 +377,7 @@ body {
 			border-radius: 16rpx;
 			.list-item {
 				padding: 10rpx;
+				border-bottom: 0.5px solid rgba(204, 204, 204, 0.2);
 				.item-title {
 					font-size: 28rpx;
 					line-height: 58rpx;
@@ -348,7 +404,18 @@ body {
 					}
 				}
 				.item-footer {
-					
+					display: flex;
+					flex-direction: row-reverse;
+					padding: 10rpx 0;
+					view {
+						width: 120rpx;
+						height: 50rpx;
+						line-height: 50rpx;
+						text-align: center;
+						font-size: 28rpx;
+						border-radius: 30rpx;
+						background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);
+					}
 				}
 			}
 		}

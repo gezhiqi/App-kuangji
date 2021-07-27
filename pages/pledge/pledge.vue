@@ -1,13 +1,11 @@
 <template>
 	<view class="pledge-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<common-title>
-			<template v-slot:default>
-				质押
-			</template>
-			<template v-slot:right>
-				<view>质押规则</view>
-			</template>
-		</common-title>
+		<view :style="{ paddingTop: statusBarHeight + 'px'}" class="root-title">
+			<view>质押</view>
+			<view class="right">
+				质押规则
+			</view>
+		</view>
 		<view class="my-balance">
 			<view class="balance-box">
 				<view class="balance-title"><text>我的余额</text></view>
@@ -163,6 +161,36 @@ body {
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
+	.root-title {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		color: #ced3e1;
+		font-size: 32rpx;
+		z-index: 99;
+		background-image: linear-gradient(45deg, #110e2a, #110e2a);
+		.back {
+			position: absolute;
+			left: 30rpx;
+			bottom: 26rpx;
+			width: 36rpx;
+			height: 36rpx;
+			background: url('../../static/back.png') no-repeat center center;
+			background-size: 100% 100%;
+		}
+		.right {
+			font-size: 24rpx;
+			position: absolute;
+			right: 30rpx;
+			bottom: 20rpx;
+			line-height: 36rpx;
+	
+		}
+	}
 	.my-balance {
 		.balance-box {
 			display: flex;

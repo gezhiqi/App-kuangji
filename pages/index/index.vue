@@ -12,7 +12,7 @@
 				:vertical="vertical"
 				:circular="true"
 			>
-				<swiper-item class="swiper-item" v-for="item in noticeList">
+				<swiper-item class="swiper-item" v-for="item in noticeList" @click="goDetail">
 					<u-image
 						width="32rpx"
 						height="26rpx"
@@ -226,6 +226,9 @@ export default {
 			this.$refs.uToast.show({
 				title: '暂未开放'
 			});
+		},
+		goDetail() {
+			
 		}
 	}
 };
