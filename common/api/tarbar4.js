@@ -45,12 +45,11 @@ export const buyerPays = (id) => {
 		method:'GET'
 	})
 }
-// 买家确认
-export const sellerConfirm = (data) => {
+// 卖家确认
+export const sellerConfirm = (id) => {
 	return $http({
-		url:'/app/order/make',
-		data,
-		method:'POST'
+		url:`/app/order/make?id=${id}`,
+		method:'GET'
 	})
 }
 // 买家取消

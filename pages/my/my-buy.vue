@@ -42,7 +42,7 @@
 						</view>
 					</view>
 					<view class="item-footer">
-						<view class="confirm" @click="sellMoney(item.id)">
+						<view class="confirm" @click="showPay(item.id)">
 							{{ item.status | filterStatus }}
 						</view>
 						<view class="look" v-show="current == 1" @click="lookSeller(item.id)">
@@ -53,7 +53,21 @@
 			</mescroll-body>
 		</view>
 		<u-toast ref="uToast" />
-		<u-popup v-model="showPopup"><view>出淤泥而不染，濯清涟而不妖</view></u-popup>
+		<u-popup v-model="showPopup" mode="center">
+			<view>订单号：{{ sellerInfo.orderNum }}</view>
+			<view>卖家名称：{{ sellerInfo.sellName }}</view>
+			<view>卖家电话：{{ sellerInfo.sellTelephone }}</view>
+			<view>卖家信息：{{ sellerInfo.sellName }}</view>
+	<!-- 		<image src="../../static/1.jpg" mode=""></image>
+			<image src="../../static/1.jpg" mode=""></image> -->
+		</u-popup>
+		<u-modal
+			v-model="showPayPop"
+			:show-cancel-button="true"
+			content="恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
+			@cancel="showPayPop = false"
+			@confirm="handleshowPay"
+		></u-modal>
 	</view>
 </template>
 
@@ -107,7 +121,10 @@ export default {
 				num: 1,
 				size: 10
 			},
-			dataList: []
+			dataList: [],
+			sellerInfo: {},
+			showPayPop:false,
+			
 		};
 	},
 	filters: {
@@ -140,11 +157,45 @@ export default {
 			this.showPopup = true;
 			this.getSellerInfo(id);
 		},
+		showPay(id) {
+			this.showPayPop = true
+			this.currentId= id
+		},
+		handleshowPay() {
+			this.$api
+				.buyerPays(this.currentId)
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '操作成功',
+							type: 'success'
+						});
+						this.downCallback()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
 		getSellerInfo(id) {
 			this.$api
 				.checkingOrder(id)
 				.then(res => {
-					console.log(res);
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.sellerInfo = data;
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
 				})
 				.catch(err => {
 					console.log(err);

@@ -51,6 +51,13 @@
 			</mescroll-body>
 		</view>
 		<u-toast ref="uToast" />
+		<u-modal
+			v-model="showPayment"
+			:show-cancel-button="true"
+			content="恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
+			@cancel="showPayment = false"
+			@confirm="handlePayment"
+		></u-modal>
 	</view>
 </template>
 
@@ -70,7 +77,7 @@ export default {
 					noData: false
 				},
 				{
-					name: '待确认',
+					name: '确认收款',
 					count: 0,
 					noData: false
 				},
@@ -99,6 +106,8 @@ export default {
 				size:10
 			},
 			dataList: [],
+			showPayment:false,
+			currentId:''
 
 		};
 	},
@@ -127,6 +136,32 @@ export default {
 			this.page.num = 1
 			this.current = index;
 			this.downCallback();
+		},
+		sellMoney(id) {
+			this.showPayment = true
+			this.currentId= id
+		},
+		handlePayment() {
+			this.$api
+				.sellerConfirm(this.currentId)
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '操作成功',
+							type: 'success'
+						});
+						this.downCallback()
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 		downCallback() {
 			this.mescroll.resetUpScroll();

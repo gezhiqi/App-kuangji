@@ -167,12 +167,10 @@ export default {
 		downCallback() {
 			this.mescroll.resetUpScroll();
 		},
+		
 		upCallback(page) {
 			let pageNum = page.num; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
-
-			console.log(pageNum, pageSize, this.morningCode);
-
 			this.$api
 				.orderList({
 					currPage: pageNum,
