@@ -21282,7 +21282,8 @@ try {
     mescrollBody: __webpack_require__(/*! @/uni_modules/mescroll-uni/components/mescroll-body/mescroll-body.vue */ 282)
       .default,
     uToast: __webpack_require__(/*! uview-ui/components/u-toast/u-toast.vue */ 43).default,
-    uPopup: __webpack_require__(/*! uview-ui/components/u-popup/u-popup.vue */ 62).default
+    uPopup: __webpack_require__(/*! uview-ui/components/u-popup/u-popup.vue */ 62).default,
+    uModal: __webpack_require__(/*! uview-ui/components/u-modal/u-modal.vue */ 59).default
   }
 } catch (e) {
   if (
@@ -21506,11 +21507,36 @@ var render = function() {
         },
         [
           _c("v-uni-view", { attrs: { _i: 21 } }, [
-            _vm._v("出淤泥而不染，濯清涟而不妖")
+            _vm._v("订单号：" + _vm._$g(21, "t0-0"))
+          ]),
+          _c("v-uni-view", { attrs: { _i: 22 } }, [
+            _vm._v("卖家名称：" + _vm._$g(22, "t0-0"))
+          ]),
+          _c("v-uni-view", { attrs: { _i: 23 } }, [
+            _vm._v("卖家电话：" + _vm._$g(23, "t0-0"))
+          ]),
+          _c("v-uni-view", { attrs: { _i: 24 } }, [
+            _vm._v("卖家信息：" + _vm._$g(24, "t0-0"))
           ])
         ],
         1
-      )
+      ),
+      _c("u-modal", {
+        attrs: { _i: 25 },
+        on: {
+          cancel: function($event) {
+            return _vm.$handleViewEvent($event)
+          },
+          confirm: function($event) {
+            return _vm.$handleViewEvent($event)
+          }
+        },
+        model: {
+          value: _vm._$g(25, "v-model"),
+          callback: function() {},
+          expression: "showPayPop"
+        }
+      })
     ],
     1
   )
@@ -21691,7 +21717,8 @@ try {
       .default,
     mescrollBody: __webpack_require__(/*! @/uni_modules/mescroll-uni/components/mescroll-body/mescroll-body.vue */ 282)
       .default,
-    uToast: __webpack_require__(/*! uview-ui/components/u-toast/u-toast.vue */ 43).default
+    uToast: __webpack_require__(/*! uview-ui/components/u-toast/u-toast.vue */ 43).default,
+    uModal: __webpack_require__(/*! uview-ui/components/u-modal/u-modal.vue */ 59).default
   }
 } catch (e) {
   if (
@@ -21888,7 +21915,23 @@ var render = function() {
         ],
         1
       ),
-      _c("u-toast", { ref: "uToast", attrs: { _i: 20 } })
+      _c("u-toast", { ref: "uToast", attrs: { _i: 20 } }),
+      _c("u-modal", {
+        attrs: { _i: 21 },
+        on: {
+          cancel: function($event) {
+            return _vm.$handleViewEvent($event)
+          },
+          confirm: function($event) {
+            return _vm.$handleViewEvent($event)
+          }
+        },
+        model: {
+          value: _vm._$g(21, "v-model"),
+          callback: function() {},
+          expression: "showPayment"
+        }
+      })
     ],
     1
   )

@@ -53,11 +53,10 @@ export const sellerConfirm = (id) => {
 	})
 }
 // 买家取消
-export const buyerCancel = (data) => {
+export const buyerCancel = (id) => {
 	return $http({
-		url:'/app/order/remove',
-		data,
-		method:'POST'
+		url:`/app/order/remove?id=${id}`,
+		method:'GET'
 	})
 }
 //卖家匹配订单
@@ -79,6 +78,14 @@ export const buyList = (data) => {
 export const sellList = (data) => {
 	return $http({
 		url:'/app/order/sell/list',
+		data,
+		method:'POST'
+	})
+}
+//上传微信
+export const wxPay = (data) => {
+	return $http({
+		url:'/app/user/save/vx',
 		data,
 		method:'POST'
 	})

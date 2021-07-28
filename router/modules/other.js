@@ -11,23 +11,30 @@ const other = [
     },
 	{
 	  path: '/pages/mining/mining-my',
-	  name: 'pledgeMy',
+	  name: 'miningMy',
 	    meta: {
 	        title: '我的矿机',
 	    },
 	},
 	{
 	  path: '/pages/my/my-buy',
-	  name: 'pledgeMy',
+	  name: 'myBuy',
 	    meta: {
 	        title: '我的矿机',
 	    },
 	},
 	{
 	  path: '/pages/my/my-sell',
-	  name: 'pledgeMy',
+	  name: 'mySell',
 	    meta: {
 	        title: '我的矿机',
+	    },
+	},
+	{
+	  path: '/pages/my/my-real-name',
+	  name: 'realName',
+	    meta: {
+	        title: '实名认证',
 	    },
 	},
 	

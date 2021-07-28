@@ -244,7 +244,7 @@ export default {
 				.then(res => {
 					if (res.data.code === 200) {
 						this.$refs.uToast.show({
-							title: '匹配成功，请及时付款',
+							title: '匹配成功，请通知买家及时付款',
 							type: 'success'
 						});
 						this.downCallback()

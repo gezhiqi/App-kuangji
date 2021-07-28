@@ -29,7 +29,7 @@
 			>
 				<view class="list-item" v-for="(item, index) in dataList" :key="item.id">
 					<view class="item-top">
-						<view class="item-title">订单单号：{{ item.id }}</view>
+						<view class="item-title">订单单号：{{ item.orderNum }}</view>
 					</view>
 					<view class="item-bottom">
 						<view class="left">
@@ -42,24 +42,44 @@
 						</view>
 					</view>
 					<view class="item-footer">
-						<view class="confirm" @click="showPay(item.id)">
+						<view
+							v-show="[1, 2, 3, 4].includes(current)"
+							class="confirm"
+							@click="showPay(item.id)"
+						>
 							{{ item.status | filterStatus }}
 						</view>
-						<view class="look" v-show="current == 1" @click="lookSeller(item.id)">
-							查看卖家信息
+						<view class="look" v-show="current == 0" @click="cancelOrder(item.id)">
+							取消
 						</view>
+						<view class="look" @click="lookSeller(item.id)">订单信息</view>
 					</view>
 				</view>
 			</mescroll-body>
 		</view>
 		<u-toast ref="uToast" />
-		<u-popup v-model="showPopup" mode="center">
-			<view>订单号：{{ sellerInfo.orderNum }}</view>
-			<view>卖家名称：{{ sellerInfo.sellName }}</view>
-			<view>卖家电话：{{ sellerInfo.sellTelephone }}</view>
-			<view>卖家信息：{{ sellerInfo.sellName }}</view>
-	<!-- 		<image src="../../static/1.jpg" mode=""></image>
-			<image src="../../static/1.jpg" mode=""></image> -->
+		<u-popup class="info-pop" v-model="showPopup" mode="center">
+			<view class="row">订单号：{{ sellerInfo.orderNum }}</view>
+			<view class="row">订单数量：{{ sellerInfo.num }}</view>
+			<view class="row">订单金额：{{ sellerInfo.price }}</view>
+			<view class="row">卖家名称：{{ sellerInfo.sellName }}</view>
+			<view class="row">卖家电话：{{ sellerInfo.sellTelephone }}</view>
+			<view class="row">卖家银行卡：{{ sellerInfo.bankCard }}</view>
+			<view class="row">银行卡开户行：{{ sellerInfo.bankName }}</view>
+			<view class="qr-code" v-show="current === 1">
+				<view class="left">
+					<image @click="showQrCode(sellerInfo.wxUrl)"  :src="sellerInfo.wxUrl" mode="aspectFit"></image>
+					<text>微信付款码</text>
+				</view>
+				<view class="right">
+					<image @click="showQrCode(sellerInfo.zfbUrl)" :src="sellerInfo.zfbUrl" mode="aspectFit"></image>
+					<text>支付宝付款码</text>
+				</view>
+			</view>
+			
+		</u-popup>
+		<u-popup class="qr-pop" v-model="QrPop" mode="center">
+			<image :src="currentQrCode" mode="aspectFit"></image>
 		</u-popup>
 		<u-modal
 			v-model="showPayPop"
@@ -67,6 +87,13 @@
 			content="恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
 			@cancel="showPayPop = false"
 			@confirm="handleshowPay"
+		></u-modal>
+		<u-modal
+			v-model="cancelPop"
+			:show-cancel-button="true"
+			content="确认取消购买请求？"
+			@cancel="cancelPop = false"
+			@confirm="handleCancelPop"
 		></u-modal>
 	</view>
 </template>
@@ -81,6 +108,7 @@ export default {
 			swiperCurrent: 0,
 			showModal: false,
 			showPopup: false,
+			cancelPop: false,
 			list: [
 				{
 					name: '挂单中',
@@ -123,8 +151,9 @@ export default {
 			},
 			dataList: [],
 			sellerInfo: {},
-			showPayPop:false,
-			
+			showPayPop: false,
+			QrPop: false,
+			currentQrCode:''
 		};
 	},
 	filters: {
@@ -143,6 +172,7 @@ export default {
 	},
 	mounted() {},
 	methods: {
+		// 初始化
 		mescrollInit(mescroll) {
 			this.mescroll = mescroll;
 		},
@@ -153,17 +183,25 @@ export default {
 			this.current = index;
 			this.downCallback();
 		},
+		// 打开订单信息弹窗
 		lookSeller(id) {
 			this.showPopup = true;
 			this.getSellerInfo(id);
 		},
-		showPay(id) {
-			this.showPayPop = true
-			this.currentId= id
+		// 取消订单提示
+		cancelOrder(id) {
+			this.cancelPop = true;
+			this.currentId = id;
 		},
-		handleshowPay() {
+		// 展示付款码弹窗
+		showQrCode(url) {
+			this.QrPop = true
+			this.currentQrCode = url
+		},
+		// 取消订单确认
+		handleCancelPop() {
 			this.$api
-				.buyerPays(this.currentId)
+				.buyerCancel(this.currentId)
 				.then(res => {
 					const { data, code, msg } = res.data;
 					if (code === 200) {
@@ -171,7 +209,7 @@ export default {
 							title: '操作成功',
 							type: 'success'
 						});
-						this.downCallback()
+						this.downCallback();
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -183,6 +221,37 @@ export default {
 					console.log(err);
 				});
 		},
+		// 确认付款提示
+		showPay(id) {
+			if (this.current == 1) {
+				this.showPayPop = true;
+				this.currentId = id;
+			}
+		},
+		// 确认付款
+		handleshowPay() {
+			this.$api
+				.buyerPays(this.currentId)
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '操作成功',
+							type: 'success'
+						});
+						this.downCallback();
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
+		},
+		// 获取订单信息
 		getSellerInfo(id) {
 			this.$api
 				.checkingOrder(id)
@@ -201,9 +270,11 @@ export default {
 					console.log(err);
 				});
 		},
+		// 下滑
 		downCallback() {
 			this.mescroll.resetUpScroll();
 		},
+		// 上滑
 		upCallback(page) {
 			uni.showLoading({
 				title: '正在加载'
@@ -323,6 +394,49 @@ body {
 					margin-right: 20rpx;
 				}
 			}
+		}
+	}
+	.info-pop {
+		color: #333333;
+		
+		::v-deep .u-mode-center-box {
+			padding: 30rpx;
+			box-sizing: border-box;
+			border-radius: 20rpx;
+		}
+		.row {
+			line-height: 60rpx;
+			font-size: 30rpx;
+		}
+		.qr-code {
+			width: 600rpx;
+			display: flex;
+			justify-content:  space-around;
+			.left,.right {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				text {
+					text-align: center;
+					font-size: 26rpx;
+				}
+				image {
+					width: 200rpx;
+					height: 300rpx;
+				}
+			}
+			
+		}
+		
+	}
+	.qr-pop {
+		::v-deep .u-mode-center-box {
+			padding: 30rpx;
+			box-sizing: border-box;
+			border-radius: 20rpx;
+		}
+		image {
+			width: 600rpx;
 		}
 	}
 }
