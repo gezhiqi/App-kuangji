@@ -37,6 +37,13 @@ const other = [
 	        title: '实名认证',
 	    },
 	},
+	{
+	  path: '/pages/my/my-payinfo',
+	  name: 'payInfo',
+	    meta: {
+	        title: '收款信息',
+	    },
+	},
 	
 ]
 export default other

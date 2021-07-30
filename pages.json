@@ -192,6 +192,16 @@
 					"titleView": false
 				}
 			}
+		}, {
+			"path": "pages/my/my-payinfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false
+				}
+			}
 		}
 	],
 	"globalStyle": {

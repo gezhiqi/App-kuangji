@@ -51,13 +51,14 @@
 			</mescroll-body>
 		</view>
 		<u-toast ref="uToast" />
-		<u-modal
+		<!-- <u-modal
 			v-model="showPayment"
 			:show-cancel-button="true"
 			content="恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
 			@cancel="showPayment = false"
 			@confirm="handlePayment"
-		></u-modal>
+		>
+		</u-modal> -->
 	</view>
 </template>
 
@@ -138,8 +139,10 @@ export default {
 			this.downCallback();
 		},
 		sellMoney(id) {
-			this.showPayment = true
 			this.currentId= id
+			this.$refs.uToast.show({
+				title: '请等待买家付款',
+			});
 		},
 		handlePayment() {
 			this.$api
@@ -192,7 +195,9 @@ export default {
 						// 接口返回的是否有下一页 (true/false)
 						let hasNext = curPageData.length < 10 ? false : true;
 						let index = this.current;
-
+						this.list[0].count = res.data.transactionCount;
+						this.list[1].count = res.data.paymentCount;
+						this.list[2].count = res.data.completeCount;
 						//设置列表数据
 						if (page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
 						this.dataList = this.dataList.concat(curPageData); //追加新数据

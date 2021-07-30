@@ -68,15 +68,22 @@
 			<view class="row">银行卡开户行：{{ sellerInfo.bankName }}</view>
 			<view class="qr-code" v-show="current === 1">
 				<view class="left">
-					<image @click="showQrCode(sellerInfo.wxUrl)"  :src="sellerInfo.wxUrl" mode="aspectFit"></image>
+					<image
+						@click="showQrCode(sellerInfo.wxUrl)"
+						:src="sellerInfo.wxUrl"
+						mode="aspectFit"
+					></image>
 					<text>微信付款码</text>
 				</view>
 				<view class="right">
-					<image @click="showQrCode(sellerInfo.zfbUrl)" :src="sellerInfo.zfbUrl" mode="aspectFit"></image>
+					<image
+						@click="showQrCode(sellerInfo.zfbUrl)"
+						:src="sellerInfo.zfbUrl"
+						mode="aspectFit"
+					></image>
 					<text>支付宝付款码</text>
 				</view>
 			</view>
-			
 		</u-popup>
 		<u-popup class="qr-pop" v-model="QrPop" mode="center">
 			<image :src="currentQrCode" mode="aspectFit"></image>
@@ -84,10 +91,23 @@
 		<u-modal
 			v-model="showPayPop"
 			:show-cancel-button="true"
-			content="恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
 			@cancel="showPayPop = false"
 			@confirm="handleshowPay"
-		></u-modal>
+		>
+			<view class="slot-content">
+				<view class="">恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。</view>
+				<uni-file-picker
+					:limit="1"
+					fileMediatype="image"
+					mode="grid"
+					@select="select"
+					@delete="deleteImg"
+				/>
+				<view class="certificate">
+					上传付款截图
+				</view>
+			</view>
+		</u-modal>
 		<u-modal
 			v-model="cancelPop"
 			:show-cancel-button="true"
@@ -99,6 +119,7 @@
 </template>
 
 <script>
+	import {BASE_URL} from '../../common/request/http.js';
 import MescrollMixin from '@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js';
 export default {
 	mixins: [MescrollMixin], // 使用mixin
@@ -153,7 +174,8 @@ export default {
 			sellerInfo: {},
 			showPayPop: false,
 			QrPop: false,
-			currentQrCode:''
+			currentQrCode: '',
+			payPath: '',
 		};
 	},
 	filters: {
@@ -195,8 +217,15 @@ export default {
 		},
 		// 展示付款码弹窗
 		showQrCode(url) {
-			this.QrPop = true
-			this.currentQrCode = url
+			this.QrPop = true;
+			this.currentQrCode = url;
+		},
+		select(e) {
+			console.log('选择文件：', e);
+			this.payPath = e.tempFilePaths[0];
+		},
+		deleteImg() {
+			this.payPath = ''
 		},
 		// 取消订单确认
 		handleCancelPop() {
@@ -227,14 +256,33 @@ export default {
 				this.showPayPop = true;
 				this.currentId = id;
 			}
+			if (this.current == 2) {
+				this.$refs.uToast.show({
+					title: '请等待卖家确认收款',
+				});
+			}
 		},
 		// 确认付款
 		handleshowPay() {
-			this.$api
-				.buyerPays(this.currentId)
-				.then(res => {
-					const { data, code, msg } = res.data;
-					if (code === 200) {
+			if (this.payPath === '') {
+				return this.$refs.uToast.show({
+					title: '请上传付款凭证',
+				});
+			}
+			
+			uni.uploadFile({
+				url: `${BASE_URL}/app/order/payment`, 
+				filePath: this.payPath,
+				name: 'file',
+				formData: {
+					id: this.currentId
+				},
+				header: {
+					token: uni.getStorageSync('token')
+				},
+				success: res => {
+					let result = JSON.parse(res.data)
+					if (result.code === 200) {
 						this.$refs.uToast.show({
 							title: '操作成功',
 							type: 'success'
@@ -242,14 +290,34 @@ export default {
 						this.downCallback();
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							title: result.msg,
 							type: 'error'
 						});
 					}
-				})
-				.catch(err => {
-					console.log(err);
-				});
+				}
+			});
+			
+			
+			// this.$api
+			// 	.buyerPays(this.currentId)
+			// 	.then(res => {
+			// 		const { data, code, msg } = res.data;
+			// 		if (code === 200) {
+			// 			this.$refs.uToast.show({
+			// 				title: '操作成功',
+			// 				type: 'success'
+			// 			});
+			// 			this.downCallback();
+			// 		} else {
+			// 			this.$refs.uToast.show({
+			// 				title: res.data.msg,
+			// 				type: 'error'
+			// 			});
+			// 		}
+			// 	})
+			// 	.catch(err => {
+			// 		console.log(err);
+			// 	});
 		},
 		// 获取订单信息
 		getSellerInfo(id) {
@@ -301,7 +369,9 @@ export default {
 						// 接口返回的是否有下一页 (true/false)
 						let hasNext = curPageData.length < 10 ? false : true;
 						let index = this.current;
-
+						this.list[1].count = res.data.transactionCount;
+						this.list[2].count = res.data.paymentCount;
+						this.list[3].count = res.data.completeCount;
 						//设置列表数据
 						if (page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
 						this.dataList = this.dataList.concat(curPageData); //追加新数据
@@ -398,7 +468,7 @@ body {
 	}
 	.info-pop {
 		color: #333333;
-		
+
 		::v-deep .u-mode-center-box {
 			padding: 30rpx;
 			box-sizing: border-box;
@@ -411,8 +481,9 @@ body {
 		.qr-code {
 			width: 600rpx;
 			display: flex;
-			justify-content:  space-around;
-			.left,.right {
+			justify-content: space-around;
+			.left,
+			.right {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
@@ -425,9 +496,7 @@ body {
 					height: 300rpx;
 				}
 			}
-			
 		}
-		
 	}
 	.qr-pop {
 		::v-deep .u-mode-center-box {
@@ -437,6 +506,23 @@ body {
 		}
 		image {
 			width: 600rpx;
+		}
+	}
+	.u-model {
+		.slot-content {
+			padding: 48rpx;
+			font-size: 30rpx;
+			color: #606266;
+			text-align: center;
+				// display: flex;
+				::v-deep .file-picker__box {
+					margin: 40rpx auto 20rpx;
+				}
+				.code-desc {
+					padding-top: 20rpx;
+					color: #303133;
+					font-size: 28rpx;
+				}
 		}
 	}
 }

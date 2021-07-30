@@ -82,11 +82,26 @@ export const sellList = (data) => {
 		method:'POST'
 	})
 }
+//实名认证
+export const realName = (data) => {
+	return $http({
+		url:'/app/user/save/bank',
+		data,
+		method:'POST'
+	})
+}
 //上传微信
 export const wxPay = (data) => {
 	return $http({
 		url:'/app/user/save/vx',
 		data,
 		method:'POST'
+	})
+}
+// 获取订单气泡数
+export const bubbleNum = () => {
+	return $http({
+		url:'/app/order/transaction',
+		method:'GET'
 	})
 }

@@ -6,13 +6,18 @@
 			<view class="invite">邀请码：xxxx</view>
 		</view>
 		<view class="my-purse">
-			<view class="left" @click="showToast">
+		
+			<view class="item" @click="goToRealName">
+				<view class="name-icon"></view>
+				<view class="recharge">未实名</view>
+			</view>
+			<view class="item" @click="showToast">
 				<view class="num">0.00</view>
 				<view class="purse">钱包</view>
 			</view>
-			<view class="right" @click="showToast">
-				<view class="icon"></view>
-				<view class="recharge">立即充值</view>
+			<view class="item" @click="goToPayInfo">
+				<view class="money-icon"></view>
+				<view class="recharge">收款信息</view>
 			</view>
 		</view>
 		<view class="my-order">
@@ -21,10 +26,12 @@
 				<view class="left" @click="goMyBuy">
 					<image class="img" src="../../static/my/buy.png" mode=""></image>
 					<text class="desc">购买订单</text>
+					<text v-show="buyNum>0" class="num">{{buyNum}}</text>
 				</view>
 				<view class="right" @click="goMySell">
 					<image class="img" src="../../static/my/sell.png" mode=""></image>
 					<text class="desc">出售订单</text>
+					<text v-show="sellNum>0" class="num">{{sellNum}}</text>
 				</view>
 			</view>
 		</view>
@@ -42,7 +49,9 @@ export default {
 		return {
 			statusBarHeight: 0,
 			telephone: '',
-			index: 0
+			index: 0,
+			buyNum:0,
+			sellNum:0
 		};
 	},
 	created() {
@@ -52,6 +61,10 @@ export default {
 			}
 		});
 		this.telephone = uni.getStorageSync('telephone') || '';
+		this.getBubbleNum()
+	},
+	onShow() {
+		this.getBubbleNum()
 	},
 	methods: {
 		toLogin() {
@@ -72,10 +85,30 @@ export default {
 				});
 			}, 1000);
 		},
+		getBubbleNum() {
+			this.$api
+				.bubbleNum().then(res => {
+					const {buy, code ,sell} = res.data
+					if (code === 200) {
+						this.buyNum =buy.transactionCount + buy.paymentCount
+						this.sellNum =sell.transactionCount + sell.paymentCount
+					}
+				})
+		},
 		showToast() {
 			this.$refs.uToast.show({
 				title: '暂未开放'
 			});
+		},
+		goToRealName() {
+			uni.navigateTo({
+				url:'/pages/my/my-real-name'
+			})
+		},
+		goToPayInfo() {
+			uni.navigateTo({
+				url:'/pages/my/my-payinfo'
+			})
 		},
 		goMyBuy() {
 			uni.navigateTo({
@@ -138,20 +171,26 @@ body {
 		justify-content: space-around;
 		align-items: center;
 		font-size: 30rpx;
-		.left {
+
+		.item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
 			.num {
 				line-height: 50rpx;
 				margin-bottom: 20rpx;
 			}
-		}
-		.right {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			.icon {
-				width: 50rpx;
+			.name-icon {
+				width: 60rpx;
 				height: 50rpx;
-				background: url(../../static/lead-3.png) no-repeat center center;
+				background: url(../../static/my/name.png) no-repeat center center;
+				background-size: 100%;
+				margin-bottom: 20rpx;
+			}
+			.money-icon {
+				width: 60rpx;
+				height: 50rpx;
+				background: url(../../static/my/money.png) no-repeat center center;
 				background-size: 100%;
 				margin-bottom: 20rpx;
 			}
@@ -180,11 +219,22 @@ body {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				position: relative;
 				.img{
 					width: 55rpx;
 					height: 55rpx;
 				}.desc {
 					padding-top: 12rpx;
+				}
+				.num {
+					position: absolute;
+					right: -10rpx;
+					top: -5rpx;
+					padding: 4rpx 8rpx;
+					line-height: 22rpx;
+					border-radius: 22rpx;
+					font-size: 24rpx;
+					background-color: #fa3534;
 				}
 			}
 		}
