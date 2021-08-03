@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store/index.js'
 import { RouterMount } from 'uni-simple-router'
 import uView from "uview-ui";
 import api from './common/api/index.js'
@@ -18,12 +19,14 @@ Vue.prototype.checkLogin = function(){
 }
 
 Vue.prototype.$api = api
+Vue.prototype.$store = store
 Vue.use(uView);
 Vue.config.productionTip = false
 
 App.mpType = 'app'
 
 const app = new Vue({
+	store,
     ...App
 })
 

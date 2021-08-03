@@ -2,17 +2,16 @@
 	<view :ref="`ref${0}`" class="my-root" :style="{ paddingTop: statusBarHeight + 20 + 'px' }">
 		<view class="head-box">
 			<view class="head"><view class="head-cont"></view></view>
-			<view class="tel">{{ telephone }}</view>
-			<view class="invite">邀请码：xxxx</view>
+			<view class="tel">{{ userInfo.telephone }}</view>
+			<view class="invite">邀请码：{{ userInfo.inviteCode }}</view>
 		</view>
 		<view class="my-purse">
-		
 			<view class="item" @click="goToRealName">
 				<view class="name-icon"></view>
-				<view class="recharge">未实名</view>
+				<view class="recharge">{{ userInfo.idCard !== null ? '已实名' : '未实名' }}</view>
 			</view>
 			<view class="item" @click="showToast">
-				<view class="num">0.00</view>
+				<view class="num">{{ userInfo.userBalance }}</view>
 				<view class="purse">钱包</view>
 			</view>
 			<view class="item" @click="goToPayInfo">
@@ -26,12 +25,12 @@
 				<view class="left" @click="goMyBuy">
 					<image class="img" src="../../static/my/buy.png" mode=""></image>
 					<text class="desc">购买订单</text>
-					<text v-show="buyNum>0" class="num">{{buyNum}}</text>
+					<text v-show="buyNum > 0" class="num">{{ buyNum }}</text>
 				</view>
 				<view class="right" @click="goMySell">
 					<image class="img" src="../../static/my/sell.png" mode=""></image>
 					<text class="desc">出售订单</text>
-					<text v-show="sellNum>0" class="num">{{sellNum}}</text>
+					<text v-show="sellNum > 0" class="num">{{ sellNum }}</text>
 				</view>
 			</view>
 		</view>
@@ -44,14 +43,15 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
 export default {
 	data() {
 		return {
 			statusBarHeight: 0,
 			telephone: '',
 			index: 0,
-			buyNum:0,
-			sellNum:0
+			buyNum: 0,
+			sellNum: 0
 		};
 	},
 	created() {
@@ -61,12 +61,17 @@ export default {
 			}
 		});
 		this.telephone = uni.getStorageSync('telephone') || '';
-		this.getBubbleNum()
+		this.getBubbleNum();
+		this.getUserInfo()
 	},
 	onShow() {
-		this.getBubbleNum()
+		this.getBubbleNum();
+	},
+	computed:{
+		...mapState(['userInfo'])
 	},
 	methods: {
+		...mapActions(['getUserInfo']),
 		toLogin() {
 			// this.$Router.push({name:'login'})
 			uni.redirectTo({
@@ -86,14 +91,13 @@ export default {
 			}, 1000);
 		},
 		getBubbleNum() {
-			this.$api
-				.bubbleNum().then(res => {
-					const {buy, code ,sell} = res.data
-					if (code === 200) {
-						this.buyNum =buy.transactionCount + buy.paymentCount
-						this.sellNum =sell.transactionCount + sell.paymentCount
-					}
-				})
+			this.$api.bubbleNum().then(res => {
+				const { buy, code, sell } = res.data;
+				if (code === 200) {
+					this.buyNum = buy.transactionCount + buy.paymentCount;
+					this.sellNum = sell.transactionCount + sell.paymentCount;
+				}
+			});
 		},
 		showToast() {
 			this.$refs.uToast.show({
@@ -102,23 +106,23 @@ export default {
 		},
 		goToRealName() {
 			uni.navigateTo({
-				url:'/pages/my/my-real-name'
-			})
+				url: '/pages/my/my-real-name'
+			});
 		},
 		goToPayInfo() {
 			uni.navigateTo({
-				url:'/pages/my/my-payinfo'
-			})
+				url: '/pages/my/my-payinfo'
+			});
 		},
 		goMyBuy() {
 			uni.navigateTo({
-				url:'/pages/my/my-buy'
-			})
+				url: '/pages/my/my-buy'
+			});
 		},
 		goMySell() {
 			uni.navigateTo({
-				url:'/pages/my/my-sell'
-			})
+				url: '/pages/my/my-sell'
+			});
 		}
 	}
 };
@@ -215,15 +219,17 @@ body {
 			justify-content: space-around;
 			align-items: center;
 			font-size: 30rpx;
-			.left,.right{
+			.left,
+			.right {
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				position: relative;
-				.img{
+				.img {
 					width: 55rpx;
 					height: 55rpx;
-				}.desc {
+				}
+				.desc {
 					padding-top: 12rpx;
 				}
 				.num {

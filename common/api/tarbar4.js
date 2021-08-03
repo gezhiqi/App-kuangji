@@ -85,7 +85,7 @@ export const sellList = (data) => {
 //实名认证
 export const realName = (data) => {
 	return $http({
-		url:'/app/user/save/bank',
+		url:'/app/user/real',
 		data,
 		method:'POST'
 	})
@@ -103,5 +103,35 @@ export const bubbleNum = () => {
 	return $http({
 		url:'/app/order/transaction',
 		method:'GET'
+	})
+}
+// 获取用户信息
+export const userInfo = () => {
+	return $http({
+		url:'/app/user/info',
+		method:'POST'
+	})
+}
+//银行卡收款信息
+export const saveBank = (data) => {
+	return $http({
+		url:'/app/user/save/bank',
+		data,
+		method:'POST'
+	})
+}
+//我的明细，用户收支明细
+export const detailList = (data) => {
+	return $http({
+		url:'/app/profit/list',
+		data,
+		method:'POST'
+	})
+}
+//我的明细，用户收支明细
+export const teamList = (statu) => {
+	return $http({
+		url:`/app/user/team?status=${statu}`,
+		method:'POST'
 	})
 }

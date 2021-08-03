@@ -24,7 +24,7 @@
 				</view>
 				<view class="one-key-desc">操作：</view>
 			</view>
-			<swiper :current="current" class="swiper-box">
+			<swiper :current="current" @change="swiperChange" class="swiper-box">
 				<swiper-item class="swiper-item">
 					<view v-for="(v, i) in allList" :key="v.id">
 						<view class="mining-item">
@@ -231,9 +231,7 @@ export default {
 					this.list[0].count = total;
 					this.list[1].count = runCount;
 					this.list[2].count = stopCount;
-					console.log(123);
 					this.$forceUpdate();
-					console.log(123);
 				} else {
 					uni.hideLoading();
 				}
@@ -242,6 +240,10 @@ export default {
 		// tabs通知swiper切换
 		tabsChange(index) {
 			this.current = index;
+			this.userMining();
+		},
+		swiperChange(e) {
+			this.current = e.detail.current;
 			this.userMining();
 		},
 		// 矿机开启
@@ -257,7 +259,7 @@ export default {
 							title: '启动成功',
 							type: 'success'
 						});
-						this.userMining()
+						this.userMining();
 					} else {
 						this.$refs.uToast.show({
 							title: msg,
@@ -276,7 +278,7 @@ export default {
 						title: '领取成功',
 						type: 'success'
 					});
-					this.userMining()
+					this.userMining();
 				} else {
 					this.$refs.uToast.show({
 						title: msg,
@@ -288,16 +290,16 @@ export default {
 		// 一键开启
 		oneKeyOpen() {
 			this.$api.openMining().then(res => {
-				let { data, code,msg } = res.data;
+				let { data, code, msg } = res.data;
 				if (code === 200) {
 					this.$refs.uToast.show({
 						title: '开启成功',
 						type: 'success'
 					});
 					// debugger
-					this.clear()
-					this.userMining()
-				}else {
+					this.clear();
+					this.userMining();
+				} else {
 					this.$refs.uToast.show({
 						title: msg,
 						type: 'info'
@@ -314,8 +316,8 @@ export default {
 						title: '收取成功',
 						type: 'success'
 					});
-					this.clear()
-					this.userMining()
+					this.clear();
+					this.userMining();
 				} else {
 					this.$refs.uToast.show({
 						title: msg,
@@ -325,8 +327,8 @@ export default {
 			});
 		},
 		clear() {
-			this.swiperList[this.current] = []
-			this.list[this.current].noData = false
+			this.swiperList[this.current] = [];
+			this.list[this.current].noData = false;
 		}
 	}
 };

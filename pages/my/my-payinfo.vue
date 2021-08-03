@@ -8,12 +8,16 @@
 		<view class="container">
 			<view class="container-form">
 				<view class="row">
-					<view>微 信：</view>
+					<view>微 信：{{ userInfo.wxCard }}</view>
 					<view class="btn" @click="updateWxCode">修改</view>
 				</view>
 				<view class="row">
-					<view>支 付 宝：</view>
+					<view>支 付 宝：{{ userInfo.zfbCard }}</view>
 					<view class="btn" @click="updateZfbCode">修改</view>
+				</view>
+				<view class="row">
+					<view>银 行 卡：{{ userInfo.bankCard }}</view>
+					<view class="btn" @click="updateYhkCode">修改</view>
 				</view>
 			</view>
 		</view>
@@ -70,12 +74,38 @@
 				<u-button type="primary" @click="showZfb">确 认 修 改</u-button>
 			</view>
 		</u-popup>
+		<u-popup class="qr-pop" v-model="yhkQrPop" mode="center">
+			<u-form-item label-width="auto" label="银行卡号:">
+				<u-input
+					maxlength="19"
+					v-model="form.bankCard"
+					trim
+					:clearable="false"
+					placeholder="请输入银行卡卡号"
+					placeholder-style="color: rgb(95, 88, 116);"
+				/>
+			</u-form-item>
+			<u-form-item label-width="auto" label="银行卡开户行:">
+				<u-input
+					maxlength="20"
+					v-model="form.bankName"
+					trim
+					:clearable="false"
+					placeholder="请输入银行卡开户行"
+					placeholder-style="color: rgb(95, 88, 116);"
+				/>
+			</u-form-item>
+			<view class="login_submit">
+				<u-button type="primary" @click="showYhk">确 认 修 改</u-button>
+			</view>
+		</u-popup>
 		<view><u-toast ref="uToast" /></view>
 	</view>
 </template>
 
 <script>
-import {BASE_URL} from '../../common/request/http.js';
+import { BASE_URL } from '../../common/request/http.js';
+import { mapActions, mapState } from 'vuex';
 export default {
 	data() {
 		return {
@@ -85,16 +115,19 @@ export default {
 			zfbNum: '',
 			zfbPath: '',
 			form: {
-				userName: '',
-				idCard: '',
 				bankCard: '',
 				bankName: ''
 			},
 			wxQrPop: false,
-			zfbQrPop:false,
+			zfbQrPop: false,
+			yhkQrPop: false
 		};
 	},
+	computed: {
+		...mapState(['userInfo'])
+	},
 	methods: {
+		...mapActions(['getUserInfo']),
 		// 获取上传状态
 		selectWx(e) {
 			console.log('选择文件：', e);
@@ -105,26 +138,74 @@ export default {
 			this.zfbPath = e.tempFilePaths[0];
 		},
 		updateWxCode() {
-			this.wxQrPop = true
+			if (this.userInfo.wxCard !== null) {
+				return this.$refs.uToast.show({
+					title: '无法修改',
+				});
+			}
+			this.wxQrPop = true;
 		},
 		updateZfbCode() {
-			this.zfbQrPop = true
+			if (this.userInfo.zfbCard !== null) {
+				return this.$refs.uToast.show({
+					title: '无法修改',
+				});
+			}
+			this.zfbQrPop = true;
+		},
+		updateYhkCode() {
+			if (this.userInfo.bankCard !== null) {
+				return this.$refs.uToast.show({
+					title: '无法修改',
+				});
+			}
+			this.yhkQrPop = true;
 		},
 		deleteWxImg() {
-			this.wxPath = ''
+			this.wxPath = '';
 		},
 		deleteZfbImg() {
-			this.zfbPath = ''
+			this.zfbPath = '';
+		},
+		validate() {
+			let scope = this;
+			return {
+				bankCard() {
+					if (
+						!/^([1-9]{1})(\d{15,18})$/.test(scope.form.bankCard) ||
+						scope.form.bankCard === ''
+					) {
+						scope.$refs.uToast.show({
+							title: '请输入正确的银行卡号',
+							type: 'error'
+						});
+						return false;
+					} else {
+						return true;
+					}
+				},
+				bankName() {
+					if (scope.form.bankName !== '') {
+						return true;
+					} else {
+						scope.$refs.uToast.show({
+							title: '开户行不能为空',
+							type: 'error'
+						});
+						return false;
+					}
+				}
+			};
 		},
 		showWx() {
 			if (this.wxNum === '') {
 				return this.$refs.uToast.show({
-					title: '微信账号不能为空',
+					title: '微信账号不能为空'
 				});
 			}
 			if (this.wxPath === '') {
 				return this.$refs.uToast.show({
-					title: '付款码不能为空',
+					title: '付款码不能为空'
 				});
 			}
 			uni.uploadFile({
@@ -138,14 +219,15 @@ export default {
 					token: uni.getStorageSync('token')
 				},
 				success: res => {
-					let result = JSON.parse(res.data)
+					let result = JSON.parse(res.data);
 					if (result.code === 200) {
 						this.$refs.uToast.show({
 							title: '修改成功',
 							type: 'success'
 						});
-						this.wxQrPop = false
-					}else {
+						this.getUserInfo()
+						this.wxQrPop = false;
+					} else {
 						this.$refs.uToast.show({
 							title: result.msg,
 							type: 'error'
@@ -157,12 +239,12 @@ export default {
 		showZfb() {
 			if (this.zfbNum === '') {
 				return this.$refs.uToast.show({
-					title: '支付宝账号不能为空',
+					title: '支付宝账号不能为空'
 				});
 			}
 			if (this.zfbPath === '') {
 				return this.$refs.uToast.show({
-					title: '付款码不能为空',
+					title: '付款码不能为空'
 				});
 			}
 			uni.uploadFile({
@@ -176,14 +258,15 @@ export default {
 					token: uni.getStorageSync('token')
 				},
 				success: res => {
-					let result = JSON.parse(res.data)
+					let result = JSON.parse(res.data);
 					if (result.code === 200) {
 						this.$refs.uToast.show({
 							title: '修改成功',
 							type: 'success'
 						});
-						this.zfbQrPop = false
-					}else {
+						this.getUserInfo()
+						this.zfbQrPop = false;
+					} else {
 						this.$refs.uToast.show({
 							title: result.msg,
 							type: 'error'
@@ -191,6 +274,38 @@ export default {
 					}
 				}
 			});
+		},
+		showYhk() {
+			if (!this.validate().bankCard()) {
+				return false;
+			}
+			if (!this.validate().bankName()) {
+				return false;
+			}
+			this.$api
+				.saveBank({
+					bankCard: this.form.bankCard,
+					bankName: this.form.bankName
+				})
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '操作成功',
+							type: 'success'
+						});
+						this.getUserInfo()
+						this.yhkQrPop = false
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		}
 	}
 };

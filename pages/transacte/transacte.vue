@@ -133,13 +133,44 @@ export default {
 					}
 				]
 			},
-			opts: opts,
+			opts: {
+				// X轴设置
+				tapLegend: false,
+				enableScroll: false,
+				xAxis: {
+					disableGrid: true,
+					axisLine: false,
+					labelCount: 8,
+					itemCount: () => {
+						return this.chartData.series.length
+					}
+				},
+				yAxis: {
+					disableGrid: true,
+					axisLine: false,
+					splitNumber: 1
+				},
+				legend: {
+					show: false,
+					backgroundColor: 'rgba(0,0,0,0)'
+				},
+				dataPointShape: false,
+				dataLabel: false,
+				fontSize: 11,
+				rotateLabel: true,
+				legend: false,
+				extra: {
+					tooltip: {
+						// horizentalLine: true
+					}
+				}
+			},
 			orderList: [],
 			priceList: [10, 20, 50, 100, 200],
 			activeCurrent: '',
 			showModal: false,
-			showSell:false,
-			currentSellId:''
+			showSell: false,
+			currentSellId: ''
 		};
 	},
 	created() {
@@ -167,7 +198,7 @@ export default {
 		downCallback() {
 			this.mescroll.resetUpScroll();
 		},
-		
+
 		upCallback(page) {
 			let pageNum = page.num; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
@@ -222,7 +253,7 @@ export default {
 							title: '创建成功',
 							type: 'success'
 						});
-						this.downCallback()
+						this.downCallback();
 					} else {
 						this.$refs.uToast.show({
 							title: res.data.msg,
@@ -232,29 +263,27 @@ export default {
 				});
 		},
 		showSellPop(id) {
-			this.showSell = true
-			this.currentSellId = id
+			this.showSell = true;
+			this.currentSellId = id;
 		},
 		showSellFunc() {
-			this.sellMoney()
+			this.sellMoney();
 		},
 		sellMoney() {
-			this.$api
-				.sellCancel(this.currentSellId)
-				.then(res => {
-					if (res.data.code === 200) {
-						this.$refs.uToast.show({
-							title: '匹配成功，请通知买家及时付款',
-							type: 'success'
-						});
-						this.downCallback()
-					}else {
-						this.$refs.uToast.show({
-							title: res.data.msg,
-							type: 'error'
-						});
-					}
-				});
+			this.$api.sellCancel(this.currentSellId).then(res => {
+				if (res.data.code === 200) {
+					this.$refs.uToast.show({
+						title: '匹配成功，请通知买家及时付款',
+						type: 'success'
+					});
+					this.downCallback();
+				} else {
+					this.$refs.uToast.show({
+						title: res.data.msg,
+						type: 'error'
+					});
+				}
+			});
 		}
 	}
 };

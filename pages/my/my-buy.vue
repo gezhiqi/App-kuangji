@@ -52,7 +52,9 @@
 						<view class="look" v-show="current == 0" @click="cancelOrder(item.id)">
 							取消
 						</view>
-						<view class="look" @click="lookSeller(item.id)">订单信息</view>
+						<view class="look" v-show="current !== 0" @click="lookSeller(item.id)">
+							订单信息
+						</view>
 					</view>
 				</view>
 			</mescroll-body>
@@ -103,9 +105,7 @@
 					@select="select"
 					@delete="deleteImg"
 				/>
-				<view class="certificate">
-					上传付款截图
-				</view>
+				<view class="certificate">上传付款截图</view>
 			</view>
 		</u-modal>
 		<u-modal
@@ -119,7 +119,7 @@
 </template>
 
 <script>
-	import {BASE_URL} from '../../common/request/http.js';
+import { BASE_URL } from '../../common/request/http.js';
 import MescrollMixin from '@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js';
 export default {
 	mixins: [MescrollMixin], // 使用mixin
@@ -175,7 +175,7 @@ export default {
 			showPayPop: false,
 			QrPop: false,
 			currentQrCode: '',
-			payPath: '',
+			payPath: ''
 		};
 	},
 	filters: {
@@ -201,7 +201,6 @@ export default {
 		// tabs通知swiper切换
 		tabsChange(index) {
 			this.dataList = [];
-			this.page.num = 1;
 			this.current = index;
 			this.downCallback();
 		},
@@ -225,7 +224,7 @@ export default {
 			this.payPath = e.tempFilePaths[0];
 		},
 		deleteImg() {
-			this.payPath = ''
+			this.payPath = '';
 		},
 		// 取消订单确认
 		handleCancelPop() {
@@ -258,7 +257,7 @@ export default {
 			}
 			if (this.current == 2) {
 				this.$refs.uToast.show({
-					title: '请等待卖家确认收款',
+					title: '请等待卖家确认收款'
 				});
 			}
 		},
@@ -266,12 +265,12 @@ export default {
 		handleshowPay() {
 			if (this.payPath === '') {
 				return this.$refs.uToast.show({
-					title: '请上传付款凭证',
+					title: '请上传付款凭证'
 				});
 			}
-			
+
 			uni.uploadFile({
-				url: `${BASE_URL}/app/order/payment`, 
+				url: `${BASE_URL}/app/order/payment`,
 				filePath: this.payPath,
 				name: 'file',
 				formData: {
@@ -281,7 +280,7 @@ export default {
 					token: uni.getStorageSync('token')
 				},
 				success: res => {
-					let result = JSON.parse(res.data)
+					let result = JSON.parse(res.data);
 					if (result.code === 200) {
 						this.$refs.uToast.show({
 							title: '操作成功',
@@ -296,28 +295,6 @@ export default {
 					}
 				}
 			});
-			
-			
-			// this.$api
-			// 	.buyerPays(this.currentId)
-			// 	.then(res => {
-			// 		const { data, code, msg } = res.data;
-			// 		if (code === 200) {
-			// 			this.$refs.uToast.show({
-			// 				title: '操作成功',
-			// 				type: 'success'
-			// 			});
-			// 			this.downCallback();
-			// 		} else {
-			// 			this.$refs.uToast.show({
-			// 				title: res.data.msg,
-			// 				type: 'error'
-			// 			});
-			// 		}
-			// 	})
-			// 	.catch(err => {
-			// 		console.log(err);
-			// 	});
 		},
 		// 获取订单信息
 		getSellerInfo(id) {
@@ -347,6 +324,7 @@ export default {
 			uni.showLoading({
 				title: '正在加载'
 			});
+			console.log(page)
 			let pageNum = page.num; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
 			this.$api
@@ -514,15 +492,15 @@ body {
 			font-size: 30rpx;
 			color: #606266;
 			text-align: center;
-				// display: flex;
-				::v-deep .file-picker__box {
-					margin: 40rpx auto 20rpx;
-				}
-				.code-desc {
-					padding-top: 20rpx;
-					color: #303133;
-					font-size: 28rpx;
-				}
+			// display: flex;
+			::v-deep .file-picker__box {
+				margin: 40rpx auto 20rpx;
+			}
+			.code-desc {
+				padding-top: 20rpx;
+				color: #303133;
+				font-size: 28rpx;
+			}
 		}
 	}
 }

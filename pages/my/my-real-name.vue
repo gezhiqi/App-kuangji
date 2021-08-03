@@ -7,7 +7,7 @@
 		</common-title>
 		<view class="container">
 			<view class="container-form">
-				<u-form :model="form" ref="uForm">
+				<u-form v-if="userInfo.idCard === null" :model="form" ref="uForm">
 					<u-form-item label-width="auto" label="姓 名:">
 						<u-input
 							maxlength="20"
@@ -28,70 +28,55 @@
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
-					<u-form-item label-width="auto" label="银 行 卡:">
+				</u-form>
+				<u-form v-else>
+					<u-form-item label-width="auto" label="姓 名:">
 						<u-input
-							maxlength="19"
-							v-model="form.bankCard"
+							maxlength="20"
+							:value="userInfo.userName"
 							trim
 							:clearable="false"
-							placeholder="请输入银行卡号"
+							placeholder="请输入姓名"
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
-					<u-form-item label-width="auto" label="开 户 行:">
+					<u-form-item label-width="auto" label="身份证号:">
 						<u-input
-							maxlength="20"
-							v-model="form.bankName"
+							maxlength="18"
+							:value="userInfo.idCard"
 							trim
 							:clearable="false"
-							placeholder="请输入开户行"
+							placeholder="请输入身份证号"
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
 				</u-form>
-				<!-- 	<view class="row">
-					<view>微 信：</view>
-					<view class="btn" @click="updateCode">修改</view>
-				</view>
-				<view class="row">
-					<view>支 付 宝：</view>
-					<view class="btn" @click="updateCode">修改</view>
-				</view> -->
-			</view>
-			<view class="login_submit">
-				<u-button type="primary" @click="realName">实 名</u-button>
-			</view>
-			<view @click="open">open</view>
-		</view>
-
-		<!-- <u-popup class="qr-pop" v-model="QrPop" mode="center">
-			<u-form-item label-width="auto" label="微 信:">
-				<u-input
-					maxlength="11"
-					v-model="form.telephone"
-					trim
-					:clearable="false"
-					placeholder="请输入微信账号"
-					placeholder-style="color: rgb(95, 88, 116);"
-				/>
-			</u-form-item>
-			<view class="qr-code">
+				<view class="certificate">上传身份证人像面：</view>
 				<uni-file-picker
+					v-if="userInfo.cardUrl === null"
 					:limit="1"
-					:del-icon="showDel"
-					v-model="imageValue"
 					fileMediatype="image"
 					mode="grid"
 					@select="select"
+					@delete="deleteImg"
 				/>
-				<view class="code-desc">请上传微信收款码</view>
+				<image v-else :src="userInfo.cardUrl" mode="aspectFit"></image>
 			</view>
-		</u-popup> -->
+			<view v-if="userInfo.idCard === null" class="login_submit">
+				<u-button type="primary" @click="realName">实 名</u-button>
+			</view>
+			<view v-else class="login_submit">
+				<u-button>{{ userInfo.realStatus === '1' ? '已 实 名' : '审核中' }}</u-button>
+			</view>
+			<view @click="open">open</view>
+		</view>
 		<view><u-toast ref="uToast" /></view>
 	</view>
 </template>
 
 <script>
+import { BASE_URL } from '../../common/request/http.js';
+import { mapState, mapActions } from 'vuex';
 export default {
 	data() {
 		return {
@@ -99,14 +84,22 @@ export default {
 			imageValue: [],
 			form: {
 				userName: '',
-				idCard: '',
-				bankCard: '',
-				bankName: ''
+				idCard: ''
+				// bankCard: '',
+				// bankName: ''
 			},
-			QrPop: true
+			QrPop: true,
+			sfzPath: ''
 		};
 	},
+	computed: {
+		...mapState(['userInfo'])
+	},
+	created() {
+		this.getUserInfo();
+	},
 	methods: {
+		...mapActions(['getUserInfo']),
 		open() {
 			uni.chooseImage({
 				count: 1, //上传图片的数量，默认是9
@@ -180,6 +173,7 @@ export default {
 				}
 			};
 		},
+
 		realName() {
 			if (!this.validate().name()) {
 				return false;
@@ -187,46 +181,53 @@ export default {
 			if (!this.validate().idCard()) {
 				return false;
 			}
-			if (!this.validate().bankCard()) {
-				return false;
+			// if (!this.validate().bankCard()) {
+			// 	return false;
+			// }
+			// if (!this.validate().bankName()) {
+			// 	return false;
+			// }
+
+			if (this.payPath === '') {
+				return this.$refs.uToast.show({
+					title: '请上传付款凭证'
+				});
 			}
-			if (!this.validate().bankName()) {
-				return false;
-			}
-			this.$api.realName(this.form).then(res => {
-				if (res.data.code == 200) {
-					this.$refs.uToast.show({
-						title: '实名成功',
-						type: 'success'
-					});
-					uni.navigateBack(1);
-				}else {
-					this.$refs.uToast.show({
-						title: res.data.msg,
-						type: 'error'
-					});
+			uni.uploadFile({
+				url: `${BASE_URL}/app/user/real`,
+				filePath: this.sfzPath,
+				name: 'file',
+				formData: this.form,
+				header: {
+					token: uni.getStorageSync('token')
+				},
+				success: res => {
+					let result = JSON.parse(res.data);
+					if (result.code === 200) {
+						this.$refs.uToast.show({
+							title: '实名成功',
+							type: 'success'
+						});
+						this.getUserInfo();
+						uni.navigateBack(1);
+					} else {
+						this.$refs.uToast.show({
+							title: res.data.msg,
+							type: 'error'
+						});
+					}
 				}
 			});
-		}
+		},
 
 		// 获取上传状态
-		// select(e) {
-		// 	console.log('选择文件：', e);
-		// 	uni.uploadFile({
-		// 		url: 'http://101.34.40.13:8088/app/user/save/vx', //仅为示例，非真实的接口地址
-		// 		filePath: e.tempFilePaths[0],
-		// 		name: 'file',
-		// 		formData: {
-		// 			vxNum: '13855494204'
-		// 		},
-		// 		header: {
-		// 			token: uni.getStorageSync('token')
-		// 		},
-		// 		success: uploadFileRes => {
-		// 			console.log(uploadFileRes.data);
-		// 		}
-		// 	});
-		// }
+		select(e) {
+			console.log('选择文件：', e);
+			this.sfzPath = e.tempFilePaths[0];
+		},
+		deleteImg() {
+			this.sfzPath = '';
+		}
 	}
 };
 </script>
@@ -268,6 +269,16 @@ export default {
 					font-size: 26rpx;
 					color: #ced3e1;
 				}
+			}
+			.certificate {
+				margin-top: 30rpx;
+				line-height: 80rpx;
+				font-size: 28rpx;
+				color: #ced3e1;
+			}
+			image {
+				width: 200rpx;
+				height: 200rpx;
 			}
 			.row {
 				margin-top: 30rpx;

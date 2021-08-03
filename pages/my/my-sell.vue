@@ -30,8 +30,7 @@
 				<view class="list-item" v-for="(item, index) in dataList" :key="item.id">
 					<view class="item-top">
 						<view class="item-title">
-							<view>买方信息：</view>
-							<view>{{ item.id }}</view>
+							<view>买方信息：{{ item.buyTelephone }}</view>
 						</view>
 					</view>
 					<view class="item-bottom">
@@ -51,14 +50,24 @@
 			</mescroll-body>
 		</view>
 		<u-toast ref="uToast" />
-		<!-- <u-modal
+		<u-modal
 			v-model="showPayment"
 			:show-cancel-button="true"
-			content="恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
 			@cancel="showPayment = false"
 			@confirm="handlePayment"
 		>
-		</u-modal> -->
+		
+		<view class="slot-content">
+			<view class="">请确认已成功收款，并确认继续。</view>
+			<image @click="showQrCode" :src="imageObj.orderUrl" mode="aspectFit"></image>
+			<view class="certificate">
+				付款码
+			</view>
+		</view>
+		</u-modal>
+		<u-popup class="qr-pop" v-model="QrPop" mode="center">
+			<image :src="imageObj.orderUrl" mode="aspectFit"></image>
+		</u-popup>
 	</view>
 </template>
 
@@ -71,6 +80,7 @@ export default {
 			current: 0,
 			swiperCurrent: 0,
 			showModal: false,
+			QrPop:false,
 			list: [
 				{
 					name: '待收款',
@@ -108,7 +118,10 @@ export default {
 			},
 			dataList: [],
 			showPayment:false,
-			currentId:''
+			currentId:'',
+			imageObj:{
+				orderUrl:''
+			}
 
 		};
 	},
@@ -126,7 +139,9 @@ export default {
 		});
 		// this.pledgeDetailList();
 	},
-	mounted() {},
+	computed:{
+		...mapState(['userInfo'])
+	},
 	methods: {
 		mescrollInit(mescroll) {
 			this.mescroll = mescroll;
@@ -138,11 +153,24 @@ export default {
 			this.current = index;
 			this.downCallback();
 		},
+		showQrCode() {
+			this.QrPop = true
+		},
 		sellMoney(id) {
-			this.currentId= id
-			this.$refs.uToast.show({
-				title: '请等待买家付款',
-			});
+			if (this.current == 0) {
+				this.$refs.uToast.show({
+					title: '请等待买家付款',
+				});
+			}
+			if (this.current == 1) {
+				this.currentId= id
+				this.imageObj = this.dataList.find(item =>{
+					return item.id === id
+				})
+	
+				this.showPayment = true
+			}
+			
 		},
 		handlePayment() {
 			this.$api
@@ -283,6 +311,24 @@ body {
 					background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);
 				}
 			}
+		}
+	}
+	.u-model {
+		.slot-content {
+			padding: 48rpx;
+			font-size: 30rpx;
+			color: #606266;
+			text-align: center;
+				// display: flex;
+				image {
+					width: 400rpx;
+					height: 400rpx;
+				}
+				.code-desc {
+					padding-top: 20rpx;
+					color: #303133;
+					font-size: 28rpx;
+				}
 		}
 	}
 }

@@ -17,13 +17,13 @@
 				active-color="#f29100"
 				bg-color="#1e1c41"
 			></u-tabs-swiper>
-			<swiper :current="current" class="swiper-box">
+			<swiper :current="current" @change="swiperChange" class="swiper-box">
 				<swiper-item class="swiper-item" v-for="(item, index) in swiperList" :key="index">
 					<view v-for="(v, i) in item" :key="v.id">
 						<view class="pledge-item">
 							<view class="item-head">
 								<view class="left">{{ v.pledgeNumber }}</view>
-								<view class="right" @click="buyPledge(v.id)">质押</view>
+								<view class="right">{{ v.status === "0" ? '运行中' : '已结算'  }}</view>
 							</view>
 							<view class="item-center">
 								<text class="left">质押数量(DMD)</text>
@@ -57,7 +57,6 @@
 			</swiper>
 		</view>
 		<u-toast ref="uToast" />
-
 	</view>
 </template>
 
@@ -105,18 +104,18 @@ export default {
 				title: '正在加载'
 			});
 			this.$api.pledgeDetail({ status: this.current }).then(res => {
-				let { data, code,total,locking,unlocking } = res.data;
+				let { data, code, total, locking, unlocking } = res.data;
 				if (code === 200) {
 					uni.hideLoading();
 					this.swiperList[this.current] = data;
 					if (this.swiperList[this.current].length == 0) {
 						this.list[this.current].noData = true;
 					}
-					this.list[0].count = total
-					this.list[1].count = locking
-					this.list[2].count = unlocking
+					this.list[0].count = total;
+					this.list[1].count = locking;
+					this.list[2].count = unlocking;
 					this.$forceUpdate();
-				}else{
+				} else {
 					uni.hideLoading();
 				}
 			});
@@ -124,6 +123,10 @@ export default {
 		// tabs通知swiper切换
 		tabsChange(index) {
 			this.current = index;
+			this.pledgeDetailList();
+		},
+		swiperChange(e) {
+			this.current = e.detail.current
 			this.pledgeDetailList();
 		}
 	}

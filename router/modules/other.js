@@ -44,6 +44,20 @@ const other = [
 	        title: '收款信息',
 	    },
 	},
+	{
+	  path: '/pages/my/my-detail',
+	  name: 'detail',
+	    meta: {
+	        title: '收支明细',
+	    },
+	},
+	{
+	  path: '/pages/my/my-invite',
+	  name: 'myInvite',
+	    meta: {
+	        title: '我的邀请',
+	    },
+	},
 	
 ]
 export default other
