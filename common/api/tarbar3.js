@@ -39,3 +39,11 @@ export const receiveIncome = (data) => {
 		method:'POST'
 	})
 }
+
+//获取用户矿机收益详情
+export const miningUserInfo = () => {
+	return $http({
+		url:'/app/machine/user/info',
+		method:'POST'
+	})
+}

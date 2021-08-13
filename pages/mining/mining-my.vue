@@ -39,7 +39,7 @@
 										<view class="right-top-bottom">价格</view>
 									</view>
 									<view class="right-top-i">
-										<view class="right-top-top">{{ v.revenue }}</view>
+										<view class="right-top-top">{{ v.output || 0 }}</view>
 										<view class="right-top-bottom">日产出</view>
 									</view>
 									<view class="right-top-i">
@@ -86,7 +86,7 @@
 										<view class="right-top-bottom">价格</view>
 									</view>
 									<view class="right-top-i">
-										<view class="right-top-top">{{ v.revenue }}</view>
+										<view class="right-top-top">{{ v.output }}</view>
 										<view class="right-top-bottom">日产出</view>
 									</view>
 									<view class="right-top-i">
@@ -101,9 +101,9 @@
 								<view class="right-footer">
 									<view class="left">
 										{{ v.flag ? '已开启：' : '未开启：' }}
-										<u-switch size="30" v-model="v.flag"></u-switch>
+										<u-switch @change="changeSwitch($event, v)" size="30" v-model="v.flag"></u-switch>
 									</view>
-									<u-button type="primary" size="mini">领取收益</u-button>
+									<u-button type="primary" size="mini" @click="receiveIncome(v)">领取收益</u-button>
 								</view>
 							</view>
 						</view>
@@ -114,6 +114,7 @@
 					</view>
 				</swiper-item>
 				<swiper-item class="swiper-item">
+					<!-- runList stopList -->
 					<view v-for="(v, i) in stopList" :key="v.id">
 						<view class="mining-item">
 							<view class="left">
@@ -127,7 +128,7 @@
 										<view class="right-top-bottom">价格</view>
 									</view>
 									<view class="right-top-i">
-										<view class="right-top-top">{{ v.revenue }}</view>
+										<view class="right-top-top">{{ v.output }}</view>
 										<view class="right-top-bottom">日产出</view>
 									</view>
 									<view class="right-top-i">
@@ -141,11 +142,11 @@
 								</view>
 								<view class="right-footer">
 									<view class="left">
-										{{ v.flag ? '已开启：' : '未开启：' }}
-										<u-switch size="30" v-model="v.flag"></u-switch>
+										<!-- 已结束
+										<u-switch :disabled="true" size="30" v-model="v.flag"></u-switch> -->
 									</view>
-									<u-button type="primary" size="mini" @click="receiveIncome(v)">
-										领取收益
+									<u-button size="mini">
+										已结算
 									</u-button>
 								</view>
 							</view>
@@ -177,12 +178,12 @@ export default {
 					noData: false
 				},
 				{
-					name: '质押中',
+					name: '运行中',
 					count: 0,
 					noData: false
 				},
 				{
-					name: '已结算',
+					name: '已结束',
 					count: 0,
 					noData: false
 				}
@@ -203,14 +204,13 @@ export default {
 	},
 	methods: {
 		userMining() {
-			if (this.swiperList[this.current].length > 0 || this.list[this.current].noData) {
-				return false;
-			}
+			// if (this.swiperList[this.current].length > 0 || this.list[this.current].noData) {
+			// 	return false;
+			// }
 			uni.showLoading({
 				title: '正在加载'
 			});
 			let obj = ['', '1', '2'];
-
 			this.$api.userMining({ status: obj[this.current] }).then(res => {
 				let { data, code, total, runCount, stopCount } = res.data;
 				if (code === 200) {
@@ -269,6 +269,7 @@ export default {
 				});
 			}
 		},
+
 		// 领取收益
 		receiveIncome(v) {
 			this.$api.receiveIncome({ id: v.id }).then(res => {
@@ -343,7 +344,8 @@ body {
 // 	color: #f29100;;
 // }
 .mining-root {
-	padding: 60rpx 32rpx 40rpx;
+	padding: 0 32rpx;
+	// padding: 60rpx 32rpx 40rpx;
 	background-color: #150e2d;
 	min-height: 100%;
 	color: #ced3e1;
@@ -351,7 +353,7 @@ body {
 	.mining-box {
 		display: flex;
 		flex-direction: column;
-		height: calc(100vh - 80px);
+		height: calc(100vh - 88px);
 		.one-key {
 			margin-top: 30rpx;
 			display: flex;

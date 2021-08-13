@@ -121,7 +121,8 @@ export default {
 			currentId:'',
 			imageObj:{
 				orderUrl:''
-			}
+			},
+			statusBarHeight:0
 
 		};
 	},
@@ -139,9 +140,9 @@ export default {
 		});
 		// this.pledgeDetailList();
 	},
-	computed:{
-		...mapState(['userInfo'])
-	},
+	// computed:{
+	// 	...mapState(['userInfo'])
+	// },
 	methods: {
 		mescrollInit(mescroll) {
 			this.mescroll = mescroll;

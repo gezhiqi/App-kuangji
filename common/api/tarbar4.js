@@ -83,10 +83,9 @@ export const sellList = (data) => {
 	})
 }
 //实名认证
-export const realName = (data) => {
+export const realName = (name,idCard) => {
 	return $http({
-		url:'/app/user/real',
-		data,
+		url:`/app/user/real?userName=${name}&idCard=${idCard}`,
 		method:'POST'
 	})
 }

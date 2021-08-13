@@ -10,21 +10,21 @@
 		</common-title>
 		<view class="my-balance">
 			<view class="balance-box">
-				<view class="balance-title"><text>我的矿机</text></view>
+				<view class="balance-title"><text>我的矿机总价值</text></view>
 				<view class="balance-num">
-					<text>{{ miningNum }}</text>
+					<text>{{ totalPrice }}</text>
 				</view>
 				<view class="daily-output">
-					<text>每日产出 +{{ dailyIncome }}</text>
-					<text>每日产出 +{{ dailyIncome }}</text>
+					<text>预计每日产出 +{{ output }}</text>
+					<text>已产出 +{{ revenue }}</text>
 				</view>
 				<view class="cumulative-output">
-					<text>累计产出 +{{ totalIncome }}</text>
-					<text>累计产出 +{{ totalIncome }}</text>
+					<text>持有价值 +{{ totalPrice }}</text>
+					<text>预计总收益 +{{ totalRevenue }}</text>
 				</view>
 				<view class="footer">
-					<!-- <text>总共已质押：{{ totalPledge }}DMD</text> -->
 					<view class="button" @click="goToMyMining">我的矿机</view>
+					<text>矿机数量：{{ num }}DMD</text>
 				</view>
 			</view>
 		</view>
@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { mapState,mapActions } from 'vuex';
 export default {
 	data() {
 		return {
@@ -80,10 +81,16 @@ export default {
 			miningList: [],
 			showModal: false,
 			currentItem: {},
-			miningNum: 0,
-			dailyIncome: 0,
-			totalIncome: 0
+			num: 0,
+			output: 0,
+			revenue: 0,
+			totalNum: 0,
+			totalPrice: 0,
+			totalRevenue: 0
 		};
+	},
+	computed: {
+		...mapState(['userInfo'])
 	},
 	created() {
 		uni.getSystemInfo({
@@ -91,10 +98,27 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
+		this.getMiningUserInfo()
 		this.getMiningList();
-		this.getUserMining();
+		// this.getUserMining();
+		this.getMiningUserInfo()
+		this.getUserInfo()
 	},
+
 	methods: {
+		...mapActions(['getUserInfo']),
+		getMiningUserInfo () {
+			this.$api.miningUserInfo().then(res => {
+				if ( res.data.code === 200) {
+					this.num = res.data.num
+					this.output = res.data.output;
+					this.revenue = res.data.revenue;
+					this.totalNum = res.data.totalNum;
+					this.totalPrice = res.data.totalPrice;
+					this.totalRevenue = res.data.totalRevenue;
+				}
+			});
+		},
 		getMiningList() {
 			this.$api.miningList().then(res => {
 				console.log(res);
@@ -104,16 +128,22 @@ export default {
 				}
 			});
 		},
-		getUserMining() {
-			this.$api.userMining().then(res => {
-				console.log(res);
-				let { data, code } = res.data;
-				if (code === 200) {
-					this.miningNum = data.length;
-				}
-			});
-		},
+		// getUserMining() {
+		// 	this.$api.userMining().then(res => {
+		// 		console.log(res);
+		// 		let { data, code } = res.data;
+		// 		if (code === 200) {
+		// 			this.miningNum = data.length;
+		// 		}
+		// 	});
+		// },
 		buyMining(item) {
+			if (this.userInfo.realStatus == '0') {
+				return this.$refs.uToast.show({
+					title: '实名后方可购买',
+					type: 'error'
+				});
+			}
 			this.showModal = true;
 			this.currentItem = item;
 		},
@@ -125,13 +155,20 @@ export default {
 				})
 				.then(res => {
 					console.log(res);
-					let { data, code } = res.data;
+					let { data, code, msg } = res.data;
 					if (code === 200) {
 						this.$refs.uToast.show({
 							title: '购买成功',
 							type: 'success'
 						});
-						this.getUserMining();
+						// this.getUserMining();
+						this.getMiningUserInfo()
+						this.getUserInfo();
+					} else {
+						this.$refs.uToast.show({
+							title: msg,
+							type: 'success'
+						});
 					}
 				});
 		},

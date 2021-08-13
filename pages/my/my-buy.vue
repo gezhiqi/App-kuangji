@@ -175,7 +175,8 @@ export default {
 			showPayPop: false,
 			QrPop: false,
 			currentQrCode: '',
-			payPath: ''
+			payPath: '',
+			statusBarHeight:0
 		};
 	},
 	filters: {

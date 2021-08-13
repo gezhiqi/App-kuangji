@@ -65,7 +65,8 @@ export default {
 					noData: false
 				}
 			],
-			swiperList: [[], [], []]
+			swiperList: [[], [], []],
+			statusBarHeight:0
 		};
 	},
 	created() {

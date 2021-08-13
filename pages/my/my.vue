@@ -62,12 +62,12 @@ export default {
 		});
 		this.telephone = uni.getStorageSync('telephone') || '';
 		this.getBubbleNum();
-		this.getUserInfo()
+		this.getUserInfo();
 	},
 	onShow() {
 		this.getBubbleNum();
 	},
-	computed:{
+	computed: {
 		...mapState(['userInfo'])
 	},
 	methods: {
@@ -82,13 +82,49 @@ export default {
 			uni.showLoading({
 				title: '正在退出'
 			});
-			uni.removeStorageSync('token');
-			setTimeout(() => {
-				uni.hideLoading();
-				uni.reLaunch({
-					url: '/pages/login/login'
+			this.$api
+				.loginOut()
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						uni.removeStorageSync('token');
+						let timer = setTimeout(() => {
+							uni.hideLoading();
+							uni.reLaunch({
+								url: '/pages/login/login'
+							});
+						}, 1000);
+						this.$once('hook:beforeDestory', () => {
+							clearInterval(timer);
+							timer = null;
+						});
+					} else {
+						uni.removeStorageSync('token');
+						let timer = setTimeout(() => {
+							uni.hideLoading();
+							uni.reLaunch({
+								url: '/pages/login/login'
+							});
+						}, 1000);
+						this.$once('hook:beforeDestory', () => {
+							clearInterval(timer);
+							timer = null;
+						});
+					}
+				})
+				.catch(err => {
+					uni.removeStorageSync('token');
+					let timer = setTimeout(() => {
+						uni.hideLoading();
+						uni.reLaunch({
+							url: '/pages/login/login'
+						});
+					}, 1000);
+					this.$once('hook:beforeDestory', () => {
+						clearInterval(timer);
+						timer = null;
+					});
 				});
-			}, 1000);
 		},
 		getBubbleNum() {
 			this.$api.bubbleNum().then(res => {
@@ -183,6 +219,8 @@ body {
 			.num {
 				line-height: 50rpx;
 				margin-bottom: 20rpx;
+				// color: #3c78fa;
+				font-size: 52rpx;
 			}
 			.name-icon {
 				width: 60rpx;

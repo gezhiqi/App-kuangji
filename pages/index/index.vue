@@ -12,7 +12,7 @@
 				:vertical="vertical"
 				:circular="true"
 			>
-				<swiper-item class="swiper-item" v-for="item in noticeList" @click="goDetail">
+				<swiper-item class="swiper-item" v-for="item in noticeList" @click="goDetail(item.id)">
 					<u-image
 						width="32rpx"
 						height="26rpx"
@@ -56,31 +56,31 @@
 			</view>
 			<view class="my-assets-body">
 				<view class="top">总资产折合(CNY)</view>
-				<view class="center">0.00</view>
+				<view class="center">{{ assets }}</view>
 				<view class="footer">
 					<view class="item">
 						<view class="currency">DMD/CNY</view>
-						<view class="exchange-a">0.000</view>
-						<view class="exchange-b">￥0.00</view>
+						<view class="exchange-a">{{ usdtPrice }}</view>
+						<view class="exchange-b">￥{{ usdtPrice }}</view>
 					</view>
 					<view class="item">
 						<view class="currency">ESO/CNY</view>
-						<view class="exchange-a">0.000</view>
-						<view class="exchange-b">￥0.00</view>
+						<view class="exchange-a">{{ eosPrice }}</view>
+						<view class="exchange-b">￥{{ eosPrice }}</view>
 					</view>
 					<view class="item">
 						<view class="currency">USDT/CNY</view>
-						<view class="exchange-a">0.000</view>
-						<view class="exchange-b">￥0.00</view>
+						<view class="exchange-a">{{usdtPrice}}</view>
+						<view class="exchange-b">￥{{usdtPrice}}</view>
 					</view>
 				</view>
 				<view class="last-desc">
-					<view>当前价格：DMD 1枚 ≈255.17 CNY | EOS 1枚 ≈25.77 CNY</view>
-					<view>USDT 1枚 ≈6.46 CNY</view>
+					<view>当前价格：DMD 1枚 ≈{{ price }} CNY | EOS 1枚 ≈{{ (eosPrice/price).toFixed(2) }} CNY</view>
+					<view>USDT 1枚 ≈{{ (usdtPrice/price).toFixed(2) }} CNY</view>
 				</view>
 			</view>
 		</view>
-		<view class="asset-ranking">
+		<!-- <view class="asset-ranking">
 			<view class="ranking-title">个人资产排行</view>
 			<view class="ranking-list">
 				<view class="list-title">
@@ -104,8 +104,7 @@
 					</view>
 				</view>
 			</view>
-		</view>
-
+		</view> -->
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -124,6 +123,10 @@ export default {
 			duration: 500,
 			swiperList: [],
 			noticeList: [],
+			assets:0,
+			eosPrice:0,
+			price:0,
+			usdtPrice:0,
 			moduleList1: [
 				{
 					title: '签到',
@@ -172,6 +175,7 @@ export default {
 		});
 		this.getTabbarList();
 		this.getNoticeList();
+		this.getPriceList()
 	},
 
 	// onLoad() {
@@ -227,8 +231,27 @@ export default {
 				title: '暂未开放'
 			});
 		},
-		goDetail() {
-			
+		goDetail(id) {
+			uni.navigateTo({
+				url: `/pages/index/notice-detail?id=${id}`
+			});
+		},
+		getPriceList() {
+			this.$api.priceList().then(res => {
+				let { data, code, msg } = res.data;
+				if (code === 200) {
+					this.assets = data.assets
+					this.eosPrice = data.eosPrice
+					this.price = data.price
+					this.usdtPrice = data.usdtPrice
+				}
+				else {
+					this.$refs.uToast.show({
+						title: msg,
+						type: 'warning'
+					});
+				}
+			});
 		}
 	}
 };

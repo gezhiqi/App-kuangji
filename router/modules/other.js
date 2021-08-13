@@ -27,7 +27,7 @@ const other = [
 	  path: '/pages/my/my-sell',
 	  name: 'mySell',
 	    meta: {
-	        title: '我的矿机',
+	        title: '出售订单',
 	    },
 	},
 	{
@@ -56,6 +56,13 @@ const other = [
 	  name: 'myInvite',
 	    meta: {
 	        title: '我的邀请',
+	    },
+	},
+	{
+	  path: '/pages/index/notice-detail',
+	  name: 'myInvite',
+	    meta: {
+	        title: '公告详情',
 	    },
 	},
 	

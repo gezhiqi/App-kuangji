@@ -80,19 +80,21 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import MescrollMixin from '@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js';
 let opts = {
-	// X轴设置
 	tapLegend: false,
 	enableScroll: false,
+	// X轴设置
 	xAxis: {
 		disableGrid: true,
-		axisLine: false
+		axisLine: false,
+		// itemCount:10,
 	},
 	yAxis: {
 		disableGrid: true,
 		axisLine: false,
-		splitNumber: 1
+		splitNumber: 2
 	},
 	legend: {
 		show: false,
@@ -142,7 +144,7 @@ export default {
 					axisLine: false,
 					labelCount: 8,
 					itemCount: () => {
-						return this.chartData.series.length
+						return this.chartData.series.length;
 					}
 				},
 				yAxis: {
@@ -167,11 +169,18 @@ export default {
 			},
 			orderList: [],
 			priceList: [10, 20, 50, 100, 200],
-			activeCurrent: '',
+			activeCurrent: 0,
 			showModal: false,
 			showSell: false,
 			currentSellId: ''
 		};
+	},
+	computed: {
+		...mapState(['userInfo'])
+	},
+	onShow() {
+		this.orderList = [] // 先置空列表,显示加载进度
+		this.mescroll.resetUpScroll() // 再刷新列表数据
 	},
 	created() {
 		uni.getSystemInfo({
@@ -180,8 +189,11 @@ export default {
 			}
 		});
 		this.getPriceTrend();
+		this.getUserInfo();
 	},
 	methods: {
+		...mapActions(['getUserInfo']),
+
 		getPriceTrend() {
 			this.$api.priceTrend().then(res => {
 				let { data, code } = res.data;
@@ -200,7 +212,8 @@ export default {
 		},
 
 		upCallback(page) {
-			let pageNum = page.num; // 页码, 默认从1开始
+			console.log('page', page);
+			let pageNum = page.num || 1; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
 			this.$api
 				.orderList({
@@ -225,6 +238,7 @@ export default {
 						//设置列表数据
 						if (page.num == 1) this.orderList = []; //如果是第一页需手动置空列表
 						this.orderList = this.orderList.concat(curPageData); //追加新数据
+						this.$forceUpdate();
 
 						// 请求成功,隐藏加载状态
 						//方法一(推荐): 后台接口有返回列表的总页数 totalPage
@@ -239,6 +253,12 @@ export default {
 		},
 		// 打开订单弹窗
 		createOrder() {
+			if (this.userInfo.realStatus == '0') {
+				return this.$refs.uToast.show({
+					title: '实名后方可购买',
+					type: 'error'
+				});
+			}
 			this.showModal = true;
 		},
 		// 创建订单
@@ -263,6 +283,12 @@ export default {
 				});
 		},
 		showSellPop(id) {
+			if (this.userInfo.realStatus == '0') {
+				return this.$refs.uToast.show({
+					title: '实名后方可购买',
+					type: 'error'
+				});
+			}
 			this.showSell = true;
 			this.currentSellId = id;
 		},

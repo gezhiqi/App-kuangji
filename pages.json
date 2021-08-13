@@ -7,29 +7,49 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 		}, {
 			"path": "pages/mining/mining",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 		},
 		{
 			"path": "pages/mining/mining-my",
 			"style": {
 				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
 				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
@@ -42,68 +62,98 @@
 				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
 			},
 			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/my/my",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 		}, {
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/register/register",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/forget/forget",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/pledge/pledge",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleView": false
-				}
-			}
-		}, {
-			"path": "pages/pledge/pledge-my",
-			"style": {
-				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
 				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
@@ -116,15 +166,35 @@
 				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
 			},
 			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+		}, {
+			"path": "pages/pledge/pledge-my",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/transacte/transacte",
 			"style": {
 				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
 				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
@@ -137,15 +207,15 @@
 				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
 			},
 			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/my/my-buy",
 			"style": {
 				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
 				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
@@ -158,15 +228,15 @@
 				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
 			},
 			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/my/my-sell",
 			"style": {
 				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
 				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
@@ -179,35 +249,15 @@
 				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
 			},
 			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 
 		}, {
 			"path": "pages/my/my-real-name",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleView": false
-				}
-			}
-		}, {
-			"path": "pages/my/my-payinfo",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
-				"navigationStyle": "custom",
-				"app-plus": {
-					"titleView": false
-				}
-			}
-		}, {
-			"path": "pages/my/my-detail",
-			"style": {
-				"navigationBarTitleText": "",
-				"backgroundColorTop": "#FFFFFF", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
-				"backgroundColorBottom": "#FFFFFF", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
 				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
@@ -220,18 +270,89 @@
 				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
 			},
 			"globalStyle": {
-				"backgroundColorTop": "#FFFFFF" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+		}, {
+			"path": "pages/my/my-payinfo",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+		}, {
+			"path": "pages/my/my-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
 		}, {
 			"path": "pages/my/my-invite",
 			"style": {
 				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
-					"titleView": false
-				}
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
 			}
+		}, {
+			"path": "pages/index/notice-detail",
+			"style": {
+				"navigationBarTitleText": "",
+				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
+				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
+				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
+				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"navigationStyle": "custom",
+				"app-plus": {
+					"titleView": false,
+					"bounce": "none" //可选: 是否禁止iOS回弹和Android触顶触底的弧形阴影, 默认允许 (可配在 'globalStyle')
+				},
+				"mp-alipay": {
+					"allowsBounceVertical": "NO"
+				} //可选: 取消支付宝和钉钉小程序的iOS回弹 (可配在 'globalStyle')
+			},
+			"globalStyle": {
+				"backgroundColorTop": "#ced3e1" // iOS APP真机bounce回弹区域默认灰色,建议统一重置为白色
+			}
+
 		}
 	],
 	"globalStyle": {

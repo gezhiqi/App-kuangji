@@ -24,3 +24,17 @@ export const activeSign = (data) => {
 		method:'POST'
 	})
 }
+// 价格列表
+export const priceList = (data) => {
+	return $http({
+		url:'/app/tabbar/main',
+		method:'POST'
+	})
+}
+// 根据id查询公告内容
+export const noticeInfo = (id) => {
+	return $http({
+		url:`/app/notice/info?id=${id}`,
+		method:'GET'
+	})
+}

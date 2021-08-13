@@ -10,7 +10,7 @@ export const login = (data) => {
 // 注册
 export const register = (data) => {
 	return $http({
-		url:'/app/login/register',
+		url:'/app/main/register',
 		data,
 		method:'POST'
 	})
@@ -18,7 +18,7 @@ export const register = (data) => {
 // 注册验证码
 export const sendRegister = (data) => {
 	return $http({
-		url:'/app/message/send/register',
+		url:'/app/message/send/aliregister',
 		data,
 		method:'POST'
 	})
@@ -26,11 +26,19 @@ export const sendRegister = (data) => {
 // 忘记密码验证码
 export const sendForget = (data) => {
 	return $http({
-		url:'/app/message/send/forget',
+		url:'/app/main/forget',
 		data,
 		method:'POST'
 	})
 }
+// 退出登录
+export const loginOut = () => {
+	return $http({
+		url:'/app/main/lgout',
+		method:'POST'
+	})
+}
+
 
 
 

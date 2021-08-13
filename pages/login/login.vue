@@ -39,7 +39,7 @@
 						placeholder-style="color: rgb(95, 88, 116);"
 					/>
 					<u-image
-						width="170rpx"
+						width="190rpx"
 						height="70rpx"
 						ref="vfCode"
 						:src="imgVfCode"
@@ -151,13 +151,16 @@ export default {
 							type: 'success'
 						});
 
-						setTimeout(() => {
+						let timer = setTimeout(() => {
 							uni.hideLoading();
 							uni.switchTab({
 								url: '/pages/index/index'
 							});
 						}, 1000);
-
+						this.$once('hook:beforeDestory', () => {
+							clearInterval(timer);
+							timer = null;
+						});
 						uni.setStorageSync('telephone', this.form.telephone);
 					} else {
 						uni.hideLoading();

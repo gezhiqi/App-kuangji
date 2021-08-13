@@ -46,6 +46,7 @@ export default {
 			current: 0,
 			swiperCurrent: 0,
 			showModal: false,
+			statusBarHeight:0,
 			list: [
 				{
 					name: '收入明细',

@@ -54,11 +54,11 @@ export default {
 	.back {
 		position: absolute;
 		left: 30rpx;
-		bottom: 26rpx;
-		width: 36rpx;
-		height: 36rpx;
+		bottom: 18rpx;
+		width: 60rpx;
+		height: 60rpx;
 		background: url('../../static/back.png') no-repeat center center;
-		background-size: 100% 100%;
+		background-size: 40rpx 40rpx;
 	}
 	.right {
 		font-size: 24rpx;

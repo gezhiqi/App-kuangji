@@ -194,22 +194,22 @@ export default {
 			if (this.form.payPw.length === 0) {
 				this.$refs.uToast.show({
 					title: '安全密码不能为空',
-					type: 'error',
+					type: 'error'
 				});
 				return false;
 			}
 			if (this.form.loginPw !== this.form.showLoginPw) {
 				this.$refs.uToast.show({
 					title: '两次密码不一致',
-					type: 'error',
+					type: 'error'
 				});
 				return false;
 			}
-			
+
 			if (this.form.payPw !== this.form.showPayPw) {
 				this.$refs.uToast.show({
 					title: '两次安全密码不一致',
-					type: 'error',
+					type: 'error'
 				});
 				return false;
 			}
@@ -218,14 +218,26 @@ export default {
 					...this.form
 				})
 				.then(res => {
-					this.$refs.uToast.show({
-						title: '注册成功',
-						type: 'success',
-					});
-					setTimeout(() => {
-						this.$Router.push({ name: 'login' });
-					}, 1000);
-					
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '注册成功',
+							type: 'success'
+						});
+						let timer = setTimeout(() => {
+							this.$Router.push({ name: 'login' });
+						}, 1000);
+						this.$once('hook:beforeDestory', () => {
+							clearInterval(timer);
+							timer = null;
+						});
+						
+					} else {
+						this.$refs.uToast.show({
+							title: msg,
+							type: 'error'
+						});
+					}
 				})
 				.catch(err => {
 					// console.log(err);
@@ -244,7 +256,7 @@ export default {
 				.then(res => {
 					this.$refs.uToast.show({
 						title: '短信发送成功轻查收',
-						type: 'success',
+						type: 'success'
 					});
 				})
 				.catch(err => {

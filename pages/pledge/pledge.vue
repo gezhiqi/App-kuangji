@@ -1,17 +1,15 @@
 <template>
 	<view class="pledge-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<view :style="{ paddingTop: statusBarHeight + 'px'}" class="root-title">
+		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
 			<view>质押</view>
-			<view class="right">
-				质押规则
-			</view>
+			<view class="right">质押规则</view>
 		</view>
 		<view class="my-balance">
 			<view class="balance-box">
-				<view class="balance-title"><text>我的余额</text></view>
+				<view class="balance-title"><text>质押总价值</text></view>
 				<view class="balance-num">
-					<text>0.000</text>
-					<text>0</text>
+					<text>{{ totalPrice }}</text>
+					<!-- <text>0</text> -->
 				</view>
 				<view class="daily-output">
 					<text>每日产出 +{{ dailyIncome }}</text>
@@ -67,6 +65,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
 	data() {
 		return {
@@ -76,8 +75,12 @@ export default {
 			currentId: '',
 			totalIncome: 0,
 			dailyIncome: 0,
-			totalPledge: 0
+			totalPledge: 0,
+			totalPrice: 0
 		};
+	},
+	computed: {
+		...mapState(['userInfo'])
 	},
 	created() {
 		uni.getSystemInfo({
@@ -86,10 +89,11 @@ export default {
 			}
 		});
 		this.getPledgeList();
-		this.pledgeDetailList();
 		this.userPledge();
+		this.getUserInfo();
 	},
 	methods: {
+		...mapActions(['getUserInfo']),
 		// 质押列表
 		getPledgeList() {
 			this.$api.getPledgeList().then(res => {
@@ -99,14 +103,7 @@ export default {
 				}
 			});
 		},
-		pledgeDetailList() {
-			this.$api.pledgeDetail().then(res => {
-				let { data, code } = res.data;
-				if (code === 200) {
-					// this.pledgeList = data;
-				}
-			});
-		},
+
 		// 用户质押详情
 		userPledge() {
 			this.$api.userPledge().then(res => {
@@ -116,10 +113,17 @@ export default {
 					this.totalIncome = data.produceOutput;
 					this.dailyIncome = data.totalOutput;
 					this.totalPledge = data.totalPledgeNumber;
+					this.totalPrice = data.totalPrice
 				}
 			});
 		},
 		buyPledge(id) {
+			if (this.userInfo.realStatus == '0') {
+				return this.$refs.uToast.show({
+					title: '实名后方可质押',
+					type: 'error'
+				});
+			}
 			this.currentId = id;
 			this.showModal = true;
 		},
@@ -132,7 +136,8 @@ export default {
 						title: '质押成功',
 						type: 'success'
 					});
-					this.userPledge()
+					this.userPledge();
+					this.getUserInfo();
 				} else {
 					this.$refs.uToast.show({
 						title: msg,
@@ -143,8 +148,8 @@ export default {
 		},
 		goToMyPledge() {
 			uni.navigateTo({
-				url:'/pages/pledge/pledge-my'
-			})
+				url: '/pages/pledge/pledge-my'
+			});
 		}
 	}
 };
@@ -188,7 +193,6 @@ body {
 			right: 30rpx;
 			bottom: 20rpx;
 			line-height: 36rpx;
-	
 		}
 	}
 	.my-balance {

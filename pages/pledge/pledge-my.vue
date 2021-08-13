@@ -97,9 +97,9 @@ export default {
 	},
 	methods: {
 		pledgeDetailList() {
-			if (this.swiperList[this.current].length > 0 || this.list[this.current].noData) {
-				return false;
-			}
+			// if (this.swiperList[this.current].length > 0 || this.list[this.current].noData) {
+			// 	return false;
+			// }
 			uni.showLoading({
 				title: '正在加载'
 			});
@@ -139,7 +139,8 @@ body {
 	height: 100%;
 }
 .pledge-root {
-	padding: 60rpx 32rpx 40rpx;
+	padding: 0 32rpx;
+	// padding: 60rpx 32rpx 40rpx;
 	background-color: #150e2d;
 	min-height: 100%;
 	color: #ced3e1;
@@ -147,7 +148,7 @@ body {
 	.pledge-box {
 		display: flex;
 		flex-direction: column;
-		height: calc(100vh - 80px);
+		height: calc(100vh - 88px);
 		.swiper-box {
 			flex: 1;
 			.swiper-item {

@@ -32,6 +32,7 @@
 				<u-form v-else>
 					<u-form-item label-width="auto" label="姓 名:">
 						<u-input
+						:disabled="true"
 							maxlength="20"
 							:value="userInfo.userName"
 							trim
@@ -42,6 +43,7 @@
 					</u-form-item>
 					<u-form-item label-width="auto" label="身份证号:">
 						<u-input
+						:disabled="true"
 							maxlength="18"
 							:value="userInfo.idCard"
 							trim
@@ -51,7 +53,7 @@
 						/>
 					</u-form-item>
 				</u-form>
-				<view class="certificate">上传身份证人像面：</view>
+				<!-- <view class="certificate">上传身份证人像面：</view>
 				<uni-file-picker
 					v-if="userInfo.cardUrl === null"
 					:limit="1"
@@ -60,7 +62,7 @@
 					@select="select"
 					@delete="deleteImg"
 				/>
-				<image v-else :src="userInfo.cardUrl" mode="aspectFit"></image>
+				<image v-else :src="userInfo.cardUrl" mode="aspectFit"></image> -->
 			</view>
 			<view v-if="userInfo.idCard === null" class="login_submit">
 				<u-button type="primary" @click="realName">实 名</u-button>
@@ -181,29 +183,41 @@ export default {
 			if (!this.validate().idCard()) {
 				return false;
 			}
-			// if (!this.validate().bankCard()) {
-			// 	return false;
+			// if (this.payPath === '') {
+			// 	return this.$refs.uToast.show({
+			// 		title: '请上传付款凭证'
+			// 	});
 			// }
-			// if (!this.validate().bankName()) {
-			// 	return false;
-			// }
-
-			if (this.payPath === '') {
-				return this.$refs.uToast.show({
-					title: '请上传付款凭证'
-				});
-			}
-			uni.uploadFile({
-				url: `${BASE_URL}/app/user/real`,
-				filePath: this.sfzPath,
-				name: 'file',
-				formData: this.form,
-				header: {
-					token: uni.getStorageSync('token')
-				},
-				success: res => {
-					let result = JSON.parse(res.data);
-					if (result.code === 200) {
+			// uni.uploadFile({
+			// 	url: `${BASE_URL}/app/user/real`,
+			// 	filePath: this.sfzPath,
+			// 	name: 'file',
+			// 	formData: this.form,
+			// 	header: {
+			// 		token: uni.getStorageSync('token')
+			// 	},
+			// 	success: res => {
+			// 		let result = JSON.parse(res.data);
+			// 		if (result.code === 200) {
+			// 			this.$refs.uToast.show({
+			// 				title: '实名成功',
+			// 				type: 'success'
+			// 			});
+			// 			this.getUserInfo();
+			// 			uni.navigateBack(1);
+			// 		} else {
+			// 			this.$refs.uToast.show({
+			// 				title: res.data.msg,
+			// 				type: 'error'
+			// 			});
+			// 		}
+			// 	}
+			// });
+			this.$api
+				.realName(this.form.userName,this.form.idCard)
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
 						this.$refs.uToast.show({
 							title: '实名成功',
 							type: 'success'
@@ -212,12 +226,14 @@ export default {
 						uni.navigateBack(1);
 					} else {
 						this.$refs.uToast.show({
-							title: res.data.msg,
+							title: msg,
 							type: 'error'
 						});
 					}
-				}
-			});
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 
 		// 获取上传状态
