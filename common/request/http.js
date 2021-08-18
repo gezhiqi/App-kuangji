@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://101.34.40.13:8088'
+export const BASE_URL = 'https://api.czldny.com'
 export default function $http(options) {
 	return new Promise((resolve, reject) => {
 		uni.request({

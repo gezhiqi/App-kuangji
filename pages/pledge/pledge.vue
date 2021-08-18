@@ -8,19 +8,22 @@
 			<view class="balance-box">
 				<view class="balance-title"><text>质押总价值</text></view>
 				<view class="balance-num">
-					<text>{{ totalPrice }}</text>
+					<text>
+						{{ totalPrice }}
+						<text class="unit">CNY</text>
+					</text>
 					<!-- <text>0</text> -->
 				</view>
 				<view class="daily-output">
-					<text>每日产出 +{{ dailyIncome }}</text>
-					<text>每日产出 +{{ dailyIncome }}</text>
+					<text>每日产出 +{{ dailyIncome }} SUC</text>
+					<!-- <text>每日产出 +{{ dailyIncome }}</text> -->
 				</view>
 				<view class="cumulative-output">
-					<text>累计产出 +{{ totalIncome }}</text>
-					<text>累计产出 +{{ totalIncome }}</text>
+					<text>累计产出 +{{ totalIncome }} SUC</text>
+					<!-- <text>累计产出 +{{ totalIncome }}</text> -->
 				</view>
 				<view class="footer">
-					<text>总共已质押：{{ totalPledge }}DMD</text>
+					<text>总共已质押：{{ totalPledge }} SUC</text>
 					<view class="button" @click="goToMyPledge">我的质押</view>
 				</view>
 			</view>
@@ -34,20 +37,22 @@
 				<view class="pledge-item" v-for="item in pledgeList">
 					<view class="item-head">
 						<view class="left">{{ item.pledgeNumber }}</view>
-						<view class="right" @click="buyPledge(item.id)">质押</view>
+						<view class="right" @click="buyPledge(item.id, item.pledgeNumber)">
+							质押
+						</view>
 					</view>
 					<view class="item-center">
-						<text class="left">质押数量(DMD)</text>
+						<text class="left">质押数量(SUC)</text>
 						<text class="right">质押周期{{ item.rate }}天</text>
 					</view>
 					<view class="item-footer">
 						<view class="footer-i">
 							<view class="footer-top">{{ item.output }}</view>
-							<view class="footer-bottom">每日DMD产出</view>
+							<view class="footer-bottom">每日SUC产出</view>
 						</view>
 						<view class="footer-i">
 							<view class="footer-top">{{ item.totalOutput }}</view>
-							<view class="footer-bottom">DMD总产量</view>
+							<view class="footer-bottom">SUC总产量</view>
 						</view>
 					</view>
 				</view>
@@ -61,11 +66,13 @@
 			@cancel="showModal = false"
 			@confirm="showBuy"
 		></u-modal>
+		<keyboard ref="keyboard" @complete="enterPassword" :desc="desc"></keyboard>
 	</view>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import keyboard from '../../components/keyboard/keyboard.vue';
 export default {
 	data() {
 		return {
@@ -76,8 +83,13 @@ export default {
 			totalIncome: 0,
 			dailyIncome: 0,
 			totalPledge: 0,
-			totalPrice: 0
+			totalPrice: 0,
+			currentNum: 0,
+			desc: ''
 		};
+	},
+	components: {
+		keyboard
 	},
 	computed: {
 		...mapState(['userInfo'])
@@ -113,23 +125,27 @@ export default {
 					this.totalIncome = data.produceOutput;
 					this.dailyIncome = data.totalOutput;
 					this.totalPledge = data.totalPledgeNumber;
-					this.totalPrice = data.totalPrice
+					this.totalPrice = data.totalPrice;
 				}
 			});
 		},
-		buyPledge(id) {
+		buyPledge(id, num) {
 			if (this.userInfo.realStatus == '0') {
 				return this.$refs.uToast.show({
 					title: '实名后方可质押',
 					type: 'error'
 				});
 			}
+			this.currentNum = num;
 			this.currentId = id;
 			this.showModal = true;
 		},
 		showBuy() {
-			this.$api.buyPledge({ pledgeId: this.currentId }).then(res => {
-				console.log(res);
+			this.$refs.keyboard.show = true;
+			this.desc = `质押 ${this.currentNum} SUC`;
+		},
+		enterPassword(keyboardValue) {
+			this.$api.buyPledge({ pledgeId: this.currentId, payPw: keyboardValue }).then(res => {
 				let { data, code, msg } = res.data;
 				if (code === 200) {
 					this.$refs.uToast.show({
@@ -138,6 +154,7 @@ export default {
 					});
 					this.userPledge();
 					this.getUserInfo();
+					this.$refs.keyboard.handleClose();
 				} else {
 					this.$refs.uToast.show({
 						title: msg,
@@ -217,6 +234,10 @@ body {
 				display: flex;
 				justify-content: space-between;
 				font-size: 52rpx;
+				.unit {
+					padding-left: 6rpx;
+					font-size: 30rpx;
+				}
 			}
 			.daily-output {
 				padding: 20rpx 20rpx 0;

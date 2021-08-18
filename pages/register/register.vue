@@ -38,19 +38,21 @@
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
-					<u-form-item label-width="auto" label="安全密码:">
+					<u-form-item label-width="auto" label="支付密码:">
 						<u-input
-							type="password"
+							type="number"
+							maxlength="6"
 							v-model="form.payPw"
 							trim
 							:clearable="false"
-							placeholder="请设置安全密码"
+							placeholder="支付密码必须为6位数字"
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
-					<u-form-item label-width="auto" label="确认安密:">
+					<u-form-item label-width="auto" label="确认支密:">
 						<u-input
 							type="password"
+							maxlength="6"
 							v-model="form.showPayPw"
 							trim
 							:clearable="false"
@@ -60,7 +62,7 @@
 					</u-form-item>
 					<u-form-item label-width="auto" label="邀 请 码:">
 						<u-input
-							v-model="form.invitacode"
+							v-model="form.inviteCode"
 							trim
 							:clearable="false"
 							placeholder="请输入邀请码"
@@ -104,7 +106,7 @@ export default {
 				showLoginPw: '',
 				payPw: '',
 				showPayPw: '',
-				invitacode: '',
+				inviteCode: '',
 				smscode: ''
 			},
 			timer: null,
@@ -191,13 +193,14 @@ export default {
 			if (!this.validate().captcha()) {
 				return false;
 			}
-			if (this.form.payPw.length === 0) {
+			if (this.form.payPw.length !== 6) {
 				this.$refs.uToast.show({
-					title: '安全密码不能为空',
+					title: '支付密码必须为6位数字',
 					type: 'error'
 				});
 				return false;
 			}
+
 			if (this.form.loginPw !== this.form.showLoginPw) {
 				this.$refs.uToast.show({
 					title: '两次密码不一致',
@@ -205,7 +208,13 @@ export default {
 				});
 				return false;
 			}
-
+			if (this.form.payPw.length !== 6) {
+				this.$refs.uToast.show({
+					title: '支付密码必须为6位数字',
+					type: 'error'
+				});
+				return false;
+			}
 			if (this.form.payPw !== this.form.showPayPw) {
 				this.$refs.uToast.show({
 					title: '两次安全密码不一致',
@@ -213,6 +222,14 @@ export default {
 				});
 				return false;
 			}
+			if (this.form.inviteCode.length === 0) {
+				this.$refs.uToast.show({
+					title: '邀请码不能为空',
+					type: 'error'
+				});
+				return false;
+			}
+
 			this.$api
 				.register({
 					...this.form
@@ -231,7 +248,6 @@ export default {
 							clearInterval(timer);
 							timer = null;
 						});
-						
 					} else {
 						this.$refs.uToast.show({
 							title: msg,
@@ -306,6 +322,9 @@ export default {
 				color: #ced3e1;
 				border-bottom: #202643 solid 1px;
 				font-size: 28rpx;
+				&:first-child {
+					margin: 0;
+				}
 				.u-input {
 					margin-left: 16rpx;
 					font-size: 28rpx;

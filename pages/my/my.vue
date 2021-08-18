@@ -1,22 +1,35 @@
 <template>
-	<view :ref="`ref${0}`" class="my-root" :style="{ paddingTop: statusBarHeight + 20 + 'px' }">
+	<view :ref="`ref${0}`" class="my-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
+		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
+			<view>我的</view>
+			<view class="right" @click="goNewPerson">新手规则</view>
+		</view>
 		<view class="head-box">
 			<view class="head"><view class="head-cont"></view></view>
 			<view class="tel">{{ userInfo.telephone }}</view>
 			<view class="invite">邀请码：{{ userInfo.inviteCode }}</view>
 		</view>
 		<view class="my-purse">
-			<view class="item" @click="goToRealName">
-				<view class="name-icon"></view>
-				<view class="recharge">{{ userInfo.idCard !== null ? '已实名' : '未实名' }}</view>
-			</view>
-			<view class="item" @click="showToast">
-				<view class="num">{{ userInfo.userBalance }}</view>
-				<view class="purse">钱包</view>
-			</view>
-			<view class="item" @click="goToPayInfo">
-				<view class="money-icon"></view>
-				<view class="recharge">收款信息</view>
+			<view class="purse-title">我的信息</view>
+			<view class="purse-box">
+				<view class="item" @click="showToast">
+					<view class="num">{{ userInfo.userBalance }}</view>
+					<view class="purse">可用余额</view>
+				</view>
+				<view class="item" @click="showToast">
+					<view class="num">{{ userInfo.frozenBalance }}</view>
+					<view class="purse">冻结余额</view>
+				</view>
+				<view class="item" @click="goToRealName">
+					<view class="name-icon"></view>
+					<view class="recharge">
+						{{ userInfo.idCard !== null ? '已实名' : '未实名' }}
+					</view>
+				</view>
+				<view class="item" @click="goToPayInfo">
+					<view class="money-icon"></view>
+					<view class="recharge">收款信息</view>
+				</view>
 			</view>
 		</view>
 		<view class="my-order">
@@ -159,6 +172,11 @@ export default {
 			uni.navigateTo({
 				url: '/pages/my/my-sell'
 			});
+		},
+		goNewPerson() {
+			uni.navigateTo({
+				url: '/pages/my/my-newperson'
+			});
 		}
 	}
 };
@@ -175,6 +193,35 @@ body {
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
+	.root-title {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		color: #ced3e1;
+		font-size: 32rpx;
+		z-index: 99;
+		background-image: linear-gradient(45deg, #110e2a, #110e2a);
+		.back {
+			position: absolute;
+			left: 30rpx;
+			bottom: 26rpx;
+			width: 36rpx;
+			height: 36rpx;
+			background: url('../../static/back.png') no-repeat center center;
+			background-size: 100% 100%;
+		}
+		.right {
+			font-size: 24rpx;
+			position: absolute;
+			right: 30rpx;
+			bottom: 20rpx;
+			line-height: 36rpx;
+		}
+	}
 	.head-box {
 		display: flex;
 		flex-direction: column;
@@ -202,39 +249,44 @@ body {
 		}
 	}
 	.my-purse {
-		margin-top: 60rpx;
-		height: 240rpx;
-		width: 100%;
 		background-color: #1e1c41;
+		margin-top: 60rpx;
 		border-radius: 20rpx;
-		display: flex;
-		justify-content: space-around;
-		align-items: center;
-		font-size: 30rpx;
-
-		.item {
+		.purse-title {
+			padding-top: 30rpx;
+			padding-left: 30rpx;
+			font-size: 32rpx;
+		}
+		.purse-box {
+			height: 200rpx;
+			width: 100%;
 			display: flex;
-			flex-direction: column;
+			justify-content: space-around;
 			align-items: center;
-			.num {
-				line-height: 50rpx;
-				margin-bottom: 20rpx;
-				// color: #3c78fa;
-				font-size: 52rpx;
-			}
-			.name-icon {
-				width: 60rpx;
-				height: 50rpx;
-				background: url(../../static/my/name.png) no-repeat center center;
-				background-size: 100%;
-				margin-bottom: 20rpx;
-			}
-			.money-icon {
-				width: 60rpx;
-				height: 50rpx;
-				background: url(../../static/my/money.png) no-repeat center center;
-				background-size: 100%;
-				margin-bottom: 20rpx;
+			font-size: 30rpx;
+			.item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				.num {
+					line-height: 50rpx;
+					margin-bottom: 20rpx;
+					font-size: 40rpx;
+				}
+				.name-icon {
+					width: 60rpx;
+					height: 50rpx;
+					background: url(../../static/my/name.png) no-repeat center center;
+					background-size: 100%;
+					margin-bottom: 20rpx;
+				}
+				.money-icon {
+					width: 60rpx;
+					height: 50rpx;
+					background: url(../../static/my/money.png) no-repeat center center;
+					background-size: 100%;
+					margin-bottom: 20rpx;
+				}
 			}
 		}
 	}

@@ -1,30 +1,29 @@
 <template>
 	<view class="mining-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<common-title>
-			<template v-slot:default>
-				矿机
-			</template>
-			<template v-slot:right>
-				矿机说明
-			</template>
-		</common-title>
+		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
+			<view>矿机</view>
+			<view class="right">矿机说明</view>
+		</view>
 		<view class="my-balance">
 			<view class="balance-box">
 				<view class="balance-title"><text>我的矿机总价值</text></view>
 				<view class="balance-num">
-					<text>{{ totalPrice }}</text>
+					<text>
+						{{ totalPrice }}
+						<text class="unit">CNY</text>
+					</text>
 				</view>
 				<view class="daily-output">
-					<text>预计每日产出 +{{ output }}</text>
-					<text>已产出 +{{ revenue }}</text>
+					<text>预计每日产出 +{{ output }} SUC</text>
+					<text>已产出 +{{ revenue }} SUC</text>
 				</view>
 				<view class="cumulative-output">
-					<text>持有价值 +{{ totalPrice }}</text>
-					<text>预计总收益 +{{ totalRevenue }}</text>
+					<!-- <text>持有价值 +{{ totalPrice }}</text> -->
+					<text>预计总收益 +{{ totalRevenue }} SUC</text>
 				</view>
 				<view class="footer">
 					<view class="button" @click="goToMyMining">我的矿机</view>
-					<text>矿机数量：{{ num }}DMD</text>
+					<text>矿机数量：{{ num }}</text>
 				</view>
 			</view>
 		</view>
@@ -69,11 +68,13 @@
 			@cancel="showModal = false"
 			@confirm="showBuy"
 		></u-modal>
+		<keyboard ref="keyboard" @complete="enterPassword" :desc="desc"></keyboard>
 	</view>
 </template>
 
 <script>
-import { mapState,mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import keyboard from '../../components/keyboard/keyboard.vue'
 export default {
 	data() {
 		return {
@@ -86,8 +87,12 @@ export default {
 			revenue: 0,
 			totalNum: 0,
 			totalPrice: 0,
-			totalRevenue: 0
+			totalRevenue: 0,
+			desc: ''
 		};
+	},
+	components:{
+		keyboard
 	},
 	computed: {
 		...mapState(['userInfo'])
@@ -98,19 +103,19 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		this.getMiningUserInfo()
+		this.getMiningUserInfo();
 		this.getMiningList();
 		// this.getUserMining();
-		this.getMiningUserInfo()
-		this.getUserInfo()
+		this.getMiningUserInfo();
+		this.getUserInfo();
 	},
 
 	methods: {
 		...mapActions(['getUserInfo']),
-		getMiningUserInfo () {
+		getMiningUserInfo() {
 			this.$api.miningUserInfo().then(res => {
-				if ( res.data.code === 200) {
-					this.num = res.data.num
+				if (res.data.code === 200) {
+					this.num = res.data.num;
 					this.output = res.data.output;
 					this.revenue = res.data.revenue;
 					this.totalNum = res.data.totalNum;
@@ -148,10 +153,15 @@ export default {
 			this.currentItem = item;
 		},
 		showBuy() {
+			this.$refs.keyboard.show = true
+			this.desc = `支付 ${this.currentItem.price} SUC`
+		},
+		enterPassword(keyboardValue) {
 			this.$api
 				.buyMining({
 					id: this.currentItem.id,
-					status: this.currentItem.status
+					status: this.currentItem.status,
+					payPw: keyboardValue
 				})
 				.then(res => {
 					console.log(res);
@@ -162,12 +172,13 @@ export default {
 							type: 'success'
 						});
 						// this.getUserMining();
-						this.getMiningUserInfo()
+						this.getMiningUserInfo();
 						this.getUserInfo();
+						this.$refs.keyboard.handleClose();
 					} else {
 						this.$refs.uToast.show({
 							title: msg,
-							type: 'success'
+							type: 'error'
 						});
 					}
 				});
@@ -192,6 +203,35 @@ body {
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
+	.root-title {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		color: #ced3e1;
+		font-size: 32rpx;
+		z-index: 99;
+		background-image: linear-gradient(45deg, #110e2a, #110e2a);
+		.back {
+			position: absolute;
+			left: 30rpx;
+			bottom: 26rpx;
+			width: 36rpx;
+			height: 36rpx;
+			background: url('../../static/back.png') no-repeat center center;
+			background-size: 100% 100%;
+		}
+		.right {
+			font-size: 24rpx;
+			position: absolute;
+			right: 30rpx;
+			bottom: 20rpx;
+			line-height: 36rpx;
+		}
+	}
 	.my-balance {
 		.balance-box {
 			display: flex;
@@ -214,12 +254,20 @@ body {
 				display: flex;
 				justify-content: space-between;
 				font-size: 52rpx;
+				.unit {
+					padding-left: 6rpx;
+					font-size: 30rpx;
+				}
 			}
 			.daily-output {
 				padding: 20rpx 20rpx 0;
 				display: flex;
 				justify-content: space-between;
 				font-size: 24rpx;
+				.unit {
+					padding-left: 6rpx;
+					font-size: 20rpx;
+				}
 			}
 			.cumulative-output {
 				padding: 0 20rpx;

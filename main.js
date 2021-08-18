@@ -7,6 +7,7 @@ import uView from "uview-ui";
 import api from './common/api/index.js'
 import CommonTitle from "./components/common-title/common-title.vue"
 
+
 Vue.component('common-title', CommonTitle)
 
 Vue.prototype.checkLogin = function(){

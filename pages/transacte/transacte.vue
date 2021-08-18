@@ -1,13 +1,9 @@
 <template>
 	<view :ref="`ref${0}`" class="my-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<common-title>
-			<template v-slot:default>
-				交易
-			</template>
-			<template v-slot:right>
-				交易说明
-			</template>
-		</common-title>
+		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
+			<view>交易</view>
+			<view class="right">交易说明</view>
+		</view>
 		<view class="transacte-box">
 			<view class="charts-box">
 				<qiun-data-charts
@@ -54,7 +50,7 @@
 								</view>
 							</view>
 							<view class="item-footer">
-								<view @click="showSellPop(item.id)">出售</view>
+								<view @click="showSellPop(item.id, item.num)">出售</view>
 							</view>
 						</view>
 					</view>
@@ -71,15 +67,17 @@
 		<u-modal
 			v-model="showSell"
 			:show-cancel-button="true"
-			content="确认发布购买订单"
+			content="确认出售"
 			@cancel="showSell = false"
 			@confirm="showSellFunc"
 		></u-modal>
 		<u-toast ref="uToast" />
+		<keyboard ref="keyboard" @complete="enterPassword" :desc="desc"></keyboard>
 	</view>
 </template>
 
 <script>
+import keyboard from '../../components/keyboard/keyboard.vue';
 import { mapState, mapActions } from 'vuex';
 import MescrollMixin from '@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js';
 let opts = {
@@ -88,7 +86,7 @@ let opts = {
 	// X轴设置
 	xAxis: {
 		disableGrid: true,
-		axisLine: false,
+		axisLine: false
 		// itemCount:10,
 	},
 	yAxis: {
@@ -172,15 +170,20 @@ export default {
 			activeCurrent: 0,
 			showModal: false,
 			showSell: false,
-			currentSellId: ''
+			currentSellId: '',
+			desc: '',
+			currentNum:0
 		};
+	},
+	components: {
+		keyboard
 	},
 	computed: {
 		...mapState(['userInfo'])
 	},
 	onShow() {
-		this.orderList = [] // 先置空列表,显示加载进度
-		this.mescroll.resetUpScroll() // 再刷新列表数据
+		this.orderList = []; // 先置空列表,显示加载进度
+		this.mescroll && this.mescroll.resetUpScroll(); // 再刷新列表数据
 	},
 	created() {
 		uni.getSystemInfo({
@@ -282,7 +285,7 @@ export default {
 					}
 				});
 		},
-		showSellPop(id) {
+		showSellPop(id, num) {
 			if (this.userInfo.realStatus == '0') {
 				return this.$refs.uToast.show({
 					title: '实名后方可购买',
@@ -291,18 +294,21 @@ export default {
 			}
 			this.showSell = true;
 			this.currentSellId = id;
+			this.currentNum = num;
 		},
 		showSellFunc() {
-			this.sellMoney();
+			this.$refs.keyboard.show = true;
+			this.desc = `出售 ${this.currentNum} SUC`;
 		},
-		sellMoney() {
-			this.$api.sellCancel(this.currentSellId).then(res => {
+		enterPassword(keyboardValue) {
+			this.$api.sellCancel(this.currentSellId, keyboardValue).then(res => {
 				if (res.data.code === 200) {
 					this.$refs.uToast.show({
 						title: '匹配成功，请通知买家及时付款',
 						type: 'success'
 					});
 					this.downCallback();
+					this.$refs.keyboard.handleClose();
 				} else {
 					this.$refs.uToast.show({
 						title: res.data.msg,
@@ -326,6 +332,35 @@ body {
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
+	.root-title {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		color: #ced3e1;
+		font-size: 32rpx;
+		z-index: 99;
+		background-image: linear-gradient(45deg, #110e2a, #110e2a);
+		.back {
+			position: absolute;
+			left: 30rpx;
+			bottom: 26rpx;
+			width: 36rpx;
+			height: 36rpx;
+			background: url('../../static/back.png') no-repeat center center;
+			background-size: 100% 100%;
+		}
+		.right {
+			font-size: 24rpx;
+			position: absolute;
+			right: 30rpx;
+			bottom: 20rpx;
+			line-height: 36rpx;
+		}
+	}
 	.charts-box {
 		height: 500rpx;
 	}

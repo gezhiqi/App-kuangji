@@ -52,14 +52,14 @@
 		<view class="my-assets">
 			<view class="title">
 				<text>我的资产</text>
-				<text class="title-desc">USDT/DMD/EOS价格来源：OK交易所</text>
+				<text class="title-desc">USDT/SUC/EOS价格来源：OK交易所</text>
 			</view>
 			<view class="my-assets-body">
 				<view class="top">总资产折合(CNY)</view>
 				<view class="center">{{ assets }}</view>
 				<view class="footer">
 					<view class="item">
-						<view class="currency">DMD/CNY</view>
+						<view class="currency">SUC/CNY</view>
 						<view class="exchange-a">{{ usdtPrice }}</view>
 						<view class="exchange-b">￥{{ usdtPrice }}</view>
 					</view>
@@ -75,7 +75,7 @@
 					</view>
 				</view>
 				<view class="last-desc">
-					<view>当前价格：DMD 1枚 ≈{{ price }} CNY | EOS 1枚 ≈{{ (eosPrice/price).toFixed(2) }} CNY</view>
+					<view>当前价格：SUC 1枚 ≈{{ price }} CNY | EOS 1枚 ≈{{ (eosPrice/price).toFixed(2) }} CNY</view>
 					<view>USDT 1枚 ≈{{ (usdtPrice/price).toFixed(2) }} CNY</view>
 				</view>
 			</view>
@@ -176,6 +176,9 @@ export default {
 		this.getTabbarList();
 		this.getNoticeList();
 		this.getPriceList()
+	},
+	mounted() {
+		
 	},
 
 	// onLoad() {

@@ -70,7 +70,9 @@
 			<view v-else class="login_submit">
 				<u-button>{{ userInfo.realStatus === '1' ? '已 实 名' : '审核中' }}</u-button>
 			</view>
-			<view @click="open">open</view>
+			<view class="sys-desc">
+				亲爱的用户，为保证用户的正真实性，我们将调用第三方公司认证系统进行实名认证，整个认证过程制作用户真实性匹配对比，不做其他用途。每人每天1次认证机会，若当日认证超过1次，24小时方可再次认证。
+			</view>
 		</view>
 		<view><u-toast ref="uToast" /></view>
 	</view>
@@ -324,6 +326,12 @@ export default {
 			text {
 				color: rgb(60, 120, 250);
 			}
+		}
+		.sys-desc {
+			margin-top: 30rpx;
+			color: #606266;
+			font-size: 26rpx;
+			text-align: justify;
 		}
 		.register_submit {
 			margin-top: 90rpx;

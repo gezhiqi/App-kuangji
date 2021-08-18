@@ -15,8 +15,6 @@ const router = new Router({
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
 	next()
-	return false
-
 	//将所有需要登陆才显示的页面的路由都放进一个数组
 	const nextRoute = ['my', 'auction', 'auction-detail', 'pledge', 'announce', 'mall', 'index'];
 	//获取登陆状态

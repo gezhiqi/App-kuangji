@@ -65,6 +65,19 @@ const other = [
 	        title: '公告详情',
 	    },
 	},
-	
+	{
+	  path: '/pages/my/my-newperson',
+	  name: 'newperson',
+	    meta: {
+	        title: '新手教程',
+	    },
+	},
+	{
+	  path: '/pages/my/my-newperson-detail',
+	  name: 'newperson',
+	    meta: {
+	        title: '新手教程',
+	    },
+	}
 ]
 export default other

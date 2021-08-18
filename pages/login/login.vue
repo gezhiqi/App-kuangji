@@ -2,7 +2,7 @@
 	<view class="login">
 		<view class="login-form">
 			<view class="title">
-				<view class="title-f">欢迎来到Draw the world</view>
+				<view class="title-f">欢迎来到Space Coins</view>
 				<view class="title-t">请登录</view>
 			</view>
 			<u-form :model="form" ref="uForm">
@@ -53,7 +53,7 @@
 		<view class="login_submit"><u-button type="primary" @click="loginOn">登录</u-button></view>
 		<view class="registered-download">
 			<view class="registered" @click="toRegister">没有账号？去注册</view>
-			<view class="download">下载App</view>
+			<view class="download" @click="download">下载App</view>
 		</view>
 		<view><u-toast ref="uToast" /></view>
 	</view>
@@ -103,9 +103,7 @@ export default {
 	},
 	// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
 
-	mounted() {
-		this.refreshCode();
-	},
+	mounted() {},
 	// onBackPress(options) {
 	//         console.log('from:' + options.from)
 	// 		return true
@@ -229,6 +227,11 @@ export default {
 		},
 		goForget() {
 			uni.navigateTo({ url: '/pages/forget/forget' });
+		},
+		download() {
+			plus.runtime.openURL('http://www.baidu.com', function(res) {
+				console.log(res);
+			});
 		}
 	}
 };
