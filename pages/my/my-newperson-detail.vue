@@ -5,7 +5,10 @@
 				{{ title }}
 			</template>
 		</common-title>
-		<view class="content">{{ content }}</view>
+
+		<view class="content" v-for="(item,index) in contents" :key="index">
+			{{ item }}
+		</view>
 	</view>
 </template>
 
@@ -14,7 +17,7 @@ export default {
 	data() {
 		return {
 			title: '',
-			content: '',
+			contents: [],
 			statusBarHeight: 0
 		};
 	},
@@ -32,7 +35,7 @@ export default {
 			this.$api.getCourseDetail(id).then(res => {
 				let { data, code, msg } = res.data;
 				if (code === 200) {
-					this.content = data.content;
+					this.contents = data.contents;
 					this.title = data.title;
 				} else {
 					this.$refs.uToast.show({
@@ -58,10 +61,11 @@ body {
 	color: #ced3e1;
 	box-sizing: border-box;
 	.content {
+		margin-top: 20rpx;
 		text-indent: 2em;
 		font-size: 28rpx;
 		text-align: justify;
-		line-height: 50rpx;
+		line-height: 40rpx;
 	}
 }
 </style>

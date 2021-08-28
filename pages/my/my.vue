@@ -8,27 +8,37 @@
 			<view class="head"><view class="head-cont"></view></view>
 			<view class="tel">{{ userInfo.telephone }}</view>
 			<view class="invite">邀请码：{{ userInfo.inviteCode }}</view>
+			<view class="my-detail" @click="goToMyDetail">我的明细</view>
 		</view>
 		<view class="my-purse">
 			<view class="purse-title">我的信息</view>
 			<view class="purse-box">
-				<view class="item" @click="showToast">
-					<view class="num">{{ userInfo.userBalance }}</view>
-					<view class="purse">可用余额</view>
-				</view>
-				<view class="item" @click="showToast">
-					<view class="num">{{ userInfo.frozenBalance }}</view>
-					<view class="purse">冻结余额</view>
-				</view>
 				<view class="item" @click="goToRealName">
 					<view class="name-icon"></view>
 					<view class="recharge">
 						{{ userInfo.idCard !== null ? '已实名' : '未实名' }}
 					</view>
 				</view>
+				<view class="item" @click="show = true">
+					<view class="dong-icon"></view>
+					<view class="recharge">解冻账号</view>
+				</view>
 				<view class="item" @click="goToPayInfo">
 					<view class="money-icon"></view>
 					<view class="recharge">收款信息</view>
+				</view>
+			</view>
+		</view>
+		<view class="my-ccount">
+			<view class="purse-title">账号信息</view>
+			<view class="purse-box">
+				<view class="item" @click="showToast">
+					<view class="purse">可用余额</view>
+					<view class="num">{{ userInfo.userBalance }}<text>SUC</text></view>
+				</view>
+				<view class="item" @click="showToast">
+					<view class="purse">冻结余额</view>
+					<view class="num">{{ userInfo.frozenBalance }}<text>SUC</text></view>
 				</view>
 			</view>
 		</view>
@@ -52,6 +62,21 @@
 			<view class="more-more">更多玩法敬请期待</view>
 		</view>
 		<u-toast ref="uToast" />
+		<u-modal
+			class="modal"
+			v-model="show"
+			:show-cancel-button="true"
+			@confirm="handleShow"
+			@cancel="handleCancel"
+			title="温馨提示"
+		>
+			<view class="modal-box">
+				<view class="desc">
+					每次解冻扣除<text>5</text>SUC
+				</view>
+				<u-input placeholder="请输入解冻手机号" v-model="thawTel" type="number" :border="true" trim maxlength="11" />
+			</view>
+		</u-modal>
 	</view>
 </template>
 
@@ -64,8 +89,14 @@ export default {
 			telephone: '',
 			index: 0,
 			buyNum: 0,
-			sellNum: 0
+			sellNum: 0,
+			show: false,
+			thawTel: ''
 		};
+	},
+	onShow() {
+		this.getBubbleNum();
+		this.getUserInfo();
 	},
 	created() {
 		uni.getSystemInfo({
@@ -74,11 +105,6 @@ export default {
 			}
 		});
 		this.telephone = uni.getStorageSync('telephone') || '';
-		this.getBubbleNum();
-		this.getUserInfo();
-	},
-	onShow() {
-		this.getBubbleNum();
 	},
 	computed: {
 		...mapState(['userInfo'])
@@ -177,6 +203,59 @@ export default {
 			uni.navigateTo({
 				url: '/pages/my/my-newperson'
 			});
+		},
+		goToMyDetail() {
+			uni.navigateTo({
+				url: '/pages/my/my-detail'
+			});
+		},
+		handleCancel() {
+			this.thawTel = ''
+			this.show =false
+		},
+		handleShow() {
+			if (!this.validate().telephone()) {
+				return false;
+			}
+			this.$api.thawTel(this.thawTel).then(res => {
+				const { code, msg } = res.data;
+				if (code === 200) {
+					this.$refs.uToast.show({
+						title: '解冻成功',
+						type: 'success'
+					});
+					this.getBubbleNum();
+					this.getUserInfo();
+				} else {
+					this.$refs.uToast.show({
+						title: msg,
+						type: 'error'
+					});
+				}
+			});
+		},
+		validate() {
+			let scope = this;
+			return {
+				telephone() {
+					if (scope.thawTel === '' || scope.thawTel === null) {
+						scope.$refs.uToast.show({
+							title: '手机号不能为空',
+							type: 'error'
+						});
+						return false;
+					}
+					if (!/^1\d{10}$/.test(scope.thawTel)) {
+						scope.$refs.uToast.show({
+							title: '手机格式不正确',
+							type: 'error'
+						});
+						return false;
+					} else {
+						return true;
+					}
+				}
+			};
 		}
 	}
 };
@@ -232,6 +311,7 @@ body {
 		background: url(../../static/header-bg.png) no-repeat center center;
 		background-size: 100% 100%;
 		font-size: 30rpx;
+		position: relative;
 		.head {
 			height: 150rpx;
 			width: 150rpx;
@@ -247,10 +327,21 @@ body {
 		.tel {
 			margin-top: 10rpx;
 		}
+		.my-detail {
+			position: absolute;
+			right: 20rpx;
+			bottom: 20rpx;
+			font-size: 24rpx;
+			height: 28rpx;
+			line-height: 28rpx;
+			padding: 4rpx 10rpx;
+			border: 1rpx solid #fff;
+			border-radius: 28rpx;
+		}
 	}
 	.my-purse {
 		background-color: #1e1c41;
-		margin-top: 60rpx;
+		margin-top: 30rpx;
 		border-radius: 20rpx;
 		.purse-title {
 			padding-top: 30rpx;
@@ -258,7 +349,7 @@ body {
 			font-size: 32rpx;
 		}
 		.purse-box {
-			height: 200rpx;
+			height: 170rpx;
 			width: 100%;
 			display: flex;
 			justify-content: space-around;
@@ -272,17 +363,71 @@ body {
 					line-height: 50rpx;
 					margin-bottom: 20rpx;
 					font-size: 40rpx;
+					
 				}
 				.name-icon {
 					width: 60rpx;
-					height: 50rpx;
+					height: 60rpx;
+					background: url(../../static/my/name.png) no-repeat center center;
+					background-size: 100%;
+					margin-bottom: 20rpx;
+				}
+				.dong-icon {
+					width: 60rpx;
+					height: 60rpx;
+					background: url(../../static/my/jiedong.png) no-repeat center center;
+					background-size: 55rpx 55rpx;
+					margin-bottom: 20rpx;
+				}
+				.money-icon {
+					width: 60rpx;
+					height: 60rpx;
+					background: url(../../static/my/money.png) no-repeat center center;
+					background-size: 100%;
+					margin-bottom: 20rpx;
+				}
+			}
+		}
+	}
+	.my-ccount {
+		background-color: #1e1c41;
+		margin-top: 30rpx;
+		border-radius: 20rpx;
+		.purse-title {
+			padding-top: 30rpx;
+			padding-left: 30rpx;
+			font-size: 32rpx;
+		}
+		.purse-box {
+			height: 170rpx;
+			width: 100%;
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+			font-size: 30rpx;
+			.item {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				.num {
+					line-height: 50rpx;
+					margin-top: 20rpx;
+					font-size: 44rpx;
+					text {
+						font-size: 28rpx;
+						padding-left: 10rpx;
+					}
+				}
+				.name-icon {
+					width: 60rpx;
+					height: 60rpx;
 					background: url(../../static/my/name.png) no-repeat center center;
 					background-size: 100%;
 					margin-bottom: 20rpx;
 				}
 				.money-icon {
 					width: 60rpx;
-					height: 50rpx;
+					height: 60rpx;
 					background: url(../../static/my/money.png) no-repeat center center;
 					background-size: 100%;
 					margin-bottom: 20rpx;
@@ -291,7 +436,7 @@ body {
 		}
 	}
 	.my-order {
-		margin-top: 60rpx;
+		margin-top: 30rpx;
 		height: 240rpx;
 		width: 100%;
 		background-color: #1e1c41;
@@ -347,6 +492,33 @@ body {
 		.more-more {
 			margin-top: 40rpx;
 			text-align: center;
+		}
+	}
+	.modal {
+		.modal-box {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.desc {
+				margin-top: 10rpx;
+				font-size: 28rpx;
+				text {
+					padding: 0 6rpx;
+				}
+			}
+			.u-input {
+				margin-top: 20rpx;
+				width: 400rpx;
+				height: 50rpx;
+				font-size: 32rpx;
+				::v-deep .u-input__input {
+					font-size: 32rpx;
+					color: #333333;
+				}
+			}
+			.uni-input-placeholder {
+				font-size: 32rpx;
+			}
 		}
 	}
 }

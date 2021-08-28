@@ -2,7 +2,7 @@
 	<view :ref="`ref${0}`" class="my-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
 		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
 			<view>交易</view>
-			<view class="right">交易说明</view>
+			<view class="right" @click="goRules">交易说明</view>
 		</view>
 		<view class="transacte-box">
 			<view class="charts-box">
@@ -184,6 +184,8 @@ export default {
 	onShow() {
 		this.orderList = []; // 先置空列表,显示加载进度
 		this.mescroll && this.mescroll.resetUpScroll(); // 再刷新列表数据
+		this.getPriceTrend();
+		this.getUserInfo();
 	},
 	created() {
 		uni.getSystemInfo({
@@ -191,8 +193,6 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		this.getPriceTrend();
-		this.getUserInfo();
 	},
 	methods: {
 		...mapActions(['getUserInfo']),
@@ -315,6 +315,11 @@ export default {
 						type: 'error'
 					});
 				}
+			});
+		},
+		goRules() {
+			uni.navigateTo({
+				url: '/pages/transacte/transacte-rule'
 			});
 		}
 	}

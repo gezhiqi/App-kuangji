@@ -9,10 +9,9 @@ export const getTabbarList = (data) => {
 	})
 }
 // 获取公告列表
-export const getNoticeList = (data) => {
+export const getNoticeList = () => {
 	return $http({
 		url:'/app/notice/list',
-		data,
 		method:'POST'
 	})
 }

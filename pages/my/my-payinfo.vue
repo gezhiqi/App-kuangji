@@ -9,15 +9,15 @@
 			<view class="container-form">
 				<view class="row">
 					<view>微 信：{{ userInfo.wxCard }}</view>
-					<view class="btn" @click="updateWxCode">修改</view>
+					<view class="btn" v-show="userInfo.wxCard === null" @click="updateWxCode">设置</view>
 				</view>
 				<view class="row">
 					<view>支 付 宝：{{ userInfo.zfbCard }}</view>
-					<view class="btn" @click="updateZfbCode">修改</view>
+					<view class="btn"v-show="userInfo.zfbCard === null" @click="updateZfbCode">设置</view>
 				</view>
 				<view class="row">
 					<view>银 行 卡：{{ userInfo.bankCard }}</view>
-					<view class="btn" @click="updateYhkCode">修改</view>
+					<view class="btn"v-show="userInfo.bankCard === null" @click="updateYhkCode">设置</view>
 				</view>
 			</view>
 		</view>
@@ -321,9 +321,8 @@ export default {
 		padding: 32rpx;
 		.container-form {
 			padding: 38rpx 22rpx 22rpx;
-
 			.row {
-				margin-top: 30rpx;
+				margin-top: 50rpx;
 				color: #ced3e1;
 				height: 80rpx;
 				line-height: 80rpx;
@@ -331,6 +330,7 @@ export default {
 				font-size: 28rpx;
 				display: flex;
 				justify-content: space-between;
+				align-items: center;
 				.btn {
 					height: 50rpx;
 					line-height: 50rpx;

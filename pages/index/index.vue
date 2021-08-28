@@ -12,21 +12,13 @@
 				:vertical="vertical"
 				:circular="true"
 			>
-				<swiper-item class="swiper-item" v-for="item in noticeList" @click="goDetail(item.id)">
+				<swiper-item class="swiper-item" v-for="item in noticeList" @click="goNoticeList">
 					<u-image
 						width="32rpx"
 						height="26rpx"
 						src="../../static/index/notice.png"
 					></u-image>
 					<view class="swiper-desc">{{ item.title }}</view>
-				</swiper-item>
-				<swiper-item class="swiper-item">
-					<u-image
-						width="32rpx"
-						height="26rpx"
-						src="../../static/index/notice.png"
-					></u-image>
-					<view class="swiper-desc">重启交易项目</view>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -43,7 +35,12 @@
 				</view>
 			</div>
 			<div class="module-row row2">
-				<view class="module" v-for="(item, index) in moduleList2" :key="index">
+				<view
+					class="module"
+					v-for="(item, index) in moduleList2"
+					:key="index"
+					@click="handleClick(item.title)"
+				>
 					<u-image width="84rpx" height="84rpx" :src="item.url"></u-image>
 					<view class="module-desc">{{ item.title }}</view>
 				</view>
@@ -55,28 +52,33 @@
 				<text class="title-desc">USDT/SUC/EOS价格来源：OK交易所</text>
 			</view>
 			<view class="my-assets-body">
-				<view class="top">总资产折合(CNY)</view>
-				<view class="center">{{ assets }}</view>
+				<view class="top">持币资产(CNY)</view>
+				<view class="center">{{ assets.toFixed(2) }}</view>
 				<view class="footer">
 					<view class="item">
 						<view class="currency">SUC/CNY</view>
-						<view class="exchange-a">{{ usdtPrice }}</view>
-						<view class="exchange-b">￥{{ usdtPrice }}</view>
+						<view class="exchange-a">{{ price.toFixed(2) }}</view>
+						<view class="exchange-b">￥{{ price.toFixed(2) }}</view>
 					</view>
 					<view class="item">
 						<view class="currency">ESO/CNY</view>
-						<view class="exchange-a">{{ eosPrice }}</view>
-						<view class="exchange-b">￥{{ eosPrice }}</view>
+						<view class="exchange-a">{{ eosPrice.toFixed(2) }}</view>
+						<view class="exchange-b">￥{{ eosPrice.toFixed(2) }}</view>
 					</view>
 					<view class="item">
 						<view class="currency">USDT/CNY</view>
-						<view class="exchange-a">{{usdtPrice}}</view>
-						<view class="exchange-b">￥{{usdtPrice}}</view>
+						<view class="exchange-a">{{ usdtPrice }}</view>
+						<view class="exchange-b">￥{{ usdtPrice }}</view>
 					</view>
 				</view>
 				<view class="last-desc">
-					<view>当前价格：SUC 1枚 ≈{{ price }} CNY | EOS 1枚 ≈{{ (eosPrice/price).toFixed(2) }} CNY</view>
-					<view>USDT 1枚 ≈{{ (usdtPrice/price).toFixed(2) }} CNY</view>
+					<view>
+						当前价格：SUC 1枚 ≈{{ price.toFixed(2) }} CNY | EOS 1枚 ≈{{
+							eosPrice.toFixed(2)
+						}}
+						CNY
+					</view>
+					<view>USDT 1枚 ≈ {{ usdtPrice.toFixed(2) }} CNY</view>
 				</view>
 			</view>
 		</view>
@@ -123,10 +125,10 @@ export default {
 			duration: 500,
 			swiperList: [],
 			noticeList: [],
-			assets:0,
-			eosPrice:0,
-			price:0,
-			usdtPrice:0,
+			assets: 0,
+			eosPrice: 0,
+			price: 0,
+			usdtPrice: 0,
 			moduleList1: [
 				{
 					title: '签到',
@@ -137,12 +139,12 @@ export default {
 					url: require('../../static/index/module-img2.png')
 				},
 				{
-					title: '充币',
-					url: require('../../static/index/module-img3.png')
+					title: '团队',
+					url: require('../../static/index/module-img8.png')
 				},
 				{
-					title: '提币',
-					url: require('../../static/index/module-img4.png')
+					title: '新手',
+					url: require('../../static/index/module-img6.png')
 				}
 			],
 			moduleList2: [
@@ -151,21 +153,25 @@ export default {
 					url: require('../../static/index/module-img5.png')
 				},
 				{
-					title: '公会',
-					url: require('../../static/index/module-img6.png')
-				},
-				{
-					title: '公会榜',
+					title: '活动',
 					url: require('../../static/index/module-img7.png')
 				},
 				{
-					title: '团队',
-					url: require('../../static/index/module-img8.png')
+					title: '充币',
+					url: require('../../static/index/module-img3.png')
+				},
+				{
+					title: '提币',
+					url: require('../../static/index/module-img4.png')
 				}
 			]
 		};
 	},
-
+	onShow() {
+		this.getTabbarList();
+		this.getNoticeList();
+		this.getPriceList();
+	},
 	created() {
 		let that = this;
 		uni.getSystemInfo({
@@ -173,13 +179,8 @@ export default {
 				that.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		this.getTabbarList();
-		this.getNoticeList();
-		this.getPriceList()
 	},
-	mounted() {
-		
-	},
+	mounted() {},
 
 	// onLoad() {
 	// 	var loginRes = this.checkLogin();
@@ -202,13 +203,35 @@ export default {
 			this.$api.getNoticeList().then(res => {
 				let { data, code } = res.data;
 				if (code === 200) {
-					this.noticeList = data.records;
+					this.noticeList = data;
 				}
 			});
 		},
 		handleClick(title) {
-			if (title === '签到') {
-				this.activeSign();
+			switch (title) {
+				case '签到':
+					this.activeSign();
+					break;
+				case '邀请':
+					uni.navigateTo({
+						url: `/pages/my/my-share`
+					});
+					break;
+				case '团队':
+					uni.navigateTo({
+						url: `/pages/my/my-invite`
+					});
+					break;
+				case '新手':
+					uni.navigateTo({
+						url: `/pages/my/my-newperson`
+					});
+					break;
+				default:
+					this.$refs.uToast.show({
+						title: '敬请期待',
+						type: 'warning'
+					});
 			}
 		},
 		activeSign() {
@@ -220,8 +243,7 @@ export default {
 						title: msg,
 						type: 'success'
 					});
-				}
-				else {
+				} else {
 					this.$refs.uToast.show({
 						title: msg,
 						type: 'warning'
@@ -234,21 +256,20 @@ export default {
 				title: '暂未开放'
 			});
 		},
-		goDetail(id) {
+		goNoticeList() {
 			uni.navigateTo({
-				url: `/pages/index/notice-detail?id=${id}`
+				url: `/pages/index/notice-list`
 			});
 		},
 		getPriceList() {
 			this.$api.priceList().then(res => {
 				let { data, code, msg } = res.data;
 				if (code === 200) {
-					this.assets = data.assets
-					this.eosPrice = data.eosPrice
-					this.price = data.price
-					this.usdtPrice = data.usdtPrice
-				}
-				else {
+					this.assets = data.assets;
+					this.eosPrice = data.eosPrice;
+					this.price = data.price;
+					this.usdtPrice = data.usdtPrice;
+				} else {
 					this.$refs.uToast.show({
 						title: msg,
 						type: 'warning'
@@ -284,6 +305,7 @@ body {
 	}
 	.module-box {
 		.module-row {
+			padding: 0 30rpx;
 			display: flex;
 			justify-content: space-between;
 			&.row2 {

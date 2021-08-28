@@ -1,12 +1,12 @@
 <template>
-	<view class="pledge-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
+	<view class="notice-detail-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
 		<common-title :isBack="true">
 			<template v-slot:default>
 				{{ title }}
 			</template>
 		</common-title>
-		<view class="content">
-			{{ content }}
+		<view class="content" v-for="(item,index) in contents" :key="index">
+			{{ item }}
 		</view>
 		<u-toast ref="uToast" />
 	</view>
@@ -17,7 +17,7 @@ export default {
 	data() {
 		return {
 			statusBarHeight:0,
-			content:'',
+			contents:[],
 			title:''
 		};
 	},
@@ -35,7 +35,7 @@ export default {
 			this.$api.noticeInfo(id).then(res => {
 				let { data, code, msg } = res.data;
 				if (code === 200) {
-					this.content = data.content
+					this.contents = data.contents
 					this.title = data.title
 				}
 				else {
@@ -55,17 +55,18 @@ uni-page-body,
 body {
 	height: 100%;
 }
-.pledge-root {
+.notice-detail-root {
 	padding: 60rpx 32rpx 40rpx;
 	background-color: #150e2d;
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
 	.content {
+		margin-top: 20rpx;
 		text-indent: 2em;
 		font-size: 28rpx;
 		text-align: justify;
-		line-height: 50rpx;
+		line-height: 40rpx;
 	}
 }
 </style>

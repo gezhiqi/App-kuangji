@@ -66,6 +66,13 @@ const other = [
 	    },
 	},
 	{
+	  path: '/pages/index/notice-list',
+	  name: 'noticeList',
+	    meta: {
+	        title: '公告列表',
+	    },
+	},
+	{
 	  path: '/pages/my/my-newperson',
 	  name: 'newperson',
 	    meta: {
@@ -78,6 +85,20 @@ const other = [
 	    meta: {
 	        title: '新手教程',
 	    },
-	}
+	},
+	{
+	  path: '/pages/transacte/transacte-rule',
+	  name: 'transacteRule',
+	    meta: {
+	        title: '交易规则',
+	    },
+	},
+	{
+	  path: '/pages/my/my-share',
+	  name: 'myShare',
+	    meta: {
+	        title: '邀请好友',
+	    },
+	},
 ]
 export default other

@@ -6,9 +6,10 @@ import { RouterMount } from 'uni-simple-router'
 import uView from "uview-ui";
 import api from './common/api/index.js'
 import CommonTitle from "./components/common-title/common-title.vue"
-
+import savefile from './components/p-saveFile/saveFile.vue'
 
 Vue.component('common-title', CommonTitle)
+Vue.component('savefile',savefile)
 
 Vue.prototype.checkLogin = function(){
 	const token = uni.getStorageSync('token')

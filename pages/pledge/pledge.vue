@@ -43,7 +43,7 @@
 					</view>
 					<view class="item-center">
 						<text class="left">质押数量(SUC)</text>
-						<text class="right">质押周期{{ item.rate }}天</text>
+						<text class="right">质押周期{{ item.cycle }}天</text>
 					</view>
 					<view class="item-footer">
 						<view class="footer-i">
@@ -94,15 +94,17 @@ export default {
 	computed: {
 		...mapState(['userInfo'])
 	},
+	onShow() {
+		this.getPledgeList();
+		this.userPledge();
+		this.getUserInfo();
+	},
 	created() {
 		uni.getSystemInfo({
 			success: res => {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		this.getPledgeList();
-		this.userPledge();
-		this.getUserInfo();
 	},
 	methods: {
 		...mapActions(['getUserInfo']),

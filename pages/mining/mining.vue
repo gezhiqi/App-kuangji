@@ -97,17 +97,17 @@ export default {
 	computed: {
 		...mapState(['userInfo'])
 	},
+	onShow() {
+		this.getMiningList();
+		this.getMiningUserInfo();
+		this.getUserInfo();
+	},
 	created() {
 		uni.getSystemInfo({
 			success: res => {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		this.getMiningUserInfo();
-		this.getMiningList();
-		// this.getUserMining();
-		this.getMiningUserInfo();
-		this.getUserInfo();
 	},
 
 	methods: {

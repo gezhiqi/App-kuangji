@@ -10,10 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "echarts": "^4.9.0",
+    "html2canvas": "^1.3.2",
     "uni-simple-router": "^1.5.5",
     "uview-ui": "^1.8.4",
-    "v-charts-v2": "^2.0.9",
-    "vconsole": "^3.7.0"
+    "v-charts-v2": "^2.0.9"
   }
 }

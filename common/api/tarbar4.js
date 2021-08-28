@@ -148,3 +148,12 @@ export const getCourseDetail = (id) => {
 		method: 'GET'
 	})
 }
+// 解冻
+export const thawTel = (telephone) => {
+	return $http({
+		url: `/app/user/relieve?telephone=${telephone}`,
+		method: 'GET'
+	})
+}
+
+

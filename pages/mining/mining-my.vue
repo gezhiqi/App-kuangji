@@ -461,7 +461,6 @@ body {
 							}
 							.u-btn {
 								margin: 0;
-								width: 136rpx;
 							}
 						}
 					}

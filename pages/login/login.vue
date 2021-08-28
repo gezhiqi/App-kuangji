@@ -98,7 +98,7 @@ export default {
 			// 		}
 			// 	]
 			// },
-			imgVfCode: `${BASE_URL}/app/image/captchaImg`
+			imgVfCode: `${BASE_URL}/app/image/captchaImg?uuid=${new Date().getTime()}`
 		};
 	},
 	// 必须要在onReady生命周期，因为onLoad生命周期组件可能尚未创建完毕
