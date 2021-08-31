@@ -6,33 +6,36 @@
 			</template>
 		</common-title>
 		<!-- style="{height: `calc(100vh-${statusBarHeight}- 40`}" -->
-		<u-tabs-swiper
-			ref="tabs"
-			:list="list"
-			:current="current"
-			@change="tabsChange"
-			:is-scroll="false"
-			inactive-color="#ced3e1"
-			active-color="#f29100"
-			bg-color="#1e1c41"
-		></u-tabs-swiper>
-		<view class="list">
-			<mescroll-body
-				ref="mescrollRef"
-				@init="mescrollInit"
-				@down="downCallback"
-				@up="upCallback"
-				:up="upOption"
-			>
-				<view class="list-item" v-for="(item, index) in dataList" :key="index">
-					<view class="left">
-						<view class="top">{{ item.info }}</view>
-						<view class="bottom">{{ item.createDtme }}</view>
+		<view class="detail-box">
+			<u-tabs-swiper
+				ref="tabs"
+				:list="list"
+				:current="current"
+				@change="tabsChange"
+				:is-scroll="false"
+				inactive-color="#ced3e1"
+				active-color="#f29100"
+				bg-color="#1e1c41"
+			></u-tabs-swiper>
+			<view class="list">
+				<mescroll-body
+					ref="mescrollRef"
+					@init="mescrollInit"
+					@down="downCallback"
+					@up="upCallback"
+					:up="upOption"
+				>
+					<view class="list-item" v-for="(item, index) in dataList" :key="index">
+						<view class="left">
+							<view class="top">{{ item.info }}</view>
+							<view class="bottom">{{ item.createDtme }}</view>
+						</view>
+						<view class="right">{{ item.number }}</view>
 					</view>
-					<view class="right">{{ item.number }}</view>
-				</view>
-			</mescroll-body>
+				</mescroll-body>
+			</view>
 		</view>
+		
 		<u-toast ref="uToast" />
 	</view>
 </template>
@@ -152,22 +155,29 @@ body {
 	height: 100%;
 }
 .pledge-root {
-	padding: 60rpx 32rpx 40rpx;
+	padding-top: 60rpx;
 	background-color: #150e2d;
 	min-height: 100%;
 	color: #ced3e1;
 	box-sizing: border-box;
-	.u-tabs {
-		position: fixed;
-		top: 40px;
-		left: 0;
-		right: 0;
+	.detail-box {
+		display: flex;
+		flex-direction: column;
+		height: calc(100vh - 88px);
 	}
+	
+	// .u-tabs {
+	// 	position: fixed;
+	// 	top: 40px;
+	// 	left: 0;
+	// 	right: 0;
+	// }
 	.list {
-		overflow-y: scroll;
-		padding-top: 80rpx;
+		background-color: #150e2d;
+		// overflow-y: scroll;
+		padding-top: 30rpx;
 		.list-item {
-			padding: 20rpx 10rpx;
+			padding: 20rpx 42rpx;
 			border-bottom: 0.5px solid rgba(204, 204, 204, 0.2);
 			display: flex;
 			justify-content: space-between;

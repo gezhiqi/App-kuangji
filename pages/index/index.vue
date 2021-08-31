@@ -108,10 +108,14 @@
 			</view>
 		</view> -->
 		<u-toast ref="uToast" />
+		<updatePop ref="update"></updatePop>
 	</view>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
+import { version } from '../../common/version.js';
+import updatePop from '../../components/update/update.vue';
 export default {
 	data() {
 		return {
@@ -167,12 +171,21 @@ export default {
 			]
 		};
 	},
-	onShow() {
+	components: {
+		updatePop
+	},
+	async onShow() {
 		this.getTabbarList();
 		this.getNoticeList();
 		this.getPriceList();
+		await this.getVersion();
+		if (this.version > version) {
+			if (uni.getSystemInfoSync().platform == 'android') {
+				this.$refs.update.show = true;
+			}
+		}
 	},
-	created() {
+	async created() {
 		let that = this;
 		uni.getSystemInfo({
 			success: res => {
@@ -181,14 +194,11 @@ export default {
 		});
 	},
 	mounted() {},
-
-	// onLoad() {
-	// 	var loginRes = this.checkLogin();
-	// 	if (!loginRes) {
-	// 		return false;
-	// 	}
-	// },
+	computed: {
+		...mapState(['version'])
+	},
 	methods: {
+		...mapActions(['getVersion']),
 		getTabbarList() {
 			this.$api.getTabbarList().then(res => {
 				let { data, code } = res.data;

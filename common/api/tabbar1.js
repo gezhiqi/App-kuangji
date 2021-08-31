@@ -37,3 +37,18 @@ export const noticeInfo = (id) => {
 		method:'GET'
 	})
 }
+// 邀请海报
+export const sharePost = (data) => {
+	return $http({
+		url:`/app/user/invite/image`,
+		data,
+		method:'POST'
+	})
+}
+// 系统版本
+export const version = (data) => {
+	return $http({
+		url:`/app/version/info`,
+		method:'GET'
+	})
+}

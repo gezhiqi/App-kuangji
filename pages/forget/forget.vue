@@ -20,28 +20,49 @@
 					</u-form-item>
 					<u-form-item label-width="auto" label="设置密码:">
 						<u-input
-							maxlength="11"
-							v-model="form.telephone"
+							type="password"
+							v-model="form.loginPw"
 							trim
 							:clearable="false"
-							placeholder="请设置新的登录密码"
+							placeholder="请设置登录密码"
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
 					<u-form-item label-width="auto" label="确认密码:">
 						<u-input
-							maxlength="11"
-							v-model="form.telephone"
+							type="password"
+							v-model="form.showLoginPw"
 							trim
 							:clearable="false"
-							placeholder="请确认新的登录密码"
+							placeholder="请确认登录密码"
+							placeholder-style="color: rgb(95, 88, 116);"
+						/>
+					</u-form-item>
+					<u-form-item label-width="auto" label="支付密码:">
+						<u-input
+							type="number"
+							maxlength="6"
+							v-model="form.payPw"
+							trim
+							:clearable="false"
+							placeholder="支付密码必须为6位数字"
+							placeholder-style="color: rgb(95, 88, 116);"
+						/>
+					</u-form-item>
+					<u-form-item label-width="auto" label="确认支密:">
+						<u-input
+							type="password"
+							maxlength="6"
+							v-model="form.showPayPw"
+							trim
+							:clearable="false"
+							placeholder="请确认安全密码"
 							placeholder-style="color: rgb(95, 88, 116);"
 						/>
 					</u-form-item>
 					<u-form-item label-width="auto" label="短 信 码:">
 						<u-input
-							maxlength="11"
-							v-model="form.telephone"
+							v-model="form.smscode"
 							trim
 							:clearable="false"
 							placeholder="请输入验证码"
@@ -54,7 +75,11 @@
 					</u-form-item>
 				</u-form>
 			</view>
+			<view class="register_submit">
+				<u-button type="primary" @click="confirmChange">确认修改</u-button>
+			</view>
 		</view>
+		<u-toast ref="uToast" />
 	</view>
 </template>
 
@@ -65,18 +90,69 @@ export default {
 			form: {
 				telephone: '',
 				loginPw: '',
-				captcha: ''
+				showLoginPw: '',
+				payPw: '',
+				showPayPw: '',
+				smscode: ''
 			},
-			count:0
+			timer: null,
+			count: ''
 		};
 	},
 	methods: {
 		goBack() {
 			uni.navigateBack(1);
 		},
+		validate() {
+			let scope = this;
+			return {
+				telephone() {
+					if (scope.form.telephone === '' || scope.form.telephone === null) {
+						scope.$refs.uToast.show({
+							title: '手机号不能为空',
+							type: 'error'
+						});
+						return false;
+					}
+					if (!/^1\d{10}$/.test(scope.form.telephone)) {
+						scope.$refs.uToast.show({
+							title: '手机格式不正确',
+							type: 'error'
+						});
+						return false;
+					} else {
+						return true;
+					}
+				},
+				loginPw() {
+					if (
+						!/^(?![^A-Za-z]+$)(?![^0-9]+$)[\x21-x7e]{6,18}$/.test(scope.form.loginPw) ||
+						scope.form.loginPw === ''
+					) {
+						scope.$refs.uToast.show({
+							title: '密码必须包含字母和数字6-18位',
+							type: 'error'
+						});
+						return false;
+					} else {
+						return true;
+					}
+				},
+				captcha() {
+					if (scope.form.smscode !== '') {
+						return true;
+					} else {
+						scope.$refs.uToast.show({
+							title: '验证码不能为空',
+							type: 'error'
+						});
+						return false;
+					}
+				}
+			};
+		},
 		getCode() {
 			const TIME_COUNT = 60;
-			console.log(123111);
 			if (!this.timer) {
 				this.count = TIME_COUNT;
 				this.showCount = false;
@@ -92,14 +168,96 @@ export default {
 				}, 1000);
 			}
 		},
+		
+		confirmChange() {
+			if (!this.validate().telephone()) {
+				return false;
+			}
+			if (!this.validate().loginPw()) {
+				return false;
+			}
+			if (!this.validate().captcha()) {
+				return false;
+			}
+			if (this.form.payPw.length !== 6) {
+				this.$refs.uToast.show({
+					title: '支付密码必须为6位数字',
+					type: 'error'
+				});
+				return false;
+			}
+		
+			if (this.form.loginPw !== this.form.showLoginPw) {
+				this.$refs.uToast.show({
+					title: '两次密码不一致',
+					type: 'error'
+				});
+				return false;
+			}
+			if (this.form.payPw.length !== 6) {
+				this.$refs.uToast.show({
+					title: '支付密码必须为6位数字',
+					type: 'error'
+				});
+				return false;
+			}
+			if (this.form.payPw !== this.form.showPayPw) {
+				this.$refs.uToast.show({
+					title: '两次安全密码不一致',
+					type: 'error'
+				});
+				return false;
+			}
+			this.$api
+				.forgetReset({
+					...this.form
+				})
+				.then(res => {
+					const { data, code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '修改成功',
+							type: 'success'
+						});
+						// let timer = setTimeout(() => {
+						// 	uni.navigateBack(1);
+						// }, 1000);
+						// this.$once('hook:beforeDestory', () => {
+						// 	clearInterval(timer);
+						// 	timer = null;
+						// });
+					} else {
+						this.$refs.uToast.show({
+							title: msg,
+							type: 'error'
+						});
+					}
+				})
+				.catch(err => {
+					// console.log(err);
+					// this.$Router.push({ name: 'my' });
+				});
+		},
+		
 		getSmsCode() {
 			this.getCode();
 			this.$api
-				.sendRegister({
+				.sendForget({
 					telephone: this.form.telephone
 				})
 				.then(res => {
-					console.log(res);
+					const { data, code, msg } = res.data;
+					if (code === 200 ) {
+						this.$refs.uToast.show({
+							title: '短信发送成功轻查收',
+							type: 'success'
+						});
+					}else {
+						this.$refs.uToast.show({
+							title: msg,
+							type: 'error'
+						});
+					}
 				})
 				.catch(err => {
 					console.log(err);

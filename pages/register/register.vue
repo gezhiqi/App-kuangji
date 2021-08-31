@@ -86,7 +86,7 @@
 			</view>
 			<view class="protocol">
 				注册即为同意
-				<text>《用户注册协议》</text>
+				<text @click="toAreement">《用户注册协议》</text>
 			</view>
 			<view class="register_submit">
 				<u-button type="primary" @click="registerBtn">注册</u-button>
@@ -270,14 +270,25 @@ export default {
 					telephone: this.form.telephone
 				})
 				.then(res => {
-					this.$refs.uToast.show({
-						title: '短信发送成功轻查收',
-						type: 'success'
-					});
+					const { data, code, msg } = res.data;
+					if (code === 200 ) {
+						this.$refs.uToast.show({
+							title: '短信发送成功轻查收',
+							type: 'success'
+						});
+					}else {
+						this.$refs.uToast.show({
+							title: msg,
+							type: 'error'
+						});
+					}
 				})
 				.catch(err => {
 					console.log(err);
 				});
+		},
+		toAreement() {
+			this.$router.push({name:"agreement"})
 		}
 	}
 };

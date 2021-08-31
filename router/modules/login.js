@@ -23,6 +23,13 @@ const login = [
 	        title: '忘记密码',
 	    },
 	},
+	{
+	    path: '/pages/register/agreement',
+	    name: 'agreement',
+	    meta: {
+	        title: '用户协议',
+	    },
+	},
 	
 ]
 export default login

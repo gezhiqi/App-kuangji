@@ -2,7 +2,7 @@
 	<view class="mining-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
 		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
 			<view>矿机</view>
-			<view class="right">矿机说明</view>
+			<view class="right" @click="goDetail('0f1cbe82-00ba-11ec-8e3b-52540029ab15')">矿机说明</view>
 		</view>
 		<view class="my-balance">
 			<view class="balance-box">
@@ -186,6 +186,11 @@ export default {
 		goToMyMining() {
 			uni.navigateTo({
 				url: '/pages/mining/mining-my'
+			});
+		},
+		goDetail(id) {
+			uni.navigateTo({
+				url: `/pages/my/my-newperson-detail?id=${id}`
 			});
 		}
 	}

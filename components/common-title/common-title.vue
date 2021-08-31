@@ -1,10 +1,15 @@
 <template>
-	<view :style="{ paddingTop: statusBarHeight + 'px'}" class="title">
+	<view
+		:style="{
+			paddingTop: statusBarHeight + 'px',
+			top: statusBarHeight,
+			'background-color': bgColor
+		}"
+		class="title"
+	>
 		<view v-if="isBack" class="back" @click="goBack"></view>
 		<slot></slot>
-		<view v-if="$slots.right" class="right">
-			<slot name="right"></slot>
-		</view>
+		<view v-if="$slots.right" class="right"><slot name="right"></slot></view>
 	</view>
 </template>
 
@@ -15,6 +20,10 @@ export default {
 		isBack: {
 			type: Boolean,
 			default: false
+		},
+		bgColor: {
+			type: String,
+			default: '#150e2d'
 		}
 	},
 	data() {
@@ -50,13 +59,15 @@ export default {
 	color: #ced3e1;
 	font-size: 32rpx;
 	z-index: 99;
-	background-image: linear-gradient(45deg, #110e2a, #110e2a);
+	// background-image: linear-gradient(45deg, #110e2a, #110e2a);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	.back {
 		position: absolute;
 		left: 30rpx;
-		bottom: 18rpx;
-		width: 60rpx;
-		height: 60rpx;
+		width: 56rpx;
+		height: 56rpx;
 		background: url('../../static/back.png') no-repeat center center;
 		background-size: 40rpx 40rpx;
 	}
@@ -64,9 +75,9 @@ export default {
 		font-size: 24rpx;
 		position: absolute;
 		right: 30rpx;
-		bottom: 20rpx;
+		top: 50%;
+		transform: translateY(-50%);
 		line-height: 36rpx;
-
 	}
 }
 </style>

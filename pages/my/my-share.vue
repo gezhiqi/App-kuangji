@@ -1,11 +1,10 @@
 <template>
-	<view  class="my-share-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<common-title :isBack="true">
-			<template v-slot:default>
-				邀请好友得奖励
-			</template>
-		</common-title>
-		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="content" >
+	<view class="my-share-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
+		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
+			<view class="back" @click="goBack"></view>
+			<view>邀请好友得奖励</view>
+		</view>
+		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="content">
 			<image src="../../static/logo.png" mode="aspectFit"></image>
 			<view class="desc1">Space Universe Coin</view>
 			<!-- <view class="desc2">您的好友诚邀您一起开启区块链星际旅程</view> -->
@@ -22,14 +21,14 @@
 				<view class="qrcode">
 					<canvas style="width: 200rpx; height: 200rpx;" canvas-id="downQrCode"></canvas>
 				</view>
-				<view class="desc">扫描下载注册</view>
+				<view class="desc">扫描二维码下载注册</view>
 				<view class="btn-box">
 					<view class="btn1" @click="copyUrl">复制邀请地址</view>
-					<view class="btn2" @click="savePicture">保存邀请海报</view>
+					<!-- <view class="btn2" @click="toImg">保存邀请海报</view> -->
 				</view>
 			</view>
 		</view>
-		
+
 		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="content" id="poster">
 			<image src="../../static/logo.png" mode="aspectFit"></image>
 			<view class="desc1">Space Universe Coin</view>
@@ -48,30 +47,33 @@
 					<canvas style="width: 200rpx; height: 200rpx;" canvas-id="downQrCode"></canvas>
 				</view>
 				<view class="desc">扫描下载注册</view>
-				<view class="btn-box">
+				<!-- <view class="btn-box">
 					<view class="btn1" @click="copyUrl">复制邀请地址</view>
 					<view class="btn2" @click="savePicture">保存邀请海报</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
+		<u-toast ref="uToast" />
+		<canvas canvas-id="myCanvas" id="sss"></canvas>
 		<!-- <savefile v-if="isShowPhoto" :url="qrUrl" @hide="hidePhoto"></savefile> -->
 	</view>
+	
 </template>
 
 <script>
 import qrCode from '../../common/weapp-qrcode.js';
 import { mapActions, mapState } from 'vuex';
 import permision from '@/js_sdk/wa-permission/permission.js';
-import html2canvas from 'html2canvas'
+import html2canvas from 'html2canvas';
 // import { Os, Browser } from '../../common/SL.js';
 export default {
 	data() {
 		return {
 			statusBarHeight: 0,
 			isShowPhoto: true,
-			qrUrl: 'https://image-1252618452.cos.ap-hongkong.myqcloud.com/lunbo2.png',
 			imageUrl: require('../../static/header-bg.png'),
-			base64: ''
+			base64: '',
+			imgFile: ''
 		};
 	},
 	created() {
@@ -80,21 +82,23 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
-		
 	},
 	async mounted() {
 		this.getQRCode();
-			await this.getUserInfo();
-			this.toImg()
+		await this.getUserInfo();
+		// this.toImg();
 	},
 	computed: {
 		...mapState(['userInfo'])
 	},
 	methods: {
 		...mapActions(['getUserInfo']),
+		goBack() {
+			uni.navigateBack(1);
+		},
 		getQRCode() {
 			new qrCode('downQrCode', {
-				text: `https://www.czldny.com/#/pages/register/register?invitecode=${
+				text: `https://web.czldny.com/#/?invitecode=${
 					this.userInfo.inviteCode
 				}`,
 				width: 100,
@@ -105,61 +109,74 @@ export default {
 		},
 		copyUrl() {
 			uni.setClipboardData({
-				data: `https://www.czldny.com/#/pages/register/register?invitecode=${
+				data: `https://web.czldny.com/#/?invitecode=${
 					this.userInfo.inviteCode
 				}`
 			});
 		},
 		toImg() {
-			let dom = uni.createSelectorQuery().select("#poster")
-			console.log(dom.clientWidth,dom.clientHeight)
+			let dom = uni.createSelectorQuery().select('#poster');
+			// let dom = document.querySelector('#poster')
+			console.log(200, 200);
 			html2canvas(dom, {
-				width:dom.clientWidth,
-				height:dom.clientHeight,
+				width: getSystemInfoSync,
+				height: 200,
 				scrollY: 0,
 				scrollX: 0,
 				useCORS: true
 			}).then(canvas => {
-				this.base64 = canvas.toDataURL('image/jpeg',0.1)
+				this.base64 = canvas.toDataURL('image/jpeg', 0.1);
+				console.log(this.base64);
+				this.$api
+					.sharePost({
+						base64: this.base64
+					})
+					.then(res => {
+						const { data, code, msg } = res.data;
+						if (code === 200) {
+							console.log(data);
+							this.imgFile = data;
+						}
+					})
+					.catch(err => {
+						console.log('base64err', err);
+					});
+			}).catch(err => {
+				console.log(err)
 			})
 		},
 		savePicture() {
-			this.saveImgFile()
+			console.log(this.imgFile);
+			uni.downloadFile({
+				url: this.imgFile, //仅为示例，并非真实的资源
+				success: res => {
+					if (res.statusCode === 200) {
+						console.log('下载成功');
+					}
+					let that = this;
+					uni.saveImageToPhotosAlbum({
+						filePath: res.tempFilePath,
+						success: () => {
+							this.$refs.uToast.show({
+								title: '保存成功',
+								type: 'success'
+							});
+						}
+					});
+				}
+			});
 		},
-		saveImgFile() {
-		    let base64 = this.base64;
-		    const bitmap = new plus.nativeObj.Bitmap("test");
-		    bitmap.loadBase64Data(base64, function() {
-		        const url = "_doc/" + new Date().getTime() + ".png";  // url为时间戳命名方式
-		        console.log('saveHeadImgFile', url)
-		        bitmap.save(url, {
-		            overwrite: true,  // 是否覆盖
-		            // quality: 'quality'  // 图片清晰度
-		        }, (i) => {
-		            uni.saveImageToPhotosAlbum({
-		                filePath: url,
-		                success: function() {
-		                    uni.showToast({
-		                        title: '图片保存成功',
-		                        icon: 'none'
-		                    })
-		                    bitmap.clear()
-		                }
-		            });
-		        }, (e) => {
-		            uni.showToast({
-		                title: '图片保存失败',
-		                icon: 'none'
-		            })
-		            bitmap.clear()
-		        });
-		    }, (e) => {
-		        uni.showToast({
-		            title: '图片保存失败',
-		            icon: 'none'
-		        })
-		        bitmap.clear()
-		    });
+
+		bcFn() {
+			uni.saveImageToPhotosAlbum({
+				//保存图片
+				filePath: this.base64,
+				success: res => {
+					uni.showToast({
+						title: '保存成功'
+					});
+				}
+			});
 		},
 		hidePhoto() {
 			this.isShowPhoto = false;
@@ -171,13 +188,35 @@ export default {
 	}
 };
 </script>
-
 <style lang="scss">
 .my-share-root {
 	min-height: 100vh;
 	background: url(../../static/invite-bg.jpg) no-repeat top center;
 	background-size: cover;
 	box-sizing: border-box;
+	.root-title {
+		position: fixed;
+		left: 0;
+		top: 0;
+		right: 0;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		color: #ced3e1;
+		font-size: 32rpx;
+		z-index: 99;
+		// background-image: linear-gradient(45deg, #110e2a, #110e2a);
+		.back {
+			position: absolute;
+			left: 30rpx;
+			bottom: 26rpx;
+			width: 36rpx;
+			height: 36rpx;
+			background: url('../../static/back.png') no-repeat center center;
+			background-size: 100% 100%;
+		}
+
+	}
 	.content {
 		display: flex;
 		flex-direction: column;
@@ -310,12 +349,13 @@ export default {
 	#poster {
 		position: fixed;
 		left: 0;
-		top:0;
+		top: 0;
 		min-height: 100vh;
-		background: url(../../static/invite-bg.jpg) no-repeat top center;
-		background-size: cover;
-		box-sizing: border-box;
+		// background: url(../../static/invite-bg.jpg) no-repeat top center;
+		// background-size: cover;
+		// box-sizing: border-box;
 		transform: translateX(-200%);
+		background-color: #000;
 	}
 }
 </style>

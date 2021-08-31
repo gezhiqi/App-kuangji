@@ -2,7 +2,7 @@
 	<view class="pledge-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
 		<view :style="{ paddingTop: statusBarHeight + 'px' }" class="root-title">
 			<view>质押</view>
-			<view class="right">质押规则</view>
+			<view class="right" @click="goDetail('4d4a1364-e62a-11eb-8e3b-52540029ab15')">质押规则</view>
 		</view>
 		<view class="my-balance">
 			<view class="balance-box">
@@ -168,6 +168,11 @@ export default {
 		goToMyPledge() {
 			uni.navigateTo({
 				url: '/pages/pledge/pledge-my'
+			});
+		},
+		goDetail(id) {
+			uni.navigateTo({
+				url: `/pages/my/my-newperson-detail?id=${id}`
 			});
 		}
 	}

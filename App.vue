@@ -5,14 +5,14 @@ export default {
 	onLaunch: function() {
 		let that = this;
 		// 检测版本更新
-		console.log(version)
+		// console.log(version)
 		// that.checkVersion();
 	},
 	onShow: function() {
-		console.log('App Show');
+		// console.log('App Show');
 	},
 	onHide: function() {
-		console.log('App Hide');
+		// console.log('App Hide');
 	},
 	methods: {
 		checkVersion() {

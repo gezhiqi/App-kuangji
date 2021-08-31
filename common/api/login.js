@@ -18,13 +18,21 @@ export const register = (data) => {
 // 注册验证码
 export const sendRegister = (data) => {
 	return $http({
-		url:'/app/message/send/aliregister',
+		url:'/app/message/send/register',
 		data,
 		method:'POST'
 	})
 }
 // 忘记密码验证码
 export const sendForget = (data) => {
+	return $http({
+		url:'/app/message/send/forget',
+		data,
+		method:'POST'
+	})
+}
+// 
+export const forgetReset = (data) => {
 	return $http({
 		url:'/app/main/forget',
 		data,

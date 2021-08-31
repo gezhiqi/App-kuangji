@@ -2,7 +2,7 @@
 	<view class="login">
 		<view class="login-form">
 			<view class="title">
-				<view class="title-f">欢迎来到Space Coins</view>
+				<view class="title-f">欢迎来到Space Universe Coins</view>
 				<view class="title-t">请登录</view>
 			</view>
 			<u-form :model="form" ref="uForm">
