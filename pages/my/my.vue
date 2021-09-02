@@ -32,13 +32,19 @@
 		<view class="my-ccount">
 			<view class="purse-title">账号信息</view>
 			<view class="purse-box">
-				<view class="item" @click="showToast">
+				<view class="item">
 					<view class="purse">可用余额</view>
-					<view class="num">{{ userInfo.userBalance }}<text>SUC</text></view>
+					<view class="num">
+						{{ userInfo.userBalance.toFixed(2) }}
+						<text>SUC</text>
+					</view>
 				</view>
-				<view class="item" @click="showToast">
+				<view class="item">
 					<view class="purse">冻结余额</view>
-					<view class="num">{{ userInfo.frozenBalance }}<text>SUC</text></view>
+					<view class="num">
+						{{ userInfo.frozenBalance.toFixed(2) }}
+						<text>SUC</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -72,9 +78,18 @@
 		>
 			<view class="modal-box">
 				<view class="desc">
-					每次解冻扣除<text>5</text>SUC
+					每次解冻扣除
+					<text>5</text>
+					SUC
 				</view>
-				<u-input placeholder="请输入解冻手机号" v-model="thawTel" type="number" :border="true" trim maxlength="11" />
+				<u-input
+					placeholder="请输入解冻手机号"
+					v-model="thawTel"
+					type="number"
+					:border="true"
+					trim
+					maxlength="11"
+				/>
 			</view>
 		</u-modal>
 	</view>
@@ -94,9 +109,21 @@ export default {
 			thawTel: ''
 		};
 	},
+
 	onShow() {
 		this.getBubbleNum();
 		this.getUserInfo();
+	},
+	onPullDownRefresh() {
+		this.getBubbleNum();
+		this.getUserInfo();
+		setTimeout(() => {
+			uni.stopPullDownRefresh();
+			this.$refs.uToast.show({
+				title: '刷新成功',
+				type: 'success'
+			});
+		}, 1000);
 	},
 	created() {
 		uni.getSystemInfo({
@@ -210,8 +237,8 @@ export default {
 			});
 		},
 		handleCancel() {
-			this.thawTel = ''
-			this.show =false
+			this.thawTel = '';
+			this.show = false;
 		},
 		handleShow() {
 			if (!this.validate().telephone()) {
@@ -265,6 +292,11 @@ export default {
 uni-page-body,
 body {
 	height: 100%;
+}
+.uni-page-refresh {
+	svg {
+		fill: #000;
+	}
 }
 .my-root {
 	padding: 60rpx 30rpx 120rpx;
@@ -363,7 +395,6 @@ body {
 					line-height: 50rpx;
 					margin-bottom: 20rpx;
 					font-size: 40rpx;
-					
 				}
 				.name-icon {
 					width: 60rpx;
@@ -410,6 +441,7 @@ body {
 				flex-direction: column;
 				align-items: center;
 				.num {
+					color: #3c78fa;
 					line-height: 50rpx;
 					margin-top: 20rpx;
 					font-size: 44rpx;

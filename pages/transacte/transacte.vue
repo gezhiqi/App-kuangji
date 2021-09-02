@@ -86,8 +86,9 @@ let opts = {
 	// X轴设置
 	xAxis: {
 		disableGrid: true,
-		axisLine: false
-		// itemCount:10,
+		axisLine: false,
+		itemCount:1,
+		rotateLabel: true,
 	},
 	yAxis: {
 		disableGrid: true,
@@ -140,7 +141,7 @@ export default {
 				xAxis: {
 					disableGrid: true,
 					axisLine: false,
-					labelCount: 8,
+					labelCount: 10,
 					itemCount: () => {
 						return this.chartData.series.length;
 					}
@@ -187,6 +188,20 @@ export default {
 		this.getPriceTrend();
 		this.getUserInfo();
 	},
+	onPullDownRefresh() {
+		this.orderList = []; // 先置空列表,显示加载进度
+		this.mescroll && this.mescroll.resetUpScroll(); // 再刷新列表数据
+		this.getPriceTrend();
+		this.getUserInfo();
+		
+		setTimeout(() => {
+			uni.stopPullDownRefresh();
+			this.$refs.uToast.show({
+				title: '刷新成功',
+				type: 'success',
+			});
+		}, 1000);
+	},
 	created() {
 		uni.getSystemInfo({
 			success: res => {
@@ -228,7 +243,7 @@ export default {
 					console.log('订单列表', res);
 					if (res.data.code === 200) {
 						// 接口返回的当前页数据列表 (数组)
-						let curPageData = res.data.data.records;
+						let curPageData = res.data.data.records || [];
 						// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
 						let curPageLen = curPageData.length;
 						// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)

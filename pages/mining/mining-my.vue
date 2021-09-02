@@ -53,15 +53,22 @@
 								</view>
 								<view class="right-footer">
 									<view class="left">
-										{{ v.flag ? '已开启：' : '未开启：' }}
+										{{
+											v.status == '2'
+												? ''
+												: v.status == '1'
+												? '已开启：'
+												: '未开启：'
+										}}
 										<u-switch
+											v-if="v.status !== '2'"
 											@change="changeSwitch($event, v)"
 											size="30"
 											v-model="v.flag"
 										></u-switch>
 									</view>
-									<u-button type="primary" size="mini" @click="receiveIncome(v)">
-										领取收益
+									<u-button :type="v.status !== '2' ? 'primary' : 'default'" size="mini" @click="receiveIncome(v)">
+										{{ v.status !== '2' ? '领取收益' : '已结算' }}
 									</u-button>
 								</view>
 							</view>
@@ -101,9 +108,15 @@
 								<view class="right-footer">
 									<view class="left">
 										{{ v.flag ? '已开启：' : '未开启：' }}
-										<u-switch @change="changeSwitch($event, v)" size="30" v-model="v.flag"></u-switch>
+										<u-switch
+											@change="changeSwitch($event, v)"
+											size="30"
+											v-model="v.flag"
+										></u-switch>
 									</view>
-									<u-button type="primary" size="mini" @click="receiveIncome(v)">领取收益</u-button>
+									<u-button type="primary" size="mini" @click="receiveIncome(v)">
+										领取收益
+									</u-button>
 								</view>
 							</view>
 						</view>
@@ -145,9 +158,7 @@
 										<!-- 已结束
 										<u-switch :disabled="true" size="30" v-model="v.flag"></u-switch> -->
 									</view>
-									<u-button size="mini">
-										已结算
-									</u-button>
+									<u-button size="mini" @click="receiveIncome(v)">已结算</u-button>
 								</view>
 							</view>
 						</view>
@@ -272,6 +283,12 @@ export default {
 
 		// 领取收益
 		receiveIncome(v) {
+			if(v.status == '2') {
+				this.$refs.uToast.show({
+					title: '已结算',
+				});
+				return false
+			}
 			this.$api.receiveIncome({ id: v.id }).then(res => {
 				let { data, code, msg } = res.data;
 				if (code === 200) {

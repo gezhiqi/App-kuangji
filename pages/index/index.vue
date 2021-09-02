@@ -61,7 +61,7 @@
 						<view class="exchange-b">￥{{ price.toFixed(2) }}</view>
 					</view>
 					<view class="item">
-						<view class="currency">ESO/CNY</view>
+						<view class="currency">EOS/CNY</view>
 						<view class="exchange-a">{{ eosPrice.toFixed(2) }}</view>
 						<view class="exchange-b">￥{{ eosPrice.toFixed(2) }}</view>
 					</view>
@@ -185,6 +185,18 @@ export default {
 			}
 		}
 	},
+	onPullDownRefresh() {
+		this.getTabbarList();
+		this.getNoticeList();
+		this.getPriceList();
+		setTimeout(() => {
+			uni.stopPullDownRefresh();
+			this.$refs.uToast.show({
+				title: '刷新成功',
+				type: 'success'
+			});
+		}, 1000);
+	},
 	async created() {
 		let that = this;
 		uni.getSystemInfo({
@@ -193,6 +205,7 @@ export default {
 			}
 		});
 	},
+	
 	mounted() {},
 	computed: {
 		...mapState(['version'])

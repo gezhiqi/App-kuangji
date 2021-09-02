@@ -102,6 +102,18 @@ export default {
 		this.getMiningUserInfo();
 		this.getUserInfo();
 	},
+	onPullDownRefresh() {
+		this.getMiningList();
+		this.getMiningUserInfo();
+		this.getUserInfo();
+		setTimeout(() => {
+			uni.stopPullDownRefresh();
+			this.$refs.uToast.show({
+				title: '刷新成功',
+				type: 'success'
+			});
+		}, 1000);
+	},
 	created() {
 		uni.getSystemInfo({
 			success: res => {

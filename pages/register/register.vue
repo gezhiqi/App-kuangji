@@ -273,7 +273,7 @@ export default {
 					const { data, code, msg } = res.data;
 					if (code === 200 ) {
 						this.$refs.uToast.show({
-							title: '短信发送成功轻查收',
+							title: '发送成功',
 							type: 'success'
 						});
 					}else {

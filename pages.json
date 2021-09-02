@@ -10,7 +10,7 @@
 				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
 				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"enablePullDownRefresh": true, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false,
@@ -30,7 +30,7 @@
 				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
 				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"enablePullDownRefresh": true, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false,
@@ -72,7 +72,7 @@
 				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
 				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"enablePullDownRefresh": true, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false,
@@ -155,7 +155,7 @@
 				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
 				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"enablePullDownRefresh": true, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false,
@@ -196,7 +196,7 @@
 				"backgroundColorTop": "#ced3e1", // iOS下拉bounce回弹区域的颜色 (与down.bgColor同步)
 				"backgroundColorBottom": "#ced3e1", // iOS上拉bounce回弹区域的颜色 (与up.bgColor同步)
 				"disableScroll": false, //删除此项: mescroll-body必须允许原生页面滚动, 默认false
-				"enablePullDownRefresh": false, //删除此项: 不开启系统自带的下拉刷新, 默认false
+				"enablePullDownRefresh": true, //删除此项: 不开启系统自带的下拉刷新, 默认false
 				"navigationStyle": "custom",
 				"app-plus": {
 					"titleView": false,

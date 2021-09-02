@@ -14,11 +14,12 @@ const router = new Router({
 
 //全局路由前置守卫
 router.beforeEach((to, from, next) => {
+	next()
 	//将所有需要登陆才显示的页面的路由都放进一个数组
 	const nextRoute = ['my', 'pledge', 'transacte', 'mining'];
 	//获取登陆状态
 	let isLogin = uni.getStorageSync('token')
-	console.log('isLogin', isLogin)
+	// console.log('isLogin', isLogin)
 	if (to.name === 'login') { //如果是登录页，则跳过验证
 		next() //必不可少
 		return //以下的代码不执行

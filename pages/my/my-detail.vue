@@ -112,7 +112,7 @@ export default {
 					console.log('明细列表', res);
 					if (res.data.code === 200) {
 						// 接口返回的当前页数据列表 (数组)
-						let curPageData = res.data.data.records;
+						let curPageData = res.data.data.records || [];
 						// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
 						let curPageLen = curPageData.length;
 						// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)

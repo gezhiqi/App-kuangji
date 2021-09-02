@@ -5,7 +5,10 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
 	state: {
 		userInfo: {
-			name: ''
+			name: '',
+			userBalance: 0,
+			frozenBalance:0
+			
 		},
 		version: '',
 	},

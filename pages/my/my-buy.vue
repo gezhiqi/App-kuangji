@@ -42,6 +42,9 @@
 						</view>
 					</view>
 					<view class="item-footer">
+						<text class="time" v-show="[1, 2].includes(current)">
+							剩余时间：{{ item.endTime | countDownFun(nowDate) }}
+						</text>
 						<view
 							v-show="[1, 2, 3, 4].includes(current)"
 							class="confirm"
@@ -176,13 +179,42 @@ export default {
 			QrPop: false,
 			currentQrCode: '',
 			payPath: '',
-			statusBarHeight:0
+			statusBarHeight: 0,
+			timeList: [],
+			nowDate: null
 		};
 	},
 	filters: {
 		filterStatus(value) {
-			let obj = ['待与卖家匹配', '确认付款', '待卖家确认', '已完成', '未完成'];
+			let obj = [
+				'待与卖家匹配',
+				'确认付款',
+				'待卖家确认',
+				'已完成',
+				'订单超时',
+				'异常取消',
+				'已处理'
+			];
 			return obj[value];
+		},
+		countDownFun(endT, nowT) {
+			const end = Date.parse(new Date(endT));
+			// 当前时间戳
+			const now = Date.parse(new Date(nowT));
+			// 相差的毫秒数
+			const msec = end - now;
+			if (msec < 0) {
+				return '00:00';
+			}
+			// 计算时分秒数
+			let hr = parseInt((msec / 1000 / 60 / 60) % 24);
+			let min = parseInt((msec / 1000 / 60) % 60);
+			let sec = parseInt((msec / 1000) % 60);
+			// 个位数前补零
+			hr = hr > 9 ? hr : '0' + hr;
+			min = min > 9 ? min : '0' + min;
+			sec = sec > 9 ? sec : '0' + sec;
+			return `${min}分${sec}秒`;
 		}
 	},
 	created() {
@@ -191,10 +223,24 @@ export default {
 				this.statusBarHeight = res.statusBarHeight;
 			}
 		});
+		this.updateDate();
 		// this.pledgeDetailList();
 	},
-	mounted() {},
+	mounted() {
+
+	},
 	methods: {
+		updateDate() {
+			let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
+			let timer = setInterval(() => {
+				_this.nowDate = new Date();
+			}, 1000);
+			this.$once('hook:beforeDestory', () => {
+				clearInterval(timer);
+				timer = null;
+			});
+		},
+
 		// 初始化
 		mescrollInit(mescroll) {
 			this.mescroll = mescroll;
@@ -325,7 +371,7 @@ export default {
 			uni.showLoading({
 				title: '正在加载'
 			});
-			console.log(page)
+			console.log(page);
 			let pageNum = page.num; // 页码, 默认从1开始
 			let pageSize = page.size; // 页长, 默认每页10条
 			this.$api
@@ -338,7 +384,7 @@ export default {
 					console.log('订单列表', res);
 					if (res.data.code === 200) {
 						// 接口返回的当前页数据列表 (数组)
-						let curPageData = res.data.data.records;
+						let curPageData = res.data.data.records || [];
 						// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
 						let curPageLen = curPageData.length;
 						// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
@@ -430,17 +476,26 @@ body {
 				display: flex;
 				flex-direction: row-reverse;
 				padding: 10rpx 0;
+				position: relative;
 				view {
-					padding: 0 20rpx;
+					padding: 0 15rpx;
 					height: 50rpx;
-					line-height: 50rpx;
+					line-height: 48rpx;
 					text-align: center;
-					font-size: 28rpx;
+					font-size: 24rpx;
 					border-radius: 30rpx;
 					background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);
 				}
 				.look {
 					margin-right: 20rpx;
+				}
+				.time {
+					position: absolute;
+					left: 0;
+					top: 50%;
+					transform: translateY(-50%);
+					font-size: 26rpx;
+					line-height: 24rpx;
 				}
 			}
 		}

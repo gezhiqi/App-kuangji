@@ -463,7 +463,7 @@ var render = function() {
                       _c(
                         "v-uni-view",
                         { staticClass: _vm._$g(31, "sc"), attrs: { _i: 31 } },
-                        [_vm._v("ESO/CNY")]
+                        [_vm._v("EOS/CNY")]
                       ),
                       _c(
                         "v-uni-view",
@@ -5885,24 +5885,26 @@ var render = function() {
                                       },
                                       [
                                         _vm._v(_vm._$g("32-" + $30, "t0-0")),
-                                        _c("u-switch", {
-                                          attrs: { _i: "33-" + $30 },
-                                          on: {
-                                            change: function($event) {
-                                              return _vm.$handleViewEvent(
-                                                $event
-                                              )
-                                            }
-                                          },
-                                          model: {
-                                            value: _vm._$g(
-                                              "33-" + $30,
-                                              "v-model"
-                                            ),
-                                            callback: function() {},
-                                            expression: "v.flag"
-                                          }
-                                        })
+                                        _vm._$g("33-" + $30, "i")
+                                          ? _c("u-switch", {
+                                              attrs: { _i: "33-" + $30 },
+                                              on: {
+                                                change: function($event) {
+                                                  return _vm.$handleViewEvent(
+                                                    $event
+                                                  )
+                                                }
+                                              },
+                                              model: {
+                                                value: _vm._$g(
+                                                  "33-" + $30,
+                                                  "v-model"
+                                                ),
+                                                callback: function() {},
+                                                expression: "v.flag"
+                                              }
+                                            })
+                                          : _vm._e()
                                       ],
                                       1
                                     ),
@@ -5916,7 +5918,7 @@ var render = function() {
                                           }
                                         }
                                       },
-                                      [_vm._v("领取收益")]
+                                      [_vm._v(_vm._$g("34-" + $30, "t0-0"))]
                                     )
                                   ],
                                   1
@@ -6453,7 +6455,14 @@ var render = function() {
                                     }),
                                     _c(
                                       "u-button",
-                                      { attrs: { _i: "87-" + $32 } },
+                                      {
+                                        attrs: { _i: "87-" + $32 },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.$handleViewEvent($event)
+                                          }
+                                        }
+                                      },
                                       [_vm._v("已结算")]
                                     )
                                   ],
@@ -7791,15 +7800,7 @@ var render = function() {
             [
               _c(
                 "v-uni-view",
-                {
-                  staticClass: _vm._$g(25, "sc"),
-                  attrs: { _i: 25 },
-                  on: {
-                    click: function($event) {
-                      return _vm.$handleViewEvent($event)
-                    }
-                  }
-                },
+                { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
                 [
                   _c(
                     "v-uni-view",
@@ -7820,15 +7821,7 @@ var render = function() {
               ),
               _c(
                 "v-uni-view",
-                {
-                  staticClass: _vm._$g(29, "sc"),
-                  attrs: { _i: 29 },
-                  on: {
-                    click: function($event) {
-                      return _vm.$handleViewEvent($event)
-                    }
-                  }
-                },
+                { staticClass: _vm._$g(29, "sc"), attrs: { _i: 29 } },
                 [
                   _c(
                     "v-uni-view",
@@ -8462,7 +8455,7 @@ var ___CSS_LOADER_URL_REPLACEMENT_3___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_
 var ___CSS_LOADER_URL_REPLACEMENT_4___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_LOADER_URL_IMPORT_4___);
 var ___CSS_LOADER_URL_REPLACEMENT_5___ = ___CSS_LOADER_GET_URL_IMPORT___(___CSS_LOADER_URL_IMPORT_5___);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nuni-page-body,\r\nbody {\r\n  height: 100%;\n}\n.my-root {\r\n  padding: 60rpx 30rpx 120rpx;\r\n  background-color: #150e2d;\r\n  min-height: 100%;\r\n  color: #ced3e1;\r\n  box-sizing: border-box;\n}\n.my-root .root-title {\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  right: 0;\r\n  height: 40px;\r\n  line-height: 40px;\r\n  text-align: center;\r\n  color: #ced3e1;\r\n  font-size: 32rpx;\r\n  z-index: 99;\r\n  background-image: -webkit-linear-gradient(45deg, #110e2a, #110e2a);\r\n  background-image: linear-gradient(45deg, #110e2a, #110e2a);\n}\n.my-root .root-title .back {\r\n  position: absolute;\r\n  left: 30rpx;\r\n  bottom: 26rpx;\r\n  width: 36rpx;\r\n  height: 36rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") no-repeat center center;\r\n  background-size: 100% 100%;\n}\n.my-root .root-title .right {\r\n  font-size: 24rpx;\r\n  position: absolute;\r\n  right: 30rpx;\r\n  bottom: 20rpx;\r\n  line-height: 36rpx;\n}\n.my-root .head-box {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n          justify-content: center;\r\n  height: 340rpx;\r\n  width: 100%;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") no-repeat center center;\r\n  background-size: 100% 100%;\r\n  font-size: 30rpx;\r\n  position: relative;\n}\n.my-root .head-box .head {\r\n  height: 150rpx;\r\n  width: 150rpx;\r\n  background-color: #fff;\r\n  border-radius: 50%;\n}\n.my-root .head-box .head .head-cont {\r\n  height: 150rpx;\r\n  width: 150rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") no-repeat center center;\r\n  background-size: 120rpx 120rpx;\n}\n.my-root .head-box .tel {\r\n  margin-top: 10rpx;\n}\n.my-root .head-box .my-detail {\r\n  position: absolute;\r\n  right: 20rpx;\r\n  bottom: 20rpx;\r\n  font-size: 24rpx;\r\n  height: 28rpx;\r\n  line-height: 28rpx;\r\n  padding: 4rpx 10rpx;\r\n  border: 1rpx solid #fff;\r\n  border-radius: 28rpx;\n}\n.my-root .my-purse {\r\n  background-color: #1e1c41;\r\n  margin-top: 30rpx;\r\n  border-radius: 20rpx;\n}\n.my-root .my-purse .purse-title {\r\n  padding-top: 30rpx;\r\n  padding-left: 30rpx;\r\n  font-size: 32rpx;\n}\n.my-root .my-purse .purse-box {\r\n  height: 170rpx;\r\n  width: 100%;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  font-size: 30rpx;\n}\n.my-root .my-purse .purse-box .item {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.my-root .my-purse .purse-box .item .num {\r\n  line-height: 50rpx;\r\n  margin-bottom: 20rpx;\r\n  font-size: 40rpx;\n}\n.my-root .my-purse .purse-box .item .name-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-purse .purse-box .item .dong-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") no-repeat center center;\r\n  background-size: 55rpx 55rpx;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-purse .purse-box .item .money-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-ccount {\r\n  background-color: #1e1c41;\r\n  margin-top: 30rpx;\r\n  border-radius: 20rpx;\n}\n.my-root .my-ccount .purse-title {\r\n  padding-top: 30rpx;\r\n  padding-left: 30rpx;\r\n  font-size: 32rpx;\n}\n.my-root .my-ccount .purse-box {\r\n  height: 170rpx;\r\n  width: 100%;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  font-size: 30rpx;\n}\n.my-root .my-ccount .purse-box .item {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.my-root .my-ccount .purse-box .item .num {\r\n  line-height: 50rpx;\r\n  margin-top: 20rpx;\r\n  font-size: 44rpx;\n}\n.my-root .my-ccount .purse-box .item .num uni-text {\r\n  font-size: 28rpx;\r\n  padding-left: 10rpx;\n}\n.my-root .my-ccount .purse-box .item .name-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-ccount .purse-box .item .money-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-order {\r\n  margin-top: 30rpx;\r\n  height: 240rpx;\r\n  width: 100%;\r\n  background-color: #1e1c41;\r\n  border-radius: 20rpx;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\n}\n.my-root .my-order .order-title {\r\n  padding-top: 30rpx;\r\n  padding-left: 30rpx;\r\n  font-size: 32rpx;\n}\n.my-root .my-order .order-cont {\r\n  -webkit-box-flex: 1;\r\n  -webkit-flex: 1;\r\n          flex: 1;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  font-size: 30rpx;\n}\n.my-root .my-order .order-cont .left,\r\n.my-root .my-order .order-cont .right {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  position: relative;\n}\n.my-root .my-order .order-cont .left .img,\r\n.my-root .my-order .order-cont .right .img {\r\n  width: 55rpx;\r\n  height: 55rpx;\n}\n.my-root .my-order .order-cont .left .desc,\r\n.my-root .my-order .order-cont .right .desc {\r\n  padding-top: 12rpx;\n}\n.my-root .my-order .order-cont .left .num,\r\n.my-root .my-order .order-cont .right .num {\r\n  position: absolute;\r\n  right: -10rpx;\r\n  top: -5rpx;\r\n  padding: 4rpx 8rpx;\r\n  line-height: 22rpx;\r\n  border-radius: 22rpx;\r\n  font-size: 24rpx;\r\n  background-color: #fa3534;\n}\n.my-root .more {\r\n  padding: 50rpx 30rpx 30rpx;\r\n  margin-top: 60rpx;\r\n  height: 240rpx;\r\n  width: 100%;\r\n  background-color: #1e1c41;\r\n  border-radius: 20rpx;\r\n  box-sizing: border-box;\n}\n.my-root .more .more-more {\r\n  margin-top: 40rpx;\r\n  text-align: center;\n}\n.my-root .modal .modal-box {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.my-root .modal .modal-box .desc {\r\n  margin-top: 10rpx;\r\n  font-size: 28rpx;\n}\n.my-root .modal .modal-box .desc uni-text {\r\n  padding: 0 6rpx;\n}\n.my-root .modal .modal-box .u-input {\r\n  margin-top: 20rpx;\r\n  width: 400rpx;\r\n  height: 50rpx;\r\n  font-size: 32rpx;\n}\n.my-root .modal .modal-box .u-input  .u-input__input {\r\n  font-size: 32rpx;\r\n  color: #333333;\n}\n.my-root .modal .modal-box .uni-input-placeholder {\r\n  font-size: 32rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nuni-page-body,\r\nbody {\r\n  height: 100%;\n}\n.uni-page-refresh svg {\r\n  fill: #000;\n}\n.my-root {\r\n  padding: 60rpx 30rpx 120rpx;\r\n  background-color: #150e2d;\r\n  min-height: 100%;\r\n  color: #ced3e1;\r\n  box-sizing: border-box;\n}\n.my-root .root-title {\r\n  position: fixed;\r\n  left: 0;\r\n  top: 0;\r\n  right: 0;\r\n  height: 40px;\r\n  line-height: 40px;\r\n  text-align: center;\r\n  color: #ced3e1;\r\n  font-size: 32rpx;\r\n  z-index: 99;\r\n  background-image: -webkit-linear-gradient(45deg, #110e2a, #110e2a);\r\n  background-image: linear-gradient(45deg, #110e2a, #110e2a);\n}\n.my-root .root-title .back {\r\n  position: absolute;\r\n  left: 30rpx;\r\n  bottom: 26rpx;\r\n  width: 36rpx;\r\n  height: 36rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") no-repeat center center;\r\n  background-size: 100% 100%;\n}\n.my-root .root-title .right {\r\n  font-size: 24rpx;\r\n  position: absolute;\r\n  right: 30rpx;\r\n  bottom: 20rpx;\r\n  line-height: 36rpx;\n}\n.my-root .head-box {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n          justify-content: center;\r\n  height: 340rpx;\r\n  width: 100%;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ") no-repeat center center;\r\n  background-size: 100% 100%;\r\n  font-size: 30rpx;\r\n  position: relative;\n}\n.my-root .head-box .head {\r\n  height: 150rpx;\r\n  width: 150rpx;\r\n  background-color: #fff;\r\n  border-radius: 50%;\n}\n.my-root .head-box .head .head-cont {\r\n  height: 150rpx;\r\n  width: 150rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ") no-repeat center center;\r\n  background-size: 120rpx 120rpx;\n}\n.my-root .head-box .tel {\r\n  margin-top: 10rpx;\n}\n.my-root .head-box .my-detail {\r\n  position: absolute;\r\n  right: 20rpx;\r\n  bottom: 20rpx;\r\n  font-size: 24rpx;\r\n  height: 28rpx;\r\n  line-height: 28rpx;\r\n  padding: 4rpx 10rpx;\r\n  border: 1rpx solid #fff;\r\n  border-radius: 28rpx;\n}\n.my-root .my-purse {\r\n  background-color: #1e1c41;\r\n  margin-top: 30rpx;\r\n  border-radius: 20rpx;\n}\n.my-root .my-purse .purse-title {\r\n  padding-top: 30rpx;\r\n  padding-left: 30rpx;\r\n  font-size: 32rpx;\n}\n.my-root .my-purse .purse-box {\r\n  height: 170rpx;\r\n  width: 100%;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  font-size: 30rpx;\n}\n.my-root .my-purse .purse-box .item {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.my-root .my-purse .purse-box .item .num {\r\n  line-height: 50rpx;\r\n  margin-bottom: 20rpx;\r\n  font-size: 40rpx;\n}\n.my-root .my-purse .purse-box .item .name-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-purse .purse-box .item .dong-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_4___ + ") no-repeat center center;\r\n  background-size: 55rpx 55rpx;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-purse .purse-box .item .money-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-ccount {\r\n  background-color: #1e1c41;\r\n  margin-top: 30rpx;\r\n  border-radius: 20rpx;\n}\n.my-root .my-ccount .purse-title {\r\n  padding-top: 30rpx;\r\n  padding-left: 30rpx;\r\n  font-size: 32rpx;\n}\n.my-root .my-ccount .purse-box {\r\n  height: 170rpx;\r\n  width: 100%;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  font-size: 30rpx;\n}\n.my-root .my-ccount .purse-box .item {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.my-root .my-ccount .purse-box .item .num {\r\n  color: #3c78fa;\r\n  line-height: 50rpx;\r\n  margin-top: 20rpx;\r\n  font-size: 44rpx;\n}\n.my-root .my-ccount .purse-box .item .num uni-text {\r\n  font-size: 28rpx;\r\n  padding-left: 10rpx;\n}\n.my-root .my-ccount .purse-box .item .name-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-ccount .purse-box .item .money-icon {\r\n  width: 60rpx;\r\n  height: 60rpx;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_5___ + ") no-repeat center center;\r\n  background-size: 100%;\r\n  margin-bottom: 20rpx;\n}\n.my-root .my-order {\r\n  margin-top: 30rpx;\r\n  height: 240rpx;\r\n  width: 100%;\r\n  background-color: #1e1c41;\r\n  border-radius: 20rpx;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\n}\n.my-root .my-order .order-title {\r\n  padding-top: 30rpx;\r\n  padding-left: 30rpx;\r\n  font-size: 32rpx;\n}\n.my-root .my-order .order-cont {\r\n  -webkit-box-flex: 1;\r\n  -webkit-flex: 1;\r\n          flex: 1;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  font-size: 30rpx;\n}\n.my-root .my-order .order-cont .left,\r\n.my-root .my-order .order-cont .right {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\r\n  position: relative;\n}\n.my-root .my-order .order-cont .left .img,\r\n.my-root .my-order .order-cont .right .img {\r\n  width: 55rpx;\r\n  height: 55rpx;\n}\n.my-root .my-order .order-cont .left .desc,\r\n.my-root .my-order .order-cont .right .desc {\r\n  padding-top: 12rpx;\n}\n.my-root .my-order .order-cont .left .num,\r\n.my-root .my-order .order-cont .right .num {\r\n  position: absolute;\r\n  right: -10rpx;\r\n  top: -5rpx;\r\n  padding: 4rpx 8rpx;\r\n  line-height: 22rpx;\r\n  border-radius: 22rpx;\r\n  font-size: 24rpx;\r\n  background-color: #fa3534;\n}\n.my-root .more {\r\n  padding: 50rpx 30rpx 30rpx;\r\n  margin-top: 60rpx;\r\n  height: 240rpx;\r\n  width: 100%;\r\n  background-color: #1e1c41;\r\n  border-radius: 20rpx;\r\n  box-sizing: border-box;\n}\n.my-root .more .more-more {\r\n  margin-top: 40rpx;\r\n  text-align: center;\n}\n.my-root .modal .modal-box {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-align: center;\r\n  -webkit-align-items: center;\r\n          align-items: center;\n}\n.my-root .modal .modal-box .desc {\r\n  margin-top: 10rpx;\r\n  font-size: 28rpx;\n}\n.my-root .modal .modal-box .desc uni-text {\r\n  padding: 0 6rpx;\n}\n.my-root .modal .modal-box .u-input {\r\n  margin-top: 20rpx;\r\n  width: 400rpx;\r\n  height: 50rpx;\r\n  font-size: 32rpx;\n}\n.my-root .modal .modal-box .u-input  .u-input__input {\r\n  font-size: 32rpx;\r\n  color: #333333;\n}\n.my-root .modal .modal-box .uni-input-placeholder {\r\n  font-size: 32rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -8774,27 +8767,14 @@ var render = function() {
               }
             },
             [_vm._v("没有账号？去注册")]
-          ),
-          _c(
-            "v-uni-view",
-            {
-              staticClass: _vm._$g(21, "sc"),
-              attrs: { _i: 21 },
-              on: {
-                click: function($event) {
-                  return _vm.$handleViewEvent($event)
-                }
-              }
-            },
-            [_vm._v("下载App")]
           )
         ],
         1
       ),
       _c(
         "v-uni-view",
-        { attrs: { _i: 22 } },
-        [_c("u-toast", { ref: "uToast", attrs: { _i: 23 } })],
+        { attrs: { _i: 21 } },
+        [_c("u-toast", { ref: "uToast", attrs: { _i: 22 } })],
         1
       )
     ],
@@ -23215,7 +23195,7 @@ var render = function() {
                     },
                     [
                       _c(
-                        "v-uni-view",
+                        "v-uni-text",
                         {
                           directives: [
                             {
@@ -23226,14 +23206,9 @@ var render = function() {
                             }
                           ],
                           staticClass: _vm._$g("17-" + $30, "sc"),
-                          attrs: { _i: "17-" + $30 },
-                          on: {
-                            click: function($event) {
-                              return _vm.$handleViewEvent($event)
-                            }
-                          }
+                          attrs: { _i: "17-" + $30 }
                         },
-                        [_vm._v(_vm._$g("17-" + $30, "t0-0"))]
+                        [_vm._v("剩余时间：" + _vm._$g("17-" + $30, "t0-0"))]
                       ),
                       _c(
                         "v-uni-view",
@@ -23254,7 +23229,7 @@ var render = function() {
                             }
                           }
                         },
-                        [_vm._v("取消")]
+                        [_vm._v(_vm._$g("18-" + $30, "t0-0"))]
                       ),
                       _c(
                         "v-uni-view",
@@ -23275,6 +23250,27 @@ var render = function() {
                             }
                           }
                         },
+                        [_vm._v("取消")]
+                      ),
+                      _c(
+                        "v-uni-view",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm._$g("20-" + $30, "v-show"),
+                              expression: "_$g((\"20-\"+$30),'v-show')"
+                            }
+                          ],
+                          staticClass: _vm._$g("20-" + $30, "sc"),
+                          attrs: { _i: "20-" + $30 },
+                          on: {
+                            click: function($event) {
+                              return _vm.$handleViewEvent($event)
+                            }
+                          }
+                        },
                         [_vm._v("订单信息")]
                       )
                     ],
@@ -23289,14 +23285,14 @@ var render = function() {
         ],
         1
       ),
-      _c("u-toast", { ref: "uToast", attrs: { _i: 20 } }),
+      _c("u-toast", { ref: "uToast", attrs: { _i: 21 } }),
       _c(
         "u-popup",
         {
-          staticClass: _vm._$g(21, "sc"),
-          attrs: { _i: 21 },
+          staticClass: _vm._$g(22, "sc"),
+          attrs: { _i: 22 },
           model: {
-            value: _vm._$g(21, "v-model"),
+            value: _vm._$g(22, "v-model"),
             callback: function() {},
             expression: "showPopup"
           }
@@ -23304,38 +23300,38 @@ var render = function() {
         [
           _c(
             "v-uni-view",
-            { staticClass: _vm._$g(22, "sc"), attrs: { _i: 22 } },
-            [_vm._v("订单号：" + _vm._$g(22, "t0-0"))]
-          ),
-          _c(
-            "v-uni-view",
             { staticClass: _vm._$g(23, "sc"), attrs: { _i: 23 } },
-            [_vm._v("订单数量：" + _vm._$g(23, "t0-0"))]
+            [_vm._v("订单号：" + _vm._$g(23, "t0-0"))]
           ),
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
-            [_vm._v("订单金额：" + _vm._$g(24, "t0-0"))]
+            [_vm._v("订单数量：" + _vm._$g(24, "t0-0"))]
           ),
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
-            [_vm._v("卖家名称：" + _vm._$g(25, "t0-0"))]
+            [_vm._v("订单金额：" + _vm._$g(25, "t0-0"))]
           ),
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(26, "sc"), attrs: { _i: 26 } },
-            [_vm._v("卖家电话：" + _vm._$g(26, "t0-0"))]
+            [_vm._v("卖家名称：" + _vm._$g(26, "t0-0"))]
           ),
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(27, "sc"), attrs: { _i: 27 } },
-            [_vm._v("卖家银行卡：" + _vm._$g(27, "t0-0"))]
+            [_vm._v("卖家电话：" + _vm._$g(27, "t0-0"))]
           ),
           _c(
             "v-uni-view",
             { staticClass: _vm._$g(28, "sc"), attrs: { _i: 28 } },
-            [_vm._v("银行卡开户行：" + _vm._$g(28, "t0-0"))]
+            [_vm._v("卖家银行卡：" + _vm._$g(28, "t0-0"))]
+          ),
+          _c(
+            "v-uni-view",
+            { staticClass: _vm._$g(29, "sc"), attrs: { _i: 29 } },
+            [_vm._v("银行卡开户行：" + _vm._$g(29, "t0-0"))]
           ),
           _c(
             "v-uni-view",
@@ -23344,23 +23340,23 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm._$g(29, "v-show"),
-                  expression: "_$g(29,'v-show')"
+                  value: _vm._$g(30, "v-show"),
+                  expression: "_$g(30,'v-show')"
                 }
               ],
-              staticClass: _vm._$g(29, "sc"),
-              attrs: { _i: 29 }
+              staticClass: _vm._$g(30, "sc"),
+              attrs: { _i: 30 }
             },
             [
               _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(30, "sc"), attrs: { _i: 30 } },
+                { staticClass: _vm._$g(31, "sc"), attrs: { _i: 31 } },
                 [
                   _c("v-uni-image", {
                     attrs: {
-                      src: _vm._$g(31, "a-src"),
+                      src: _vm._$g(32, "a-src"),
                       mode: "aspectFit",
-                      _i: 31
+                      _i: 32
                     },
                     on: {
                       click: function($event) {
@@ -23368,7 +23364,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _c("v-uni-text", { attrs: { _i: 32 } }, [
+                  _c("v-uni-text", { attrs: { _i: 33 } }, [
                     _vm._v("微信付款码")
                   ])
                 ],
@@ -23376,13 +23372,13 @@ var render = function() {
               ),
               _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(33, "sc"), attrs: { _i: 33 } },
+                { staticClass: _vm._$g(34, "sc"), attrs: { _i: 34 } },
                 [
                   _c("v-uni-image", {
                     attrs: {
-                      src: _vm._$g(34, "a-src"),
+                      src: _vm._$g(35, "a-src"),
                       mode: "aspectFit",
-                      _i: 34
+                      _i: 35
                     },
                     on: {
                       click: function($event) {
@@ -23390,7 +23386,7 @@ var render = function() {
                       }
                     }
                   }),
-                  _c("v-uni-text", { attrs: { _i: 35 } }, [
+                  _c("v-uni-text", { attrs: { _i: 36 } }, [
                     _vm._v("支付宝付款码")
                   ])
                 ],
@@ -23405,17 +23401,17 @@ var render = function() {
       _c(
         "u-popup",
         {
-          staticClass: _vm._$g(36, "sc"),
-          attrs: { _i: 36 },
+          staticClass: _vm._$g(37, "sc"),
+          attrs: { _i: 37 },
           model: {
-            value: _vm._$g(36, "v-model"),
+            value: _vm._$g(37, "v-model"),
             callback: function() {},
             expression: "QrPop"
           }
         },
         [
           _c("v-uni-image", {
-            attrs: { src: _vm._$g(37, "a-src"), mode: "aspectFit", _i: 37 }
+            attrs: { src: _vm._$g(38, "a-src"), mode: "aspectFit", _i: 38 }
           })
         ],
         1
@@ -23423,7 +23419,7 @@ var render = function() {
       _c(
         "u-modal",
         {
-          attrs: { _i: 38 },
+          attrs: { _i: 39 },
           on: {
             cancel: function($event) {
               return _vm.$handleViewEvent($event)
@@ -23433,7 +23429,7 @@ var render = function() {
             }
           },
           model: {
-            value: _vm._$g(38, "v-model"),
+            value: _vm._$g(39, "v-model"),
             callback: function() {},
             expression: "showPayPop"
           }
@@ -23441,15 +23437,15 @@ var render = function() {
         [
           _c(
             "v-uni-view",
-            { staticClass: _vm._$g(39, "sc"), attrs: { _i: 39 } },
+            { staticClass: _vm._$g(40, "sc"), attrs: { _i: 40 } },
             [
-              _c("v-uni-view", { attrs: { _i: 40 } }, [
+              _c("v-uni-view", { attrs: { _i: 41 } }, [
                 _vm._v(
                   "恶意扰乱市场，存在封号风险！请确认已转账成功，确认继续。"
                 )
               ]),
               _c("uni-file-picker", {
-                attrs: { _i: 41 },
+                attrs: { _i: 42 },
                 on: {
                   select: function($event) {
                     return _vm.$handleViewEvent($event)
@@ -23461,7 +23457,7 @@ var render = function() {
               }),
               _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(42, "sc"), attrs: { _i: 42 } },
+                { staticClass: _vm._$g(43, "sc"), attrs: { _i: 43 } },
                 [_vm._v("上传付款截图")]
               )
             ],
@@ -23471,7 +23467,7 @@ var render = function() {
         1
       ),
       _c("u-modal", {
-        attrs: { _i: 43 },
+        attrs: { _i: 44 },
         on: {
           cancel: function($event) {
             return _vm.$handleViewEvent($event)
@@ -23481,7 +23477,7 @@ var render = function() {
           }
         },
         model: {
-          value: _vm._$g(43, "v-model"),
+          value: _vm._$g(44, "v-model"),
           callback: function() {},
           expression: "cancelPop"
         }
@@ -24490,7 +24486,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../soft/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 13);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nuni-page-body,\r\nbody {\r\n  height: 100%;\n}\n.pledge-root {\r\n  padding: 60rpx 32rpx 40rpx;\r\n  background-color: #150e2d;\r\n  min-height: 100%;\r\n  color: #ced3e1;\r\n  box-sizing: border-box;\n}\n.pledge-root .u-tabs {\r\n  position: fixed;\r\n  top: 40px;\r\n  left: 0;\r\n  right: 0;\n}\n.pledge-root .list {\r\n  padding-top: 80rpx;\n}\n.pledge-root .list .list-item {\r\n  padding: 10rpx;\r\n  border-bottom: 0.5px solid rgba(204, 204, 204, 0.2);\n}\n.pledge-root .list .list-item .item-title {\r\n  font-size: 28rpx;\r\n  line-height: 58rpx;\r\n  color: #8d57fc;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  overflow: hidden;\n}\n.pledge-root .list .list-item .item-bottom {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n  -webkit-justify-content: space-between;\r\n          justify-content: space-between;\n}\n.pledge-root .list .list-item .item-bottom .left {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\n}\n.pledge-root .list .list-item .item-bottom .left .price {\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-bottom .right {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\r\n  color: #c067f6;\n}\n.pledge-root .list .list-item .item-bottom .right .r-bot {\r\n  font-size: 42rpx;\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-footer {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: reverse;\r\n  -webkit-flex-direction: row-reverse;\r\n          flex-direction: row-reverse;\r\n  padding: 10rpx 0;\n}\n.pledge-root .list .list-item .item-footer uni-view {\r\n  padding: 0 20rpx;\r\n  height: 50rpx;\r\n  line-height: 50rpx;\r\n  text-align: center;\r\n  font-size: 28rpx;\r\n  border-radius: 30rpx;\r\n  background: -webkit-linear-gradient(right, #8d57fc 0%, #c067f6 100%);\r\n  background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);\n}\n.pledge-root .list .list-item .item-footer .look {\r\n  margin-right: 20rpx;\n}\n.pledge-root .info-pop {\r\n  color: #333333;\n}\n.pledge-root .info-pop  .u-mode-center-box {\r\n  padding: 30rpx;\r\n  box-sizing: border-box;\r\n  border-radius: 20rpx;\n}\n.pledge-root .info-pop .row {\r\n  line-height: 60rpx;\r\n  font-size: 30rpx;\n}\n.pledge-root .info-pop .qr-code {\r\n  width: 600rpx;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\n}\n.pledge-root .info-pop .qr-code .left,\r\n.pledge-root .info-pop .qr-code .right {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n          justify-content: center;\n}\n.pledge-root .info-pop .qr-code .left uni-text,\r\n.pledge-root .info-pop .qr-code .right uni-text {\r\n  text-align: center;\r\n  font-size: 26rpx;\n}\n.pledge-root .info-pop .qr-code .left uni-image,\r\n.pledge-root .info-pop .qr-code .right uni-image {\r\n  width: 200rpx;\r\n  height: 300rpx;\n}\n.pledge-root .qr-pop  .u-mode-center-box {\r\n  padding: 30rpx;\r\n  box-sizing: border-box;\r\n  border-radius: 20rpx;\n}\n.pledge-root .qr-pop uni-image {\r\n  width: 600rpx;\n}\n.pledge-root .u-model .slot-content {\r\n  padding: 48rpx;\r\n  font-size: 30rpx;\r\n  color: #606266;\r\n  text-align: center;\n}\n.pledge-root .u-model .slot-content  .file-picker__box {\r\n  margin: 40rpx auto 20rpx;\n}\n.pledge-root .u-model .slot-content .code-desc {\r\n  padding-top: 20rpx;\r\n  color: #303133;\r\n  font-size: 28rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nuni-page-body,\r\nbody {\r\n  height: 100%;\n}\n.pledge-root {\r\n  padding: 60rpx 32rpx 40rpx;\r\n  background-color: #150e2d;\r\n  min-height: 100%;\r\n  color: #ced3e1;\r\n  box-sizing: border-box;\n}\n.pledge-root .u-tabs {\r\n  position: fixed;\r\n  top: 40px;\r\n  left: 0;\r\n  right: 0;\n}\n.pledge-root .list {\r\n  padding-top: 80rpx;\n}\n.pledge-root .list .list-item {\r\n  padding: 10rpx;\r\n  border-bottom: 0.5px solid rgba(204, 204, 204, 0.2);\n}\n.pledge-root .list .list-item .item-title {\r\n  font-size: 28rpx;\r\n  line-height: 58rpx;\r\n  color: #8d57fc;\r\n  word-break: break-all;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  overflow: hidden;\n}\n.pledge-root .list .list-item .item-bottom {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n  -webkit-justify-content: space-between;\r\n          justify-content: space-between;\n}\n.pledge-root .list .list-item .item-bottom .left {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\n}\n.pledge-root .list .list-item .item-bottom .left .price {\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-bottom .right {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\r\n  color: #c067f6;\n}\n.pledge-root .list .list-item .item-bottom .right .r-bot {\r\n  font-size: 42rpx;\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-footer {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: reverse;\r\n  -webkit-flex-direction: row-reverse;\r\n          flex-direction: row-reverse;\r\n  padding: 10rpx 0;\r\n  position: relative;\n}\n.pledge-root .list .list-item .item-footer uni-view {\r\n  padding: 0 15rpx;\r\n  height: 50rpx;\r\n  line-height: 48rpx;\r\n  text-align: center;\r\n  font-size: 24rpx;\r\n  border-radius: 30rpx;\r\n  background: -webkit-linear-gradient(right, #8d57fc 0%, #c067f6 100%);\r\n  background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);\n}\n.pledge-root .list .list-item .item-footer .look {\r\n  margin-right: 20rpx;\n}\n.pledge-root .list .list-item .item-footer .time {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 50%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  font-size: 26rpx;\r\n  line-height: 24rpx;\n}\n.pledge-root .info-pop {\r\n  color: #333333;\n}\n.pledge-root .info-pop  .u-mode-center-box {\r\n  padding: 30rpx;\r\n  box-sizing: border-box;\r\n  border-radius: 20rpx;\n}\n.pledge-root .info-pop .row {\r\n  line-height: 60rpx;\r\n  font-size: 30rpx;\n}\n.pledge-root .info-pop .qr-code {\r\n  width: 600rpx;\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-justify-content: space-around;\r\n          justify-content: space-around;\n}\n.pledge-root .info-pop .qr-code .left,\r\n.pledge-root .info-pop .qr-code .right {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: vertical;\r\n  -webkit-box-direction: normal;\r\n  -webkit-flex-direction: column;\r\n          flex-direction: column;\r\n  -webkit-box-pack: center;\r\n  -webkit-justify-content: center;\r\n          justify-content: center;\n}\n.pledge-root .info-pop .qr-code .left uni-text,\r\n.pledge-root .info-pop .qr-code .right uni-text {\r\n  text-align: center;\r\n  font-size: 26rpx;\n}\n.pledge-root .info-pop .qr-code .left uni-image,\r\n.pledge-root .info-pop .qr-code .right uni-image {\r\n  width: 200rpx;\r\n  height: 300rpx;\n}\n.pledge-root .qr-pop  .u-mode-center-box {\r\n  padding: 30rpx;\r\n  box-sizing: border-box;\r\n  border-radius: 20rpx;\n}\n.pledge-root .qr-pop uni-image {\r\n  width: 600rpx;\n}\n.pledge-root .u-model .slot-content {\r\n  padding: 48rpx;\r\n  font-size: 30rpx;\r\n  color: #606266;\r\n  text-align: center;\n}\n.pledge-root .u-model .slot-content  .file-picker__box {\r\n  margin: 40rpx auto 20rpx;\n}\n.pledge-root .u-model .slot-content .code-desc {\r\n  padding-top: 20rpx;\r\n  color: #303133;\r\n  font-size: 28rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -24751,16 +24747,32 @@ var render = function() {
                     },
                     [
                       _c(
+                        "v-uni-text",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm._$g("18-" + $30, "v-show"),
+                              expression: "_$g((\"18-\"+$30),'v-show')"
+                            }
+                          ],
+                          staticClass: _vm._$g("18-" + $30, "sc"),
+                          attrs: { _i: "18-" + $30 }
+                        },
+                        [_vm._v("剩余时间：" + _vm._$g("18-" + $30, "t0-0"))]
+                      ),
+                      _c(
                         "v-uni-view",
                         {
-                          attrs: { _i: "18-" + $30 },
+                          attrs: { _i: "19-" + $30 },
                           on: {
                             click: function($event) {
                               return _vm.$handleViewEvent($event)
                             }
                           }
                         },
-                        [_vm._v(_vm._$g("18-" + $30, "t0-0"))]
+                        [_vm._v(_vm._$g("19-" + $30, "t0-0"))]
                       )
                     ],
                     1
@@ -24774,11 +24786,11 @@ var render = function() {
         ],
         1
       ),
-      _c("u-toast", { ref: "uToast", attrs: { _i: 19 } }),
+      _c("u-toast", { ref: "uToast", attrs: { _i: 20 } }),
       _c(
         "u-modal",
         {
-          attrs: { _i: 20 },
+          attrs: { _i: 21 },
           on: {
             cancel: function($event) {
               return _vm.$handleViewEvent($event)
@@ -24788,7 +24800,7 @@ var render = function() {
             }
           },
           model: {
-            value: _vm._$g(20, "v-model"),
+            value: _vm._$g(21, "v-model"),
             callback: function() {},
             expression: "showPayment"
           }
@@ -24796,13 +24808,13 @@ var render = function() {
         [
           _c(
             "v-uni-view",
-            { staticClass: _vm._$g(21, "sc"), attrs: { _i: 21 } },
+            { staticClass: _vm._$g(22, "sc"), attrs: { _i: 22 } },
             [
-              _c("v-uni-view", { attrs: { _i: 22 } }, [
+              _c("v-uni-view", { attrs: { _i: 23 } }, [
                 _vm._v("请确认已成功收款，并确认继续。")
               ]),
               _c("v-uni-image", {
-                attrs: { src: _vm._$g(23, "a-src"), mode: "aspectFit", _i: 23 },
+                attrs: { src: _vm._$g(24, "a-src"), mode: "aspectFit", _i: 24 },
                 on: {
                   click: function($event) {
                     return _vm.$handleViewEvent($event)
@@ -24811,7 +24823,7 @@ var render = function() {
               }),
               _c(
                 "v-uni-view",
-                { staticClass: _vm._$g(24, "sc"), attrs: { _i: 24 } },
+                { staticClass: _vm._$g(25, "sc"), attrs: { _i: 25 } },
                 [_vm._v("付款码")]
               )
             ],
@@ -24823,17 +24835,17 @@ var render = function() {
       _c(
         "u-popup",
         {
-          staticClass: _vm._$g(25, "sc"),
-          attrs: { _i: 25 },
+          staticClass: _vm._$g(26, "sc"),
+          attrs: { _i: 26 },
           model: {
-            value: _vm._$g(25, "v-model"),
+            value: _vm._$g(26, "v-model"),
             callback: function() {},
             expression: "QrPop"
           }
         },
         [
           _c("v-uni-image", {
-            attrs: { src: _vm._$g(26, "a-src"), mode: "aspectFit", _i: 26 }
+            attrs: { src: _vm._$g(27, "a-src"), mode: "aspectFit", _i: 27 }
           })
         ],
         1
@@ -24930,7 +24942,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../../../../soft/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/runtime/api.js */ 13);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nuni-page-body,\r\nbody {\r\n  height: 100%;\n}\n.pledge-root {\r\n  padding: 60rpx 32rpx 40rpx;\r\n  background-color: #150e2d;\r\n  min-height: 100%;\r\n  color: #ced3e1;\r\n  box-sizing: border-box;\n}\n.pledge-root .u-tabs {\r\n  position: fixed;\r\n  top: 40px;\r\n  left: 0;\r\n  right: 0;\n}\n.pledge-root .list {\r\n  padding-top: 80rpx;\n}\n.pledge-root .list .list-item {\r\n  padding: 10rpx;\r\n  border-bottom: 0.5px solid rgba(204, 204, 204, 0.2);\n}\n.pledge-root .list .list-item .item-title {\r\n  font-size: 28rpx;\r\n  line-height: 58rpx;\r\n  color: #8d57fc;\n}\n.pledge-root .list .list-item .item-bottom {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n  -webkit-justify-content: space-between;\r\n          justify-content: space-between;\n}\n.pledge-root .list .list-item .item-bottom .left {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\n}\n.pledge-root .list .list-item .item-bottom .left .price {\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-bottom .right {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\r\n  color: #c067f6;\n}\n.pledge-root .list .list-item .item-bottom .right .r-bot {\r\n  font-size: 42rpx;\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-footer {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: reverse;\r\n  -webkit-flex-direction: row-reverse;\r\n          flex-direction: row-reverse;\r\n  padding: 10rpx 0;\n}\n.pledge-root .list .list-item .item-footer uni-view {\r\n  width: 120rpx;\r\n  height: 50rpx;\r\n  line-height: 50rpx;\r\n  text-align: center;\r\n  font-size: 28rpx;\r\n  border-radius: 30rpx;\r\n  background: -webkit-linear-gradient(right, #8d57fc 0%, #c067f6 100%);\r\n  background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);\n}\n.pledge-root .u-model .slot-content {\r\n  padding: 48rpx;\r\n  font-size: 30rpx;\r\n  color: #606266;\r\n  text-align: center;\n}\n.pledge-root .u-model .slot-content uni-image {\r\n  width: 400rpx;\r\n  height: 400rpx;\n}\n.pledge-root .u-model .slot-content .code-desc {\r\n  padding-top: 20rpx;\r\n  color: #303133;\r\n  font-size: 28rpx;\n}\r\n", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\r\n/**\r\n * 这里是uni-app内置的常用样式变量\r\n *\r\n * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量\r\n * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App\r\n *\r\n */\r\n/**\r\n * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能\r\n *\r\n * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件\r\n */\r\n/* 颜色变量 */\r\n/* 行为相关颜色 */\r\n/* 文字基本颜色 */\r\n/* 背景颜色 */\r\n/* 边框颜色 */\r\n/* 尺寸变量 */\r\n/* 文字尺寸 */\r\n/* 图片尺寸 */\r\n/* Border Radius */\r\n/* 水平间距 */\r\n/* 垂直间距 */\r\n/* 透明度 */\r\n/* 文章场景相关 */\nuni-page-body,\r\nbody {\r\n  height: 100%;\n}\n.pledge-root {\r\n  padding: 60rpx 32rpx 40rpx;\r\n  background-color: #150e2d;\r\n  min-height: 100%;\r\n  color: #ced3e1;\r\n  box-sizing: border-box;\n}\n.pledge-root .u-tabs {\r\n  position: fixed;\r\n  top: 40px;\r\n  left: 0;\r\n  right: 0;\n}\n.pledge-root .list {\r\n  padding-top: 80rpx;\n}\n.pledge-root .list .list-item {\r\n  padding: 10rpx;\r\n  border-bottom: 0.5px solid rgba(204, 204, 204, 0.2);\n}\n.pledge-root .list .list-item .item-title {\r\n  font-size: 28rpx;\r\n  line-height: 58rpx;\r\n  color: #8d57fc;\n}\n.pledge-root .list .list-item .item-bottom {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-pack: justify;\r\n  -webkit-justify-content: space-between;\r\n          justify-content: space-between;\n}\n.pledge-root .list .list-item .item-bottom .left {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\n}\n.pledge-root .list .list-item .item-bottom .left .price {\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-bottom .right {\r\n  font-size: 24rpx;\r\n  line-height: 46rpx;\r\n  color: #c067f6;\n}\n.pledge-root .list .list-item .item-bottom .right .r-bot {\r\n  font-size: 42rpx;\r\n  line-height: 60rpx;\n}\n.pledge-root .list .list-item .item-footer {\r\n  display: -webkit-box;\r\n  display: -webkit-flex;\r\n  display: flex;\r\n  -webkit-box-orient: horizontal;\r\n  -webkit-box-direction: reverse;\r\n  -webkit-flex-direction: row-reverse;\r\n          flex-direction: row-reverse;\r\n  padding: 10rpx 0;\r\n  position: relative;\n}\n.pledge-root .list .list-item .item-footer uni-view {\r\n  padding: 0 15rpx;\r\n  height: 50rpx;\r\n  line-height: 48rpx;\r\n  text-align: center;\r\n  font-size: 24rpx;\r\n  border-radius: 30rpx;\r\n  background: -webkit-linear-gradient(right, #8d57fc 0%, #c067f6 100%);\r\n  background: linear-gradient(270deg, #8d57fc 0%, #c067f6 100%);\n}\n.pledge-root .list .list-item .item-footer .time {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 50%;\r\n  -webkit-transform: translateY(-50%);\r\n          transform: translateY(-50%);\r\n  font-size: 26rpx;\r\n  line-height: 24rpx;\n}\n.pledge-root .u-model .slot-content {\r\n  padding: 48rpx;\r\n  font-size: 30rpx;\r\n  color: #606266;\r\n  text-align: center;\n}\n.pledge-root .u-model .slot-content uni-image {\r\n  width: 400rpx;\r\n  height: 400rpx;\n}\n.pledge-root .u-model .slot-content .code-desc {\r\n  padding-top: 20rpx;\r\n  color: #303133;\r\n  font-size: 28rpx;\n}\r\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -28472,7 +28484,7 @@ var render = function() {
                 { staticClass: _vm._$g(20, "sc"), attrs: { _i: 20 } },
                 [
                   _vm._v(
-                    "您了解并同意，您有义务保持您提供信息的真实性及有效性，不得以虚假、冒用的居民身份信息、企业注册信息、组织机构代码等注册信息进行注册或认证，任何非法、不真实、不准确的用户信息所产生的责任由您自行承担。您所设置的账号名不得违反国家法律法规及啵啵交友平台规则关于账号名的管理规定，否则“啵啵交友”有权对您的账号名进行屏蔽、暂停使用或注销等处理，并向主管机关报告。"
+                    "您了解并同意，您有义务保持您提供信息的真实性及有效性，不得以虚假、冒用的居民身份信息、企业注册信息、组织机构代码等注册信息进行注册或认证，任何非法、不真实、不准确的用户信息所产生的责任由您自行承担。您所设置的账号名不得违反国家法律法规及平台规则关于账号名的管理规定，否则“SUC”有权对您的账号名进行屏蔽、暂停使用或注销等处理，并向主管机关报告。"
                   )
                 ]
               ),
@@ -28632,7 +28644,7 @@ var render = function() {
               _c("h2", { attrs: { _i: 47 } }, [_vm._v("第六部分 知识产权")]),
               _c("v-uni-view", { attrs: { _i: 48 } }, [
                 _vm._v(
-                  "“啵啵交友”的一切知识产权（包括不限于版权、商标权、专利权、商业秘密）以及相关的所有信息内容（包括但不限于界面设计、版面框架、数据资料、文字、图片、图形、图表、音频、视频、软件等）除第三方授权的软件或技术外，均属于“啵啵交友”所有，并受中华人民共和国法律法规和相应的国际条约保护。“啵啵交友”享有上述知识产权，但相关权利人依照法律规定应享有的权利除外。"
+                  "“SUC”的一切知识产权（包括不限于版权、商标权、专利权、商业秘密）以及相关的所有信息内容（包括但不限于界面设计、版面框架、数据资料、文字、图片、图形、图表、音频、视频、软件等）除第三方授权的软件或技术外，均属于“SUC”所有，并受中华人民共和国法律法规和相应的国际条约保护。“SUC”享有上述知识产权，但相关权利人依照法律规定应享有的权利除外。"
                 )
               ]),
               _c("v-uni-view", { attrs: { _i: 49 } }, [

@@ -53,7 +53,7 @@
 		<view class="login_submit"><u-button type="primary" @click="loginOn">登录</u-button></view>
 		<view class="registered-download">
 			<view class="registered" @click="toRegister">没有账号？去注册</view>
-			<view class="download" @click="download">下载App</view>
+			<!-- <view class="download" @click="download">下载App</view> -->
 		</view>
 		<view><u-toast ref="uToast" /></view>
 	</view>

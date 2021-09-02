@@ -99,6 +99,18 @@ export default {
 		this.userPledge();
 		this.getUserInfo();
 	},
+	onPullDownRefresh() {
+		this.getPledgeList();
+		this.userPledge();
+		this.getUserInfo();
+		setTimeout(() => {
+			uni.stopPullDownRefresh();
+			this.$refs.uToast.show({
+				title: '刷新成功',
+				type: 'success',
+			});
+		}, 1000);
+	},
 	created() {
 		uni.getSystemInfo({
 			success: res => {
