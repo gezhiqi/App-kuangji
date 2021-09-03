@@ -243,6 +243,7 @@ export default {
 						});
 						let timer = setTimeout(() => {
 							this.$Router.push({ name: 'login' });
+							this.reset()
 						}, 1000);
 						this.$once('hook:beforeDestory', () => {
 							clearInterval(timer);
@@ -289,6 +290,15 @@ export default {
 		},
 		toAreement() {
 			this.$router.push({name:"agreement"})
+		},
+		reset() {
+			this.form.telephone = ''
+			this.form.loginPw = ''
+			this.form.showLoginPw = ''
+			this.form.payPw = ''
+			this.form.showPayPw = ''
+			this.form.inviteCode = ''
+			this.form.smscode = ''
 		}
 	}
 };

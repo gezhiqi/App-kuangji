@@ -153,7 +153,7 @@ export default {
 			],
 			moduleList2: [
 				{
-					title: '闪兑',
+					title: '商城',
 					url: require('../../static/index/module-img5.png')
 				},
 				{

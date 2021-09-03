@@ -181,7 +181,7 @@ export default {
 			payPath: '',
 			statusBarHeight: 0,
 			timeList: [],
-			nowDate: null
+			nowDate: new Date()
 		};
 	},
 	filters: {
@@ -198,9 +198,10 @@ export default {
 			return obj[value];
 		},
 		countDownFun(endT, nowT) {
+			endT =endT && endT.replace(/\-/g, "/")
 			const end = Date.parse(new Date(endT));
 			// 当前时间戳
-			const now = Date.parse(new Date(nowT));
+			const now = Date.parse(nowT);
 			// 相差的毫秒数
 			const msec = end - now;
 			if (msec < 0) {
@@ -480,7 +481,7 @@ body {
 				view {
 					padding: 0 15rpx;
 					height: 50rpx;
-					line-height: 48rpx;
+					line-height: 50rpx;
 					text-align: center;
 					font-size: 24rpx;
 					border-radius: 30rpx;

@@ -293,11 +293,7 @@ uni-page-body,
 body {
 	height: 100%;
 }
-.uni-page-refresh {
-	svg {
-		fill: #000;
-	}
-}
+
 .my-root {
 	padding: 60rpx 30rpx 120rpx;
 	background-color: #150e2d;

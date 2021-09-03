@@ -123,7 +123,7 @@ export default {
 				orderUrl: ''
 			},
 			statusBarHeight: 0,
-			nowDate:null
+			nowDate:new Date()
 		};
 	},
 	filters: {
@@ -132,22 +132,25 @@ export default {
 			return obj[value];
 		},
 		countDownFun(endT, nowT) {
+			// if (endT) {
+			// 	endT =endT.replace(/\-/g, "/")
+			// }
+            endT =endT && endT.replace(/\-/g, "/")
 			const end = Date.parse(new Date(endT));
 			// 当前时间戳
-			const now = Date.parse(new Date(nowT));
+			const now = Date.parse(nowT);
 			// 相差的毫秒数
 			const msec = end - now;
 			if (msec < 0) {
 				return '订单超时';
 			}
 			// 计算时分秒数
-			let hr = parseInt((msec / 1000 / 60 / 60) % 24);
 			let min = parseInt((msec / 1000 / 60) % 60);
 			let sec = parseInt((msec / 1000) % 60);
 			// 个位数前补零
-			hr = hr > 9 ? hr : '0' + hr;
 			min = min > 9 ? min : '0' + min;
 			sec = sec > 9 ? sec : '0' + sec;
+			console.log(min,sec)
 			return `${min}分${sec}秒`;
 		}
 	},
@@ -335,7 +338,7 @@ body {
 				view {
 					padding: 0 15rpx;
 					height: 50rpx;
-					line-height: 48rpx;
+					line-height: 50rpx;
 					text-align: center;
 					font-size: 24rpx;
 					border-radius: 30rpx;
