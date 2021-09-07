@@ -1,37 +1,57 @@
 <template>
-	<view class="update-root" v-if="show">
-		<view>
-			<u-modal title="发现新版本" v-model="show" content="" confirm-text="确认升级" @confirm="toUpdate"></u-modal>
-		</view>
-	</view>
+	<u-modal v-model="show" confirm-text="升级" title="发现新版本" @confirm="confirm">
+		<view class="u-update-content"><rich-text :nodes="content"></rich-text></view>
+	</u-modal>
 </template>
 
 <script>
 export default {
-	name: 'update',
+	props:['android','ios'],
 	data() {
 		return {
-			show: false
+			show: false,
+			// 传递给uni-app"rich-text"组件的内容，可以使用"<br>"进行换行
+			content: `
+				1. 修复badge组件的size参数无效问题<br>
+				2. 新增Modal模态框组件<br>
+				3. 新增压窗屏组件，可以在APP上以弹窗的形式遮盖导航栏和底部tabbar<br>
+			`
 		};
 	},
+	created() {
+	},
 	methods: {
-		toUpdate() {
-			plus.runtime.openURL('https://image-1252618452.cos.ap-hongkong.myqcloud.com/SUC.apk', function(res) {
-				console.log(res);
-			});
+		confirm() {
+			
+			if (uni.getSystemInfoSync().platform == 'android') {
+				plus.runtime.openURL(
+					this.android,
+					function(res) {
+						console.log(res);
+					}
+				);
+			}else {
+				plus.runtime.openURL(
+					this.ios,
+					function(res) {
+						console.log(res);
+					}
+				);
+			}
 		}
 	}
 };
 </script>
 
-<style lang="scss">
-.update-root {
-	position: fixed;
-	left: 0;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 999;
-	background-color: rgba(0, 0, 0, 0.7);
+<style scoped lang="scss">
+.u-full-content {
+	background-color: #00c777;
+}
+
+.u-update-content {
+	font-size: 26rpx;
+	color: $u-content-color;
+	line-height: 1.7;
+	padding: 30rpx;
 }
 </style>

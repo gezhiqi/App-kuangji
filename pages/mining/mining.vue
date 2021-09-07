@@ -69,12 +69,15 @@
 			@confirm="showBuy"
 		></u-modal>
 		<keyboard ref="keyboard" @complete="enterPassword" :desc="desc"></keyboard>
+		<updatePop ref="update" :android="andUrl" :ios="iosUrl"></updatePop>
 	</view>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
 import keyboard from '../../components/keyboard/keyboard.vue'
+import updatePop from '../../components/update/update.vue';
+import { version } from '../../common/version.js';
 export default {
 	data() {
 		return {
@@ -92,15 +95,20 @@ export default {
 		};
 	},
 	components:{
-		keyboard
+		keyboard,
+		updatePop
 	},
 	computed: {
-		...mapState(['userInfo'])
+		...mapState(['userInfo','version','andUrl','iosUrl'])
 	},
-	onShow() {
+	async onShow() {
 		this.getMiningList();
 		this.getMiningUserInfo();
 		this.getUserInfo();
+		await this.getVersion();
+		if (this.version > version) {
+			this.$refs.update.show = true;
+		}
 	},
 	onPullDownRefresh() {
 		this.getMiningList();
@@ -123,7 +131,10 @@ export default {
 	},
 
 	methods: {
-		...mapActions(['getUserInfo']),
+		...mapActions(['getUserInfo','getVersion']),
+		toJSON() {
+			return this;
+		},
 		getMiningUserInfo() {
 			this.$api.miningUserInfo().then(res => {
 				if (res.data.code === 200) {

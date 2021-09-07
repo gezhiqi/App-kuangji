@@ -11,6 +11,8 @@ const store = new Vuex.Store({
 			
 		},
 		version: '',
+		andUrl:'',
+		iosUrl:''
 	},
 	mutations: {
 		setUserInfo(state, value) {
@@ -20,6 +22,12 @@ const store = new Vuex.Store({
 		},
 		setVersion(state, value) {
 			state.version = value
+		},
+		setAnd(state, value) {
+			state.andUrl = value
+		},
+		setIos(state, value) {
+			state.iosUrl = value
 		},
 	},
 	actions: {
@@ -54,6 +62,8 @@ const store = new Vuex.Store({
 							msg
 						} = res.data
 						commit('setVersion', data.version)
+						commit('setAnd', data.androidUrl || '')
+						commit('setIos', data.iosUrl || '')
 						resolve(res)
 					})
 					.catch(err => {

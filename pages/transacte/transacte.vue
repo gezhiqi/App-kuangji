@@ -73,6 +73,7 @@
 		></u-modal>
 		<u-toast ref="uToast" />
 		<keyboard ref="keyboard" @complete="enterPassword" :desc="desc"></keyboard>
+		<updatePop ref="update" :android="andUrl" :ios="iosUrl"></updatePop>
 	</view>
 </template>
 
@@ -80,6 +81,8 @@
 import keyboard from '../../components/keyboard/keyboard.vue';
 import { mapState, mapActions } from 'vuex';
 import MescrollMixin from '@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js';
+import updatePop from '../../components/update/update.vue';
+import { version } from '../../common/version.js';
 let opts = {
 	tapLegend: false,
 	enableScroll: false,
@@ -87,8 +90,8 @@ let opts = {
 	xAxis: {
 		disableGrid: true,
 		axisLine: false,
-		itemCount:1,
-		rotateLabel: true,
+		itemCount: 1,
+		rotateLabel: true
 	},
 	yAxis: {
 		disableGrid: true,
@@ -173,32 +176,37 @@ export default {
 			showSell: false,
 			currentSellId: '',
 			desc: '',
-			currentNum:0
+			currentNum: 0
 		};
 	},
 	components: {
-		keyboard
+		keyboard,
+		updatePop
 	},
 	computed: {
-		...mapState(['userInfo'])
+		...mapState(['userInfo','version','andUrl','iosUrl'])
 	},
-	onShow() {
+	async onShow() {
 		this.orderList = []; // 先置空列表,显示加载进度
 		this.mescroll && this.mescroll.resetUpScroll(); // 再刷新列表数据
 		this.getPriceTrend();
 		this.getUserInfo();
+		await this.getVersion();
+		if (this.version > version) {
+			this.$refs.update.show = true;
+		}
 	},
 	onPullDownRefresh() {
 		this.orderList = []; // 先置空列表,显示加载进度
 		this.mescroll && this.mescroll.resetUpScroll(); // 再刷新列表数据
 		this.getPriceTrend();
 		this.getUserInfo();
-		
+
 		setTimeout(() => {
 			uni.stopPullDownRefresh();
 			this.$refs.uToast.show({
 				title: '刷新成功',
-				type: 'success',
+				type: 'success'
 			});
 		}, 1000);
 	},
@@ -210,8 +218,10 @@ export default {
 		});
 	},
 	methods: {
-		...mapActions(['getUserInfo']),
-
+		...mapActions(['getUserInfo','getVersion']),
+		toJSON() {
+			return this;
+		},
 		getPriceTrend() {
 			this.$api.priceTrend().then(res => {
 				let { data, code } = res.data;
@@ -226,7 +236,7 @@ export default {
 			});
 		},
 		downCallback() {
-			this.mescroll.resetUpScroll();
+			this.mescroll && this.mescroll.resetUpScroll();
 		},
 
 		upCallback(page) {

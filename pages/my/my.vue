@@ -63,6 +63,19 @@
 				</view>
 			</view>
 		</view>
+		<view class="my-purse help">
+			<view class="purse-title">帮助与反馈</view>
+			<view class="purse-box">
+				<view class="item" @click="helpPop = true">
+					<view class="on-line"></view>
+					<view class="recharge">在线反馈</view>
+				</view>
+				<view class="item" @click="servePop = true">
+					<view class="service"></view>
+					<view class="recharge">联系客服</view>
+				</view>
+			</view>
+		</view>
 		<view class="more">
 			<u-button @click="loginOut">退出登录</u-button>
 			<view class="more-more">更多玩法敬请期待</view>
@@ -92,11 +105,36 @@
 				/>
 			</view>
 		</u-modal>
+		<u-modal
+			class="modal"
+			v-model="helpPop"
+			:show-cancel-button="true"
+			@confirm="handleHelpShow"
+			@cancel="handleHelpCancel"
+			title="请输入反馈内容"
+		>
+			<view class="modal-box">
+				<u-input placeholder="请输入反馈标题" v-model="textareaTitle" :border="true" trim />
+				<u-input
+					placeholder="请输入反馈内容"
+					v-model="textarea"
+					type="textarea"
+					:border="true"
+					trim
+				/>
+			</view>
+		</u-modal>
+		<u-popup class="wxpop" v-model="servePop" mode="center" :closeable="true">
+			<view class="wx" v-for="(item, index) in wxList">{{ item.content }}</view>
+		</u-popup>
+		<updatePop ref="update" :android="andUrl" :ios="iosUrl"></updatePop>
 	</view>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import updatePop from '../../components/update/update.vue';
+import { version } from '../../common/version.js';
 export default {
 	data() {
 		return {
@@ -106,13 +144,25 @@ export default {
 			buyNum: 0,
 			sellNum: 0,
 			show: false,
-			thawTel: ''
+			helpPop: false,
+			servePop: false,
+			thawTel: '',
+			textareaTitle: '',
+			textarea: '',
+			wxList: []
 		};
 	},
-
-	onShow() {
+	components: {
+		updatePop
+	},
+	async onShow() {
 		this.getBubbleNum();
 		this.getUserInfo();
+		this.getServe();
+		await this.getVersion();
+		if (this.version > version) {
+			this.$refs.update.show = true;
+		}
 	},
 	onPullDownRefresh() {
 		this.getBubbleNum();
@@ -134,10 +184,10 @@ export default {
 		this.telephone = uni.getStorageSync('telephone') || '';
 	},
 	computed: {
-		...mapState(['userInfo'])
+		...mapState(['userInfo','version','andUrl','iosUrl'])
 	},
 	methods: {
-		...mapActions(['getUserInfo']),
+		...mapActions(['getUserInfo','getVersion']),
 		toLogin() {
 			// this.$Router.push({name:'login'})
 			uni.redirectTo({
@@ -261,6 +311,47 @@ export default {
 				}
 			});
 		},
+		handleHelpShow() {
+			if (this.textareaTitle.length === 0) {
+				return this.$refs.uToast.show({
+					title: '反馈标题不能为空',
+					type: 'error'
+				});
+			}
+			if (this.textarea.length === 0) {
+				return this.$refs.uToast.show({
+					title: '反馈内容不能为空',
+					type: 'error'
+				});
+			}
+			this.$api
+				.feedback({
+					title: this.textareaTitle,
+					content: this.textarea
+				})
+				.then(res => {
+					const { code, msg } = res.data;
+					if (code === 200) {
+						this.$refs.uToast.show({
+							title: '反馈成功',
+							type: 'success'
+						});
+						this.textarea = '';
+						this.textareaTitle = '';
+						this.helpPop = false;
+					} else {
+						this.$refs.uToast.show({
+							title: msg,
+							type: 'error'
+						});
+					}
+				});
+		},
+		handleHelpCancel() {
+			this.textareaTitle = '';
+			this.textarea = '';
+			this.helpPop = false;
+		},
 		validate() {
 			let scope = this;
 			return {
@@ -283,6 +374,14 @@ export default {
 					}
 				}
 			};
+		},
+		getServe() {
+			this.$api.getServe().then(res => {
+				const { data, code, msg } = res.data;
+				if (code === 200) {
+					this.wxList = data;
+				}
+			});
 		}
 	}
 };
@@ -463,6 +562,24 @@ body {
 			}
 		}
 	}
+	.help {
+		.item {
+			.on-line {
+				width: 60rpx;
+				height: 60rpx;
+				background: url(../../static/my/fankui.png) no-repeat center center;
+				background-size: 100%;
+				margin-bottom: 20rpx;
+			}
+			.service {
+				width: 60rpx;
+				height: 60rpx;
+				background: url(../../static/my/kefu.png) no-repeat center center;
+				background-size: 100%;
+				margin-bottom: 20rpx;
+			}
+		}
+	}
 	.my-order {
 		margin-top: 30rpx;
 		height: 240rpx;
@@ -527,6 +644,7 @@ body {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+
 			.desc {
 				margin-top: 10rpx;
 				font-size: 28rpx;
@@ -547,6 +665,16 @@ body {
 			.uni-input-placeholder {
 				font-size: 32rpx;
 			}
+		}
+	}
+	.wxpop {
+		::v-deep .u-mode-center-box {
+			border-radius: 20rpx;
+			padding: 100rpx 40rpx 60rpx;
+			color: #333333;
+		}
+		.wx {
+			margin-bottom: 10rpx;
 		}
 	}
 }

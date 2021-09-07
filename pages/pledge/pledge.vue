@@ -67,12 +67,16 @@
 			@confirm="showBuy"
 		></u-modal>
 		<keyboard ref="keyboard" @complete="enterPassword" :desc="desc"></keyboard>
+		<updatePop ref="update" :android="andUrl" :ios="iosUrl"></updatePop>
 	</view>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import { version } from '../../common/version.js';
 import keyboard from '../../components/keyboard/keyboard.vue';
+import updatePop from '../../components/update/update.vue';
+
 export default {
 	data() {
 		return {
@@ -89,15 +93,20 @@ export default {
 		};
 	},
 	components: {
-		keyboard
+		keyboard,
+		updatePop
 	},
 	computed: {
-		...mapState(['userInfo'])
+		...mapState(['version','userInfo','andUrl','iosUrl'])
 	},
-	onShow() {
+	async onShow() {
 		this.getPledgeList();
 		this.userPledge();
 		this.getUserInfo();
+		await this.getVersion();
+		if (this.version > version) {
+			this.$refs.update.show = true;
+		}
 	},
 	onPullDownRefresh() {
 		this.getPledgeList();
@@ -119,7 +128,10 @@ export default {
 		});
 	},
 	methods: {
-		...mapActions(['getUserInfo']),
+		...mapActions(['getUserInfo','getVersion']),
+		toJSON() {
+			return this;
+		},
 		// 质押列表
 		getPledgeList() {
 			this.$api.getPledgeList().then(res => {

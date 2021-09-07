@@ -58,7 +58,7 @@ export default {
 		};
 	},
 	mounted() {
-		console.log(123123, this.$refs.uKeyboard);
+		console.log(this.$refs.uKeyboard);
 	},
 	watch: {
 		keyboardValue(value) {

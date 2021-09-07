@@ -40,7 +40,7 @@
 					</u-form-item>
 					<u-form-item label-width="auto" label="支付密码:">
 						<u-input
-							type="number"
+							type="password"
 							maxlength="6"
 							v-model="form.payPw"
 							trim
@@ -149,6 +149,19 @@ export default {
 						return true;
 					}
 				},
+				payPw() {
+					if (
+						!/^\d{6}$/.test(scope.form.payPw) 
+					) {
+						scope.$refs.uToast.show({
+							title: '支付密码必须为6位数字',
+							type: 'error'
+						});
+						return false;
+					} else {
+						return true;
+					}
+				},
 				captcha() {
 					if (scope.form.smscode !== '') {
 						return true;
@@ -193,24 +206,12 @@ export default {
 			if (!this.validate().captcha()) {
 				return false;
 			}
-			if (this.form.payPw.length !== 6) {
-				this.$refs.uToast.show({
-					title: '支付密码必须为6位数字',
-					type: 'error'
-				});
+			if(!this.validate().payPw()) {
 				return false;
 			}
-
 			if (this.form.loginPw !== this.form.showLoginPw) {
 				this.$refs.uToast.show({
 					title: '两次密码不一致',
-					type: 'error'
-				});
-				return false;
-			}
-			if (this.form.payPw.length !== 6) {
-				this.$refs.uToast.show({
-					title: '支付密码必须为6位数字',
 					type: 'error'
 				});
 				return false;
@@ -289,7 +290,7 @@ export default {
 				});
 		},
 		toAreement() {
-			this.$router.push({name:"agreement"})
+			this.$Router.push({name:"agreement"})
 		},
 		reset() {
 			this.form.telephone = ''

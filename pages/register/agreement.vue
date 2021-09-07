@@ -1,10 +1,5 @@
 <template>
-	<view class="agreement-root" :style="{ paddingTop: statusBarHeight + 40 + 'px' }">
-		<common-title :isBack="true" bgColor="#000000">
-			<template v-slot:default>
-				用户协议
-			</template>
-		</common-title>
+	<view class="agreement-root">
 		<view class="container">
 			<view class="con1">
 				<h2>用户服务协议</h2>
@@ -172,16 +167,7 @@
 <script>
 export default {
 	data() {
-		return {
-			statusBarHeight:0
-		};
-	},
-	created() {
-		uni.getSystemInfo({
-			success: res => {
-				this.statusBarHeight = res.statusBarHeight;
-			}
-		});
+		return {};
 	},
 	methods: {}
 };

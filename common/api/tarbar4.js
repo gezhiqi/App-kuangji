@@ -155,5 +155,18 @@ export const thawTel = (telephone) => {
 		method: 'GET'
 	})
 }
-
-
+// 反馈
+export const feedback = (data) => {
+	return $http({
+		url: `/app/feedback/save`,
+		data,
+		method: 'POST'
+	})
+}
+// 查询客服
+export const getServe = () => {
+	return $http({
+		url: `/app/customer/select`,
+		method: 'PUT'
+	})
+}

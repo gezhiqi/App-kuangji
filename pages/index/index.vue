@@ -108,7 +108,7 @@
 			</view>
 		</view> -->
 		<u-toast ref="uToast" />
-		<updatePop ref="update"></updatePop>
+		<updatePop ref="update" :android="andUrl" :ios="iosUrl"></updatePop>
 	</view>
 </template>
 
@@ -168,7 +168,8 @@ export default {
 					title: '提币',
 					url: require('../../static/index/module-img4.png')
 				}
-			]
+			],
+
 		};
 	},
 	components: {
@@ -180,9 +181,7 @@ export default {
 		this.getPriceList();
 		await this.getVersion();
 		if (this.version > version) {
-			if (uni.getSystemInfoSync().platform == 'android') {
-				this.$refs.update.show = true;
-			}
+			this.$refs.update.show = true;
 		}
 	},
 	onPullDownRefresh() {
@@ -205,10 +204,14 @@ export default {
 			}
 		});
 	},
-	
-	mounted() {},
+
+	mounted() {
+		// uni.navigateTo({
+		// 	url: `/pages/index/full-screen`
+		// });
+	},
 	computed: {
-		...mapState(['version'])
+		...mapState(['version','andUrl','iosUrl'])
 	},
 	methods: {
 		...mapActions(['getVersion']),

@@ -100,5 +100,12 @@ const other = [
 	        title: '邀请好友',
 	    },
 	},
+	{
+	  path: '/pages/index/full-screen',
+	  name: 'fullScreen',
+	    meta: {
+	        title: '版本升级',
+	    },
+	},
 ]
 export default other
